@@ -102,7 +102,10 @@
     {{!-- <header> --}}
 
     <!-- Navbar -->
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar"
+            style="background-color:#21260F	; height:70px">
+
+    {{!-- <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar"> --}}
         <div class="container">
 
             <!-- Brand -->
@@ -209,9 +212,9 @@
                         <hr class="hr-light">
 
                         <p>
-                            <strong>Phoenix is a platform as a service that enables the formal verification of
-                                Intellectual Property for the Hyperledger
-                                Fabric framework.</strong>
+                            <strong>Phoenix is a platform that enables the formal verification of Intellectual Property by the Hyperledger Fabric
+                            framework.</strong>
+
                         </p>
 
                         <p class="mb-4 d-none d-md-block">
@@ -235,73 +238,73 @@
                     <!--Grid column-->
 
                     <!--Grid column-->
-        <!--Grid column-->
-        <div class="col-md-6 col-xl-5 mb-4">
-        
-            <!--Card-->
-            <div class="card">
-        
-                <!--Card content-->
-                <div class="card-body">
-        
-                    <!-- Form -->
-                    <form name="">
-                        <!-- Heading -->
-                        <h3 class="dark-grey-text text-center">
-                            <strong>Log In</strong>
-                        </h3>
-                        <hr>
-        
-                        <div class="md-form">
-                            <i class="fas fa-user prefix grey-text"></i>
-                            <input type="text" id="username"  name="username" class="form-control">
-                            <label for="form3">Your name</label>
-                        </div>
-                        <div class="md-form">
-                            <i class="fas fa-pencil-alt prefix grey-text"></i>
-                            <input type="password" onfocus="this.value=''" id="password"  name="password"  class="form-control">
-                            <label for="form2">Your password</label>
+                    <!--Grid column-->
+                    <div class="col-md-6 col-xl-5 mb-4">
+                    
+                        <!--Card-->
+                        <div class="card">
+                    
+                            <!--Card content-->
+                            <div class="card-body">
+                    
+                                <!-- Form -->
+                                <form name="" action="/login" method="POST">
+                                    <!-- Heading -->
+                                    <h3 class="dark-grey-text text-center">
+                                        <strong>Log In</strong>
+                                    </h3>
+                                    <hr>
+                    
+                                    <div class="md-form">
+                                        <i class="fas fa-user prefix grey-text"></i>
+                                        <input type="text" id="username"  name="username" class="form-control">
+                                        <label for="form3">Your name</label>
+                                    </div>
+                                    <div class="md-form">
+                                        <i class="fas fa-pencil-alt prefix grey-text"></i>
+                                        <input type="password" onfocus="this.value=''" id="password"  name="password"  class="form-control">
+                                        <label for="form2">Your password</label>
 
-                            <input  type="checkbox" onclick="myFunction()" style="position: relative;right: 15px;" >
-                            <h6 align="center">Show Password</h6>
-                            <script>
-                            function myFunction() {
-                              var x = document.getElementById("id_password");
-                              if (x.type === "password") {
-                                x.type = "text";
-                              } else {
-                                x.type = "password";
-                              }
-                            }
-                            </script>
+                                        <input  type="checkbox" onclick="myFunction()" style="position: relative;right: 15px;" >
+                                        <h6 align="center">Show Password</h6>
+                                        <script>
+                                        function myFunction() {
+                                        var x = document.getElementById("password");
+                                        if (x.type === "password") {
+                                            x.type = "text";
+                                        } else {
+                                            x.type = "password";
+                                        }
+                                        }
+                                        </script>
 
+                                    </div>
+                    
+                                    {{!-- <div class="md-form">
+                                        <i class="fas fa-pencil-alt prefix grey-text"></i>
+                                        <textarea type="text" id="form8" class="md-textarea"></textarea>
+                                        <label for="form8">Your message</label>
+                                    </div> --}}
+                    
+                                    <div class="text-center">
+                                        <button class="btn btn-indigo">Submit</button>
+                                        <hr>
+                                        <fieldset class="form-check">
+                                            {{!-- <input type="checkbox" class="form-check-input" id="checkbox1"> --}}
+                                            <label for="checkbox1" class="form-check-label dark-grey-text">Don't have an account ? Click <a  href="/register" style="color: green;" ><b>here</b></a>  to register</label>
+                                        </fieldset>
+                                    </div>
+                    
+                                </form>
+                                <!-- Form -->
+                    
+                            </div>
+                    
                         </div>
-        
-                        {{!-- <div class="md-form">
-                            <i class="fas fa-pencil-alt prefix grey-text"></i>
-                            <textarea type="text" id="form8" class="md-textarea"></textarea>
-                            <label for="form8">Your message</label>
-                        </div> --}}
-        
-                        <div class="text-center">
-                            <button class="btn btn-indigo">Submit</button>
-                            <hr>
-                            <fieldset class="form-check">
-                                {{!-- <input type="checkbox" class="form-check-input" id="checkbox1"> --}}
-                                <label for="checkbox1" class="form-check-label dark-grey-text">Don't have an account ? Click <a  href="/register" style="color: green;" ><b>here</b></a>  to register</label>
-                            </fieldset>
-                        </div>
-        
-                    </form>
-                    <!-- Form -->
-        
-                </div>
-        
-            </div>
-            <!--/.Card-->
-        
-        </div>
-        <!--Grid column-->
+                        <!--/.Card-->
+                    
+                    </div>
+                    <!--Grid column-->
                     <!--Grid column-->
 
                 </div>

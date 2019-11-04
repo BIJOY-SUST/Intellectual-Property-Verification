@@ -20,25 +20,52 @@ const port = process.env.PORT || 3000;
 
 
 
-//  home page
+//  index page
 app.get('/', function (req, res) {
     // res.send('Hello World');
     res.render('index');
 });
+
 //  login page
 app.get('/login', (req, res) => {
     res.render('login');
+});
+//  login page
+app.post('/login', (req, res) => {
+    res.render('home');
 });
 
 // register page
 app.get('/register', (req, res) => {
     res.render('register');
 });
+// register page
+app.post('/register', (req, res) => {
+    res.render('login');
+});
+
+//home page
+app.get('/home', function(req,res){
+    res.render('home');
+});
+
+// upload page
+app.get('/upload', function(req,res){
+    res.render('upload');
+});
+// upload page
+app.post('/upload', function(req,res){
+    res.render('home');
+});
 
 
 
-
-
+app.get('/logout', function(req,res) {
+    res.render('index');
+});
+app.get('/test', function(req,res) {
+    res.render('test');
+});
 
 app.listen(port, () => {
     console.log('Server is up on port ' + port);
