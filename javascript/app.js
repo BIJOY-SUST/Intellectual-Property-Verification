@@ -20,12 +20,20 @@ const port = process.env.PORT || 3000;
 
 
 
-
+//  home page
 app.get('/', function (req, res) {
     // res.send('Hello World');
     res.render('index');
 });
+//  login page
+app.get('/login', (req, res) => {
+    res.render('login');
+});
 
+// register page
+app.get('/register', (req, res) => {
+    res.render('register');
+});
 
 
 

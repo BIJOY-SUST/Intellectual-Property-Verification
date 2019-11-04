@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Material Design Bootstrap</title>
+    <title>Phoenix</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
     <!-- Bootstrap core CSS -->
@@ -106,8 +106,10 @@
         <div class="container">
 
             <!-- Brand -->
-            <a class="navbar-brand" href="https://mdbootstrap.com/material-design-for-bootstrap/" target="_blank">
-                <strong>MDB</strong>
+
+            <a class="navbar-brand" href="/" target="_blank" style=" font-family: azonix; font-size: 22px; ">
+                {{!-- <strong>Phoenix</strong> --}}
+                <span class="brand-text">PHO</span><large style="font-size: 30px;">E</large><span class="brand-text">NIX</span>
             </a>
 
             <!-- Collapse -->
@@ -121,28 +123,28 @@
 
                 <!-- Left -->
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+                    {{!-- <li class="nav-item active">
                         <a class="nav-link" href="#">Home
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="https://mdbootstrap.com/material-design-for-bootstrap/"
-                            target="_blank">About MDB</a>
-                    </li>
-                    <li class="nav-item">
+                            target="_blank">About Phoenix</a>
+                    </li> --}}
+                    {{!-- <li class="nav-item">
                         <a class="nav-link" href="https://mdbootstrap.com/getting-started/" target="_blank">Free
                             download</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="https://mdbootstrap.com/bootstrap-tutorial/" target="_blank">Free
                             tutorials</a>
-                    </li>
+                    </li> --}}
                 </ul>
 
                 <!-- Right -->
                 <ul class="navbar-nav nav-flex-icons">
-                    <li class="nav-item">
+                    {{!-- <li class="nav-item">
                         <a href="https://www.facebook.com/mdbootstrap" class="nav-link" target="_blank">
                             <i class="fa fa-facebook"></i>
                         </a>
@@ -157,10 +159,18 @@
                             target="_blank">
                             <i class="fa fa-github mr-2"></i>
                         </a>
+                    </li> --}}
+                    <li class="nav-item">
+                        <a href="/login" class="nav-link border border-light rounded" target="_blank">
+                            <i class="fa fa-user mr-2"></i>Log In
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a href="https://github.com/mdbootstrap/bootstrap-material-design"
-                            class="nav-link border border-light rounded" target="_blank">
+                        <a href="#" class="nav-link" target="_blank">
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/register" class="nav-link border border-light rounded" target="_blank">
                             <i class="fa fa-user mr-2"></i>Sing Up
                         </a>
                     </li>
@@ -194,29 +204,32 @@
                     <!--Grid column-->
                     <div class="col-md-6 mb-4 white-text text-center text-md-left">
 
-                        <h1 class="display-4 font-weight-bold">Learn Bootstrap 4 with MDB</h1>
+                        <h1 style=" font-family: azonix;" class="display-4 font-weight-bold">Intellectual Property</h1>
 
                         <hr class="hr-light">
 
                         <p>
-                            <strong>Best & free guide of responsive web design</strong>
+                            <strong>Phoenix is a platform as a service that enables the formal verification of
+                                Intellectual Property for the Hyperledger
+                                Fabric framework.</strong>
                         </p>
 
                         <p class="mb-4 d-none d-md-block">
-                            <strong>The most comprehensive tutorial for the Bootstrap 4. Loved by over 500 000
-                                users.
-                                Video and written versions
-                                available. Create your own, stunning website.</strong>
+                            <strong>This document outlines the transactional mechanics that take place during a standard
+                                asset exchange. The scenario includes two clients, A and B, who are buying and selling
+                                radishes. They each have a
+                                peer on the network through which they send their transactions and interact with the
+                                ledger.</strong>
                         </p>
 
-                        <a target="_blank" href="https://mdbootstrap.com/bootstrap-tutorial/"
+                        {{!-- <a target="_blank" href="https://mdbootstrap.com/bootstrap-tutorial/"
                             class="btn btn-outline-white">Start free tutorial
                             <i class="fa fa-graduation-cap ml-2"></i>
                         </a>
                         <a target="_blank" href="https://mdbootstrap.com/getting-started/"
                             class="btn btn-outline-white">Download MDB
                             <i class="fa fa-download ml-2"></i>
-                        </a>
+                        </a> --}}
 
                     </div>
                     <!--Grid column-->
@@ -224,8 +237,10 @@
                     <!--Grid column-->
                     <div class="col-md-6 col-xl-5 mb-4">
 
-                        <img src="https://lh4.googleusercontent.com/1O84m9aOetIDNxGlQ01VzQ0WoYjLyojscjD9CD7Z6cpLfHnhE0hbYILDYQKgWKPXh2a3QUbSe16HqfybyD44z2WfiCu0naz8g8-w2hAl=s1165" alt="" class="img-fluid">
-                        {{!-- <img src="https://mdbootstrap.com/img/Mockups/Transparent/Small/admin-new.png" alt="" class="img-fluid"> --}}
+                        {{!-- <img src="https://lh4.googleusercontent.com/1O84m9aOetIDNxGlQ01VzQ0WoYjLyojscjD9CD7Z6cpLfHnhE0hbYILDYQKgWKPXh2a3QUbSe16HqfybyD44z2WfiCu0naz8g8-w2hAl=s1165" alt="" class="img-fluid"> --}}
+                        <img src="https://mdbootstrap.com/img/Mockups/Transparent/Small/admin-new.png" alt=""
+                            class="img-fluid">
+                        {{!-- <img src="img/block.jpg" alt="" class="img-fluid"> --}}
 
                     </div>
                     <!--Grid column-->
@@ -257,8 +272,9 @@
                     <!--Grid column-->
                     <div class="col-md-6 mb-4">
 
-                        <img src="https://mdbootstrap.com/img/Marketing/mdb-press-pack/mdb-main.jpg"
-                            class="img-fluid z-depth-1-half" alt="">
+                        <img src="img/dffdf.png" class="img-fluid z-depth-1-half" alt="">
+                        {{!-- <img src="https://mdbootstrap.com/img/Marketing/mdb-press-pack/mdb-main.jpg"
+                            class="img-fluid z-depth-1-half" alt=""> --}}
 
                     </div>
                     <!--Grid column-->
@@ -267,30 +283,36 @@
                     <div class="col-md-6 mb-4">
 
                         <!-- Main heading -->
-                        <h3 class="h3 mb-3">Material Design for Bootstrap</h3>
-                        <p>This template is created with Material Design for Bootstrap (
+                        <h3 class="h3 mb-3" align="center" >Hyperledger Fabric Workflow</h3>
+                        <p>Hyperledger Fabric is a permissioned blockchain network that gets set by the organizations that intend to set up a
+                        consortium. The organizations that take part in building the Hyperledger Fabric network are called the “members”.
+                        Each member organization in the blockchain network is responsible to set up their peers for participating in the
+                        network. All of these peers need are configured with appropriate cryptographic materials like Certificate Authority and
+                        other information.</p>
+                        {{!-- <p>This template is created with Material Design for Bootstrap (
                             <strong>MDB</strong> ) framework.</p>
-                        <p>Read details below to learn more about MDB.</p>
+                        <p>Read details below to learn more about MDB.</p> --}}
                         <!-- Main heading -->
 
                         <hr>
 
-                        <p>
-                            <strong>400+</strong> material UI elements,
+                        <p>At a physical level, a blockchain network is comprised primarily of peer nodes (or, simply,
+                            peers).
+                            {{!-- <strong>400+</strong> material UI elements,
                             <strong>600+</strong> material icons,
                             <strong>74</strong> CSS animations, SASS files, templates, tutorials and many more.
-                            <strong>Free for personal and commercial use.</strong>
+                            <strong>Free for personal and commercial use.</strong> --}}
                         </p>
 
                         <!-- CTA -->
-                        <a target="_blank" href="https://mdbootstrap.com/getting-started/"
+                        {{!-- <a target="_blank" href="https://mdbootstrap.com/getting-started/"
                             class="btn btn-indigo btn-md">Download
                             <i class="fa fa-download ml-1"></i>
                         </a>
                         <a target="_blank" href="https://mdbootstrap.com/components/" class="btn btn-indigo btn-md">Live
                             demo
                             <i class="fa fa-image ml-1"></i>
-                        </a>
+                        </a> --}}
 
                     </div>
                     <!--Grid column-->
@@ -304,9 +326,69 @@
             <hr class="my-5">
 
             <!--Section: Main features & Quick Start-->
-            <section>
+             <section>
+                            <section class="mt-5 wow fadeIn">
+                            
+                                <!--Grid row-->
+                                <div class="row">
+                            
+                                    <!--Grid column-->
+                                    <div class="col-md-6 mb-4">
+                                        <!-- Main heading -->
+                                        <h3 class="h3 mb-3" align = "center">Architecture</h3>
+                                        <p>The blockchain is a distributed system consisting of many nodes that communicate with each other. The blockchain runs
+                                        programs called chaincode, holds state and ledger data, and executes transactions. The chaincode is the central element
+                                        as transactions are operations invoked on the chaincode. There may exist one or more special chaincodes for
+                                        management functions and parameters, collectively called system chaincodes.</p>
+                                        {{!-- <p>This template is created with Material Design for Bootstrap (
+                                                                                                <strong>MDB</strong> ) framework.</p>
+                                                                                            <p>Read details below to learn more about MDB.</p> --}}
+                                        <!-- Main heading -->
+                                        
+                                        {{!-- <hr>
+                                        
+                                        <p>At a physical level, a blockchain network is comprised primarily of peer nodes (or, simply,
+                                            peers). Peers are the
+                                            fundamental elements of the network because they host ledgers and smart contracts (which are
+                                            contained in "chaincode".
+                                        </p> --}}
+                                        {{!-- <img src="img/block.jpg" class="img-fluid z-depth-1-half" alt=""> --}}
+                                        {{!-- <img src="https://mdbootstrap.com/img/Marketing/mdb-press-pack/mdb-main.jpg"
+                                                        class="img-fluid z-depth-1-half" alt=""> --}}
+                            
+                                    </div>
+                                    <!--Grid column-->
+                            
+                                    <!--Grid column-->
+                                    <div class="col-md-6 mb-4">
+                            
+                                        <!-- Main heading -->
+                                        <img src="img/unnamed.png" class="img-fluid z-depth-1-half" alt="">
 
-                <h3 class="h3 text-center mb-5">About MDB</h3>
+                            
+                                        <!-- CTA -->
+                                        {{!-- <a target="_blank" href="https://mdbootstrap.com/getting-started/"
+                                                        class="btn btn-indigo btn-md">Download
+                                                        <i class="fa fa-download ml-1"></i>
+                                                    </a>
+                                                    <a target="_blank" href="https://mdbootstrap.com/components/" class="btn btn-indigo btn-md">Live
+                                                        demo
+                                                        <i class="fa fa-image ml-1"></i>
+                                                    </a> --}}
+                            
+                                    </div>
+                                    <!--Grid column-->
+                            
+                                </div>
+                                <!--Grid row-->
+                            
+                            </section>
+             </section>
+        
+            <!--Section: Main features & Quick Start-->
+{{!--             <section>
+
+                <h3 class="h3 text-center mb-5">About Us</h3>
 
                 <!--Grid row-->
                 <div class="row wow fadeIn">
@@ -380,7 +462,7 @@
                 </div>
                 <!--/Grid row-->
 
-            </section>
+            </section> --}}
             <!--Section: Main features & Quick Start-->
 
             <hr class="my-5">
@@ -401,10 +483,8 @@
                                 <i class="fa fa-check-circle fa-2x indigo-text"></i>
                             </div>
                             <div class="col-10">
-                                <h6 class="feature-title">Free for personal and commercial use</h6>
-                                <p class="grey-text">Our license is user-friendly. Feel free to use MDB for both private
-                                    as
-                                    well as commercial projects.
+                                <h6 class="feature-title">Evidence of creator-ship</h6>
+                                <p class="grey-text">We can generate evidence like a digital signature for checking any IP that is it previously created or not.
                                 </p>
                                 <div style="height:15px"></div>
                             </div>
@@ -417,10 +497,8 @@
                                 <i class="fa fa-check-circle fa-2x indigo-text"></i>
                             </div>
                             <div class="col-10">
-                                <h6 class="feature-title">400+ UI elements</h6>
-                                <p class="grey-text">An impressive collection of flexible components allows you to
-                                    develop
-                                    any project.
+                                <h6 class="feature-title">Provenance authentication</h6>
+                                <p class="grey-text">When an IP property is created then we check by the evidence of the creator-ship for authentication.
                                 </p>
                                 <div style="height:15px"></div>
                             </div>
@@ -433,8 +511,9 @@
                                 <i class="fa fa-check-circle fa-2x indigo-text"></i>
                             </div>
                             <div class="col-10">
-                                <h6 class="feature-title">600+ icons</h6>
-                                <p class="grey-text">Hundreds of useful, scalable, vector icons at your disposal.</p>
+                                <h6 class="feature-title">Registration and clearance of IP rights</h6>
+                                <p class="grey-text">By checking the evidence of any IP, if it is not previously created then we will register it into a new block and will
+                                give the owner clearance of IP rights.</p>
                                 <div style="height:15px"></div>
                             </div>
                         </div>
@@ -446,11 +525,8 @@
                                 <i class="fa fa-check-circle fa-2x indigo-text"></i>
                             </div>
                             <div class="col-10">
-                                <h6 class="feature-title">Fully responsive</h6>
-                                <p class="grey-text">It doesn't matter whether your project will be displayed on
-                                    desktop,
-                                    laptop, tablet or mobile phone. MDB
-                                    looks great on each screen.</p>
+                                <h6 class="feature-title">Control and track unregistered IP</h6>
+                                <p class="grey-text">If we find any of IP is unregistered then we will control and track it.</p>
                                 <div style="height:15px"></div>
                             </div>
                         </div>
@@ -460,8 +536,10 @@
 
                     <!--Second column-->
                     <div class="col-md-4 flex-center">
-                        <img src="https://mdbootstrap.com/img/Others/screens.png"
+                        <img src="img/rsz_1dla-09.png"
                             alt="MDB Magazine Template displayed on iPhone" class="z-depth-0 img-fluid">
+                        {{!-- <img src="https://mdbootstrap.com/img/Others/screens.png"
+                            alt="MDB Magazine Template displayed on iPhone" class="z-depth-0 img-fluid"> --}}
                     </div>
                     <!--/Second column-->
 
@@ -473,10 +551,8 @@
                                 <i class="fa fa-check-circle fa-2x indigo-text"></i>
                             </div>
                             <div class="col-10">
-                                <h6 class="feature-title">70+ CSS animations</h6>
-                                <p class="grey-text">Neat and easy to use animations, which will increase the
-                                    interactivity
-                                    of your project and delight your visitors.
+                                <h6 class="feature-title">Management of Digital Rights</h6>
+                                <p class="grey-text">By using digital signature , we will provide the digital rights of any owner.
                                 </p>
                                 <div style="height:15px"></div>
                             </div>
@@ -489,8 +565,9 @@
                                 <i class="fa fa-check-circle fa-2x indigo-text"></i>
                             </div>
                             <div class="col-10">
-                                <h6 class="feature-title">Plenty of useful templates</h6>
-                                <p class="grey-text">Need inspiration? Use one of our predefined templates for free.</p>
+                                <h6 class="feature-title">Enforcement and establishment of agreements through smart contracts</h6>
+                                <p class="grey-text">We will try to make an agreement system so that any owner can make any Enforcement and establishment of agreements
+                                through smart contracts of any of the IP.</p>
                                 <div style="height:15px"></div>
                             </div>
                         </div>
@@ -502,10 +579,11 @@
                                 <i class="fa fa-check-circle fa-2x indigo-text"></i>
                             </div>
                             <div class="col-10">
-                                <h6 class="feature-title">Easy installation</h6>
-                                <p class="grey-text">5 minutes, a few clicks and... done. You will be surprised at how
-                                    easy
-                                    it is.
+                                <h6 class="feature-title">Advantages of Certificates on Blockchains</h6>
+                                <p class="grey-text">
+                                ● No one can issue a digital certificate on behalf of a third party without proper
+                                authorisation.<br>
+                                ● Fraudulent certificates can be identified and invalidated by an authorised party.
                                 </p>
                                 <div style="height:15px"></div>
                             </div>
@@ -513,7 +591,7 @@
                         <!--/Third row-->
 
                         <!--Fourth row-->
-                        <div class="row">
+                        {{!-- <div class="row">
                             <div class="col-2">
                                 <i class="fa fa-check-circle fa-2x indigo-text"></i>
                             </div>
@@ -524,7 +602,7 @@
                                     easily adjust each component to suit your needs.</p>
                                 <div style="height:15px"></div>
                             </div>
-                        </div>
+                        </div> --}}
                         <!--/Fourth row-->
                     </div>
                     <!--/Third column-->
@@ -539,189 +617,60 @@
 
             <!--Section: More-->
             <section>
-
-                <h2 class="my-5 h3 text-center">...and even more</h2>
-
-                <!--First row-->
-                <div class="row features-small mt-5 wow fadeIn">
-
-                    <!--Grid column-->
-                    <div class="col-xl-3 col-lg-6">
-                        <!--Grid row-->
-                        <div class="row">
-                            <div class="col-2">
-                                <i class="fa fa-firefox fa-2x mb-1 indigo-text" aria-hidden="true"></i>
+                            
+                            <!--Grid row-->
+                            <div class="row" style="margin-top: 5%;">
+                            
+                                <!--Grid column-->
+                                <div class="col-md-16 mb-5" style="margin-left: 2%;margin-right: 2%;">
+                            
+                                    <img src="img/block.jpg" class="img-fluid z-depth-1-half" alt="" style="height: 90%;width: 100%;">
+                            
+                                </div>
+                                <!--Grid column-->
+                            
+                                <!--Grid column-->
+                                <div class="col-md-12 mb-4" style="text-align:center;">
+                            
+                                    <!-- Main heading -->
+                                    <h3 class="h3 mb-3">Upload Everything</h3>
+                                    <p><strong>Phoenix </strong> has a <strong>Drag and Drop</strong> file uploading mechanism with
+                                        live thumbnails, size, data chunking and cancellation options.<br>
+                                        <strong>Download </strong> or <strong>Delete</strong> files as necessary.
+                            
+                                        <!-- Main heading -->
+                                </div>
+                                <!--Grid column-->
+                            
                             </div>
-                            <div class="col-10 mb-2 pl-3">
-                                <h5 class="feature-title font-bold mb-1">Cross-browser compatibility</h5>
-                                <p class="grey-text mt-2">Chrome, Firefox, IE, Safari, Opera, Microsoft Edge - MDB loves
-                                    all
-                                    browsers; all browsers love MDB.
-                                </p>
-                            </div>
-                        </div>
-                        <!--/Grid row-->
-                    </div>
-                    <!--/Grid column-->
-
-                    <!--Grid column-->
-                    <div class="col-xl-3 col-lg-6">
-                        <!--Grid row-->
-                        <div class="row">
-                            <div class="col-2">
-                                <i class="fa fa-level-up fa-2x mb-1 indigo-text" aria-hidden="true"></i>
-                            </div>
-                            <div class="col-10 mb-2">
-                                <h5 class="feature-title font-bold mb-1">Frequent updates</h5>
-                                <p class="grey-text mt-2">MDB becomes better every month. We love the project and
-                                    enhance as
-                                    much as possible.
-                                </p>
-                            </div>
-                        </div>
-                        <!--/Grid row-->
-                    </div>
-                    <!--/Grid column-->
-
-                    <!--Grid column-->
-                    <div class="col-xl-3 col-lg-6">
-                        <!--Grid row-->
-                        <div class="row">
-                            <div class="col-2">
-                                <i class="fa fa-comments-o fa-2x mb-1 indigo-text" aria-hidden="true"></i>
-                            </div>
-                            <div class="col-10 mb-2">
-                                <h5 class="feature-title font-bold mb-1">Active community</h5>
-                                <p class="grey-text mt-2">Our society grows day by day. Visit our forum and check how it
-                                    is
-                                    to be a part of our family.
-                                </p>
-                            </div>
-                        </div>
-                        <!--/Grid row-->
-                    </div>
-                    <!--/Grid column-->
-
-                    <!--Grid column-->
-                    <div class="col-xl-3 col-lg-6">
-                        <!--Grid row-->
-                        <div class="row">
-                            <div class="col-2">
-                                <i class="fa fa-code fa-2x mb-1 indigo-text" aria-hidden="true"></i>
-                            </div>
-                            <div class="col-10 mb-2">
-                                <h5 class="feature-title font-bold mb-1">jQuery 3.x</h5>
-                                <p class="grey-text mt-2">MDB is integrated with newest jQuery. Therefore you can use
-                                    all
-                                    the latest features which come along with
-                                    it.
-                                </p>
-                            </div>
-                        </div>
-                        <!--/Grid row-->
-                    </div>
-                    <!--/Grid column-->
-
-                </div>
-                <!--/First row-->
-
-                <!--Second row-->
-                <div class="row features-small mt-4 wow fadeIn">
-
-                    <!--Grid column-->
-                    <div class="col-xl-3 col-lg-6">
-                        <!--Grid row-->
-                        <div class="row">
-                            <div class="col-2">
-                                <i class="fa fa-cubes fa-2x mb-1 indigo-text" aria-hidden="true"></i>
-                            </div>
-                            <div class="col-10 mb-2">
-                                <h5 class="feature-title font-bold mb-1">Modularity</h5>
-                                <p class="grey-text mt-2">Material Design for Bootstrap comes with both, compiled, ready
-                                    to
-                                    use libraries including all features as
-                                    well as modules for CSS (SASS files) and JS.</p>
-                            </div>
-                        </div>
-                        <!--/Grid row-->
-                    </div>
-                    <!--/Grid column-->
-
-                    <!--Grid column-->
-                    <div class="col-xl-3 col-lg-6">
-                        <!--Grid row-->
-                        <div class="row">
-                            <div class="col-2">
-                                <i class="fa fa-question fa-2x mb-1 indigo-text" aria-hidden="true"></i>
-                            </div>
-                            <div class="col-10 mb-2">
-                                <h5 class="feature-title font-bold mb-1">Technical support</h5>
-                                <p class="grey-text mt-2">We care about reliability. If you have any questions - do not
-                                    hesitate to contact us.
-                                </p>
-                            </div>
-                        </div>
-                        <!--/Grid row-->
-                    </div>
-                    <!--/Grid column-->
-
-                    <!--Grid column-->
-                    <div class="col-xl-3 col-lg-6">
-                        <!--Grid row-->
-                        <div class="row">
-                            <div class="col-2">
-                                <i class="fa fa-th fa-2x mb-1 indigo-text" aria-hidden="true"></i>
-                            </div>
-                            <div class="col-10 mb-2">
-                                <h5 class="feature-title font-bold mb-1">Flexbox</h5>
-                                <p class="grey-text mt-2">MDB fully supports Flex Box. You can forget about alignment
-                                    issues.</p>
-                            </div>
-                        </div>
-                        <!--/Grid row-->
-                    </div>
-                    <!--/Grid column-->
-
-                    <!--Grid column-->
-                    <div class="col-xl-3 col-lg-6">
-                        <!--Grid row-->
-                        <div class="row">
-                            <div class="col-2">
-                                <i class="fa fa-file-code-o fa-2x mb-1 indigo-text" aria-hidden="true"></i>
-                            </div>
-                            <div class="col-10 mb-2">
-                                <h5 class="feature-title font-bold mb-1">SASS files</h5>
-                                <p class="grey-text mt-2">Arranged and well documented .scss files can't wait until you
-                                    compile them.</p>
-                            </div>
-                        </div>
-                        <!--/Grid row-->
-                    </div>
-                    <!--/Grid column-->
-
-                </div>
-                <!--/Second row-->
-
+                            <!--Grid row-->
             </section>
+    
             <!--Section: More-->
 
         </div>
-    </main>
-    <!--Main layout-->
+     </main> 
+    <!--Main layout--> 
 
     <!--Footer-->
     <footer class="page-footer text-center font-small mt-4 wow fadeIn">
-
+        <br>
+        <h4 class="float:center">Shahjalal University of Science and Technology</h4>
         <!--Call to action-->
         <div class="pt-4">
-            <a class="btn btn-outline-white" href="https://mdbootstrap.com/getting-started/" target="_blank"
+            <p>Shahjalal University of Science and Technology (SUST) was established in 1986. The only university of its kind at that
+            time, it started it''s journey on the 13th of February 1991 with only three departments: Physics, Chemistry and
+            Economics, 13 teachers and 205 students. It has now expanded to 7 schools, 27 departments , 2 institutes and and
+            centers. The number of teachers has grown to 552 and the students to 10922. Besides, the University has 13 affiliated
+            colleges under the School of Medical Sciences with 4000 students.</p>
+             {{!-- <a class="btn btn-outline-white" href="https://mdbootstrap.com/getting-started/" target="_blank"
                 role="button">Download MDB
                 <i class="fa fa-download ml-2"></i>
             </a>
             <a class="btn btn-outline-white" href="https://mdbootstrap.com/bootstrap-tutorial/" target="_blank"
                 role="button">Start free tutorial
                 <i class="fa fa-graduation-cap ml-2"></i>
-            </a>
+            </a> --}}
         </div>
         <!--/.Call to action-->
 
@@ -729,35 +678,35 @@
 
         <!-- Social icons -->
         <div class="pb-4">
-            <a href="https://www.facebook.com/mdbootstrap" target="_blank">
+            <a href="https://www.facebook.com" target="_blank">
                 <i class="fa fa-facebook mr-3"></i>
             </a>
 
-            <a href="https://twitter.com/MDBootstrap" target="_blank">
+            <a href="https://twitter.com" target="_blank">
                 <i class="fa fa-twitter mr-3"></i>
             </a>
 
-            <a href="https://www.youtube.com/watch?v=7MUISDJ5ZZ4" target="_blank">
+            <a href="https://www.youtube.com" target="_blank">
                 <i class="fa fa-youtube mr-3"></i>
             </a>
 
-            <a href="https://plus.google.com/u/0/b/107863090883699620484" target="_blank">
+            <a href="https://plus.google.com" target="_blank">
                 <i class="fa fa-google-plus mr-3"></i>
             </a>
 
-            <a href="https://dribbble.com/mdbootstrap" target="_blank">
+            <a href="https://dribbble.com" target="_blank">
                 <i class="fa fa-dribbble mr-3"></i>
             </a>
 
-            <a href="https://pinterest.com/mdbootstrap" target="_blank">
+            <a href="https://pinterest.com" target="_blank">
                 <i class="fa fa-pinterest mr-3"></i>
             </a>
 
-            <a href="https://github.com/mdbootstrap/bootstrap-material-design" target="_blank">
+            <a href="https://github.com" target="_blank">
                 <i class="fa fa-github mr-3"></i>
             </a>
 
-            <a href="http://codepen.io/mdbootstrap/" target="_blank">
+            <a href="http://codepen.io" target="_blank">
                 <i class="fa fa-codepen mr-3"></i>
             </a>
         </div>
@@ -765,8 +714,7 @@
 
         <!--Copyright-->
         <div class="footer-copyright py-3">
-            © 2018 Copyright:
-            <a href="https://mdbootstrap.com/bootstrap-tutorial/" target="_blank"> MDBootstrap.com </a>
+            © 2019 CSE, SUST. All rights reserved.
         </div>
         <!--/.Copyright-->
 
