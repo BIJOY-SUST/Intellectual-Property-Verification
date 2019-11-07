@@ -174,7 +174,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="/register" class="nav-link border border-light rounded" target="_blank">
-                            <i class="fa fa-user mr-2"></i>Sing Up
+                            <i class="fa fa-user mr-2"></i>Sign Up
                         </a>
                     </li>
                 </ul>
@@ -248,7 +248,7 @@
                             <div class="card-body">
 
                                 <!-- Form -->
-                                <form name="">
+                                <form  action="/register" method="POST">
                                     <!-- Heading -->
                                     <h3 class="dark-grey-text text-center">
                                         <strong>Register</strong>
@@ -257,17 +257,17 @@
 
                                     <div class="md-form">
                                         <i class="fas fa-user prefix grey-text"></i>
-                                        <input type="text" id="username" name="username" class="form-control">
+                                        <input type="text" id="username" name="username" class="form-control" required>
                                         <label for="form3">Your name</label>
                                     </div>
                                     <div class="md-form">
                                         <i class="fas fa-envelope prefix grey-text"></i>
-                                        <input type="email" onfocus="this.value=''" id="email" name="email" class="form-control">
+                                        <input type="email" onfocus="this.value=''" id="email" name="email" class="form-control" required>
                                         <label for="form2">Your email</label>
                                     </div>
                                     <div class="md-form">
                                         <i class="fas fa-pencil-alt prefix grey-text"></i>
-                                        <input type="password" onfocus="this.value=''" id="password" name="password" class="form-control">
+                                        <input type="password" onfocus="this.value=''" id="password" name="password" class="form-control" required>
                                         <label for="form2">Your password</label>
                                     </div>
                                     <div class="text-center">
