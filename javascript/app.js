@@ -1,3 +1,6 @@
+/* eslint-disable indent */
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable no-undef */
 /* eslint-disable quotes */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-var */
@@ -29,6 +32,7 @@ app.set('views', publicDirectoryPath);
 app.use(express.static(publicDirectoryPath));
 
 const port = process.env.PORT || 3000;
+////////////////////////////////////////////////////// Index //////////////////////////////////////////////////////////
 
 //  index page
 app.get('/',  (req, res) => {
@@ -36,23 +40,126 @@ app.get('/',  (req, res) => {
     res.render('index');
 });
 
+////////////////////////////////////////////////////// Index //////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////// Log In /////////////////////////////////////////////////////////
+
 //  login page
 app.get('/login', (req, res) => {
     res.render('login');
 });
 //  login page
 app.post('/login', async (req, res) => {
-
-    var result = await loginUserDB();
-    console.log(result);
-    res.render('home');
+    const user = {
+        email: req.body.email,
+        password: req.body.password
+    };
+    // console.log(user.password);
+    user.password = crypto.createHash('sha256').update(user.password).digest("base64");
+    // console.log(user.password);
+    await loginUserDB(user).then((result) => {
+        console.log('Register successfully');
+        res.render('home');
+    }).catch((error) => {
+        console.error('Failed to register successfully');
+        res.render('login');
+    });
 });
+
+////////////////////////////////////////////////////// Log In /////////////////////////////////////////////////////////
+
+
+
+
+////////////////////////////////////////////////////// Register ///////////////////////////////////////////////////////
+
 
 // register page
 app.get('/register', (req, res) => {
     res.render('register');
 });
-// register page
+
+
+// register page -  private and public key retrieve from text file
+
+const keyPrivate = (keyDirectory, userName) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            fs.readdir(keyDirectory, function (err, files) {
+                //handling error
+                if (err) {
+                    return console.log('Unable to scan directory: ' + err);
+                }
+                //listing all files using forEach
+                files.forEach(function (file) {
+                    // Do whatever you want to do with the file
+                    if (file !== userName) {
+                        var name = file;
+                        var len = name.length;
+                        var i = len - 3;
+                        var lastThree = name.substring(i, len);
+                        fs.readFile(keyDirectory + '/' + file, 'utf-8', function (err, content) {
+                            if (err) {
+                                return console.log('Unable to scan file: ' + err);
+                            }
+                            content = content.replace(/(\r\n|\n|\r)/gm, "");
+                            // console.log(content);
+                            if (lastThree === 'riv') {
+                                var privateKey = content;
+                                resolve(privateKey);
+                            }
+                        });
+                    }
+                });
+            });
+        }, 2000);
+    });
+};
+const keyPublic = (keyDirectory, userName) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            fs.readdir(keyDirectory, function (err, files) {
+                //handling error
+                if (err) {
+                    return console.log('Unable to scan directory: ' + err);
+                }
+                //listing all files using forEach
+                files.forEach(function (file) {
+                    // Do whatever you want to do with the file
+                    if (file !== userName) {
+                        var name = file;
+                        var len = name.length;
+                        var i = len - 3;
+                        var lastThree = name.substring(i, len);
+                        fs.readFile(keyDirectory + '/' + file, 'utf-8', function (err, content) {
+                            if (err) {
+                                return console.log('Unable to scan file: ' + err);
+                            }
+                            content = content.replace(/(\r\n|\n|\r)/gm, "");
+                            // console.log(content);
+                            if (lastThree === 'pub') {
+                                var publicKey = content;
+                                resolve(publicKey);
+                            }
+                        });
+                    }
+                });
+            });
+        }, 2000);
+    });
+};
+const keyValue = async (userName) => {
+    var keyDirectory = path.join(__dirname, './wallet/' + userName);
+    const privateKey = await keyPrivate(keyDirectory, userName);
+    const publicKey = await keyPublic(keyDirectory, userName);
+    return {
+        first: privateKey,
+        second: publicKey
+    };
+};
+// Main Register Page started
 app.post('/register', urlencodedParser , async function (req, res) {
     const user = {
         key: req.body.username+req.body.email,
@@ -61,17 +168,17 @@ app.post('/register', urlencodedParser , async function (req, res) {
         email: req.body.email,
         password: req.body.password
     };
-    console.log(user.password);
+    // console.log(user.password);
     user.password = crypto.createHash('sha256').update(user.password).digest("base64");
-    console.log(user.password);
+    // console.log(user.password);
 
-    console.log(user.key);
+    // console.log(user.key);
     user.key = crypto.createHash('sha256').update(user.key).digest("base64");
-    console.log(user.key);
+    // console.log(user.key);
 
-    console.log(user.token);
+    // console.log(user.token);
     user.token = crypto.createHash('sha256').update(user.token).digest("base64");
-    console.log(user.token);
+    // console.log(user.token);
 
 
     // console.log(user.name);
@@ -80,61 +187,28 @@ app.post('/register', urlencodedParser , async function (req, res) {
 
     await createUser(user.name);
 
-    var keyDirectorey = path.join(__dirname, './wallet/' + user.name);
-    // console.log(keyDirectorey);
-    var privateKey, publicKey;
-    fs.readdir(keyDirectorey, function (err, files) {
-        //handling error
-        if (err) {
-            return console.log('Unable to scan directory: ' + err);
-        }
-        //listing all files using forEach
-        files.forEach(function (file) {
-            // Do whatever you want to do with the file
-            if (file !== user.name) {
-                var name = file;
-                var len = name.length;
-                var i = len - 3;
-                var lastThree = name.substring(i, len);
-                console.log(lastThree);
-                fs.readFile(keyDirectorey + '/' + file, 'utf-8', function (err, content) {
-                    if (err) {
-                        return console.log('Unable to scan file: ' + err);
-                    }
-                    content = content.replace(/(\r\n|\n|\r)/gm, "");
-                    // console.log(content);
-                    if (lastThree === 'riv') {
-                        privateKey = content;
-                        // console.log(privateKey);
-                    }
-                    else if (lastThree === 'pub') {
-                        publicKey = content;
-                        // console.log(publicKey);
-                    }
-                });
-            }
-        });
-    });
-
-    setTimeout( async function () {
-        console.log('Waiting for key');
-        console.log(privateKey);
-        console.log(publicKey);
-
-        await registerUserDB(user,privateKey,publicKey).then((result)=>{
-            console.log('Register successfully');
+    await keyValue(user.name).then((result) => {
+        // var result = await keyValue('user1');
+        console.log(result.first);
+        console.log(result.second);
+        setTimeout( async function () {
+            console.log('Waiting for key');
             res.render('login');
-        }).catch((error)=>{
-            console.error('Failed to register successfully');
-            res.render('register');
-        });
-        res.render('login');
-    }, 2000);
-
-
-
-
+            await registerUserDB(user,result.first,result.second).then((result)=>{
+                console.log('Register successfully');
+                res.render('login');
+            }).catch((error)=>{
+                console.error('Failed to register successfully');
+                res.render('register');
+            });
+        }, 2000);
+    }).catch((e) => {
+        console(e);
+    });    
 });
+
+////////////////////////////////////////////////////// Register ///////////////////////////////////////////////////////
+
 
 //home page
 app.get('/home', function (req, res) {

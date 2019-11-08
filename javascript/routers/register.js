@@ -39,7 +39,7 @@ async function main(user, privateKey, publicKey) {
         // Submit the specified transaction.
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
-        console.log(user.name,user.email,user.password,privateKey);
+        console.log(user.name,user.email,user.password,privateKey,publicKey);
         // await contract.submitTransaction('createUser',user.key ,user.token , user.name,user.email,user.password,privateKey,publicKey);
         await contract.submitTransaction('createCar', 'CAR15', 'Honda', 'Accord', 'Black', 'BIJOY');
 
