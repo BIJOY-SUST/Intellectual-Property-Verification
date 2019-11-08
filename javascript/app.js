@@ -186,25 +186,25 @@ app.post('/register', urlencodedParser , async function (req, res) {
     // console.log(user.password);
 
     await createUser(user.name);
-
+    var privateKey;
+    var publicKey;
     await keyValue(user.name).then((result) => {
         // var result = await keyValue('user1');
         console.log(result.first);
         console.log(result.second);
-        setTimeout( async function () {
-            console.log('Waiting for key');
-            res.render('login');
-            await registerUserDB(user,result.first,result.second).then((result)=>{
-                console.log('Register successfully');
-                res.render('login');
-            }).catch((error)=>{
-                console.error('Failed to register successfully');
-                res.render('register');
-            });
-        }, 2000);
+        privateKey = result.first;
+        publicKey = result.second;
     }).catch((e) => {
         console(e);
-    });    
+    });
+
+    await registerUserDB(user, result.first, result.second).then((result) => {
+        console.log('Register successfully');
+        res.render('login');
+    }).catch((error) => {
+        console.error('Failed to register successfully');
+        res.render('register');
+    });  
 });
 
 ////////////////////////////////////////////////////// Register ///////////////////////////////////////////////////////
