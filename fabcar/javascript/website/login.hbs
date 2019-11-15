@@ -256,26 +256,27 @@
                                     <hr>
                     
                                     <div class="md-form">
-                                        <i class="fas fa-envelope prefix grey-text"></i>
-                                        <input type="email" onfocus="this.value=''" id="email" name="email" class="form-control" required>
-                                        <label for="form2">Your email</label>
+                                        <i class="fas fa-envelope prefix"></i>
+                                        <input type="email" id="inputValidationEx2" name="email" class="form-control" required>
+                                        <label for="inputValidationEx2" data-error="wrong" data-success="right">Enter Your e-mail address</label>
                                     </div>
                                     <div class="md-form">
-                                        <i class="fas fa-pencil-alt prefix grey-text"></i>
-                                        <input type="password" onfocus="this.value=''" id="password"  name="password"  class="form-control">
-                                        <label for="form2">Your password</label>
+
+                                        <i class="fas fa-lock prefix"></i>
+                                        <input type="password" id="inputValidationEx3" name="password" class="form-control" required>
+                                        <label for="inputValidationEx3" data-error="wrong" data-success="right">Enter a password</label>
 
                                         <input  type="checkbox" onclick="myFunction()" style="position: relative;right: 15px;" >
                                         <h6 align="center">Show Password</h6>
                                         <script>
-                                        function myFunction() {
-                                        var x = document.getElementById("password");
-                                        if (x.type === "password") {
-                                            x.type = "text";
-                                        } else {
-                                            x.type = "password";
-                                        }
-                                        }
+                                            function myFunction() {
+                                                var x = document.getElementById("inputValidationEx3");
+                                                if (x.type === "password") {
+                                                    x.type = "text";
+                                                } else {
+                                                    x.type = "password";
+                                                }
+                                            }
                                         </script>
 
                                     </div>

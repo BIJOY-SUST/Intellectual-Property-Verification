@@ -248,7 +248,7 @@
                             <div class="card-body">
 
                                 <!-- Form -->
-                                <form  action="/register" method="POST">
+                                <form  enctype="multipart/form-data" action="/register" method="POST">
                                     <!-- Heading -->
                                     <h3 class="dark-grey-text text-center">
                                         <strong>Register</strong>
@@ -256,21 +256,40 @@
                                     <hr>
 
                                     <div class="md-form">
-                                        <i class="fas fa-user prefix grey-text"></i>
-                                        <input type="text" id="username" name="username" class="form-control" required>
-                                        <label for="form3">Your name</label>
+                                        <i class="fas fa-user prefix"></i>
+                                        <input type="text" id="inputValidationEx" name="username" class="form-control" required>
+                                        <label for="inputValidationEx" data-error="wrong" data-success="right">Enter your full name</label>
                                     </div>
                                     <div class="md-form">
-                                        <i class="fas fa-envelope prefix grey-text"></i>
-                                        <input type="email" onfocus="this.value=''" id="email" name="email" class="form-control" required>
-                                        <label for="form2">Your email</label>
-                                    </div>
+                                        <i class="fas fa-envelope prefix"></i>
+                                        <input type="email" id="inputValidationEx2" name="email" class="form-control" required>
+                                        <label for="inputValidationEx2" data-error="wrong" data-success="right">Enter Your e-mail address</label>
+                                    </div> 
                                     <div class="md-form">
-                                        <i class="fas fa-pencil-alt prefix grey-text"></i>
-                                        <input type="password" onfocus="this.value=''" id="password" name="password" class="form-control" required>
-                                        <label for="form2">Your password</label>
+                                        <i class="fas fa-lock prefix"></i>
+                                        <input type="password"  id="inputValidationEx3" name="password" class="form-control" required>
+                                        <label for="inputValidationEx3" data-error="wrong" data-success="right">Enter a password</label>
                                     </div>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                                        </div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" onchange="ValidateSize(this)" name="myImage" accept="image/x-png,image/gif,image/jpeg" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" required>
+                                            <label class="custom-file-label" for="inputGroupFile01">Choose a profile picture</label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <small style="text-align: center;">File Size must be Under 2MB</small>
+                                    </div>
+
+                                    {{!-- <div class="md-form">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <input type="file" name="myImage" accept="image/x-png,image/gif,image/jpeg" />
+
+                                    </div> --}}
                                     <div class="text-center">
+                                        <br>
                                         <button class="btn btn-indigo">Submit</button>
                                         <hr>
                                         <fieldset class="form-check">
@@ -393,6 +412,17 @@
     <script type="text/javascript">
         // Animations initialization
         new WOW().init();
+    </script>
+    <script type="text/javascript">
+        function ValidateSize(file) {
+            var FileSize = file.files[0].size / 1024 / 1024; // in MB
+            if (FileSize > 2) {
+                alert('File size exceeds 2 MB');
+                $(file).val(''); //for clearing with Jquery
+            } else {
+
+            }
+        }
     </script>
 </body>
 

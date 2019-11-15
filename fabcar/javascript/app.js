@@ -1,3 +1,4 @@
+/* eslint-disable quote-props */
 /* eslint-disable curly */
 /* eslint-disable no-empty */
 /* eslint-disable dot-notation */
@@ -12,14 +13,18 @@
 const createUser = require('./routers/createUser');
 const registerUserDB = require('./routers/register');
 const loginUserDB = require('./routers/login');
+const profileInformation = require('./routers/profileInformation');
 
 const express = require('express');
 const hbs = require('hbs');
 const crypto = require("crypto");
 const path = require('path');
 const fs = require('file-system');
+var mv = require('mv');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+var multer = require('multer');
+var upload = multer({ dest: './website/property/' });
 
 const app = express();
 
@@ -50,11 +55,33 @@ const port = process.env.PORT || 3000;
 ////////////////////////////////////////////////////// Index //////////////////////////////////////////////////////////
 
 //  index page
-app.get('/',  (req, res) => {
+app.get('/', async function (req, res) {
     // res.send('Hello World');
 
     if (req.cookies.token === undefined) res.render('index');
-    else res.render('home');
+    else {
+        var key = req.cookies.key;
+        var email = req.cookies.email;
+        // console.log('Profile is loading : ' + email +" "+key);
+        await profileInformation(email, key).then((result) => {
+            // console.log('Astese jinispati');
+            // console.log(result);
+            // console.log(result.length);
+            var obj = JSON.parse(result);
+            // console.log(obj);
+            var name = obj.name;
+            var profilePic = obj.newFilePath;
+            var email = obj.email;
+
+            res.render('home', {
+                'profilePic': profilePic
+            });
+
+        }).catch((error) => {
+            console.log('Upload Page load Failed');
+            res.render('login');
+        });
+    }
     // res.render('index');
 });
 
@@ -68,6 +95,8 @@ app.get('/logout', (req, res) => {
     if (req.cookies.token === undefined) res.render('index');
     else{
         res.clearCookie('token');
+        res.clearCookie('key');
+        res.clearCookie('email');
         res.render('index');
     }    // res.render('index');
 });
@@ -77,9 +106,31 @@ app.get('/logout', (req, res) => {
 ////////////////////////////////////////////////////// Log In /////////////////////////////////////////////////////////
 
 //  login-get page
-app.get('/login', (req, res) => {
+app.get('/login', async function (req, res) {
     if (req.cookies.token === undefined) res.render('login');
-    else res.render('home');
+    else {
+        var key = req.cookies.key;
+        var email = req.cookies.email;
+        // console.log('Profile is loading : ' + email +" "+key);
+        await profileInformation(email, key).then((result) => {
+            // console.log('Astese jinispati');
+            // console.log(result);
+            // console.log(result.length);
+            var obj = JSON.parse(result);
+            // console.log(obj);
+            var name = obj.name;
+            var profilePic = obj.newFilePath;
+            var email = obj.email;
+
+            res.render('home', {
+                'profilePic': profilePic
+            });
+
+        }).catch((error) => {
+            console.log('Upload Page load Failed');
+            res.render('login');
+        });
+    }
 });
 
 //  login-post page
@@ -92,44 +143,136 @@ app.post('/login', urlencodedParser, async function (req, res) {
     user.password = crypto.createHash('sha256').update(user.password).digest("base64");
     // console.log(user.password);
     await loginUserDB(user).then((result) => {
-        console.log('Login successfully');
         // console.log(result);
         // console.log(result.length);
         var obj = JSON.parse(result);
 
         if(obj[0].Record.email === user.email && obj[0].Record.passwordHash === user.password){
-            // console.log(obj[0].Key);
-            // console.log(obj[0].Record.email);
-            // console.log(obj[0].Record.passwordHash);
+            console.log('Login successfully');
+
+            var key = obj[0].Key;
             var token = obj[0].Record.token;
-            // console.log(token);
-            // res.cookie('token', result.token);
+            var profilePic = obj[0].Record.newFilePath;
+            var email = obj[0].Record.email;
+
             res.cookie('token',token);
-            res.render('home');
+            res.cookie('key',key);
+            res.cookie('email',email);
+
+            res.render('home',{
+                'email': email,
+                'profilePic':profilePic
+            });
         }
         else{
+            console.log('Login Failed');
             res.render('login');
         }
         // res.send(result);
         // res.render('home');
     }).catch((error) => {
-        console.log(error);
+        console.log('Login Failed');
         res.render('login');
     });
 });
 
 ////////////////////////////////////////////////////// Log In /////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////// Profile ////////////////////////////////////////////////////////
 
+app.get('/profile', async function (req, res) {
+    if (req.cookies.token === undefined) res.render('login');
+    else{
+        var key = req.cookies.key;
+        var email = req.cookies.email;
+        // console.log('Profile is loading : ' + email +" "+key);
+        await profileInformation(email,key).then((result) => {
+            // console.log('Astese jinispati');
+            // console.log(result);
+            // console.log(result.length);
+            var obj = JSON.parse(result);
+            // console.log(obj);
+            var name = obj.name;
+            var profilePic = obj.newFilePath;
+            var email = obj.email;
+            var publicKey = obj.publickey;
+            
+
+            res.render('profile', {
+                'name': name,
+                'email': email,
+                'publickey':publicKey,
+                'profilePic': profilePic
+            });
+
+        }).catch((error) => {
+            console.log('View Profile Failed');
+            res.render('login');
+        });
+    }
+});
+////////////////////////////////////////////////////// View People ///////////////////////////////////////////////////
+
+app.get('/viewAllPeople', async function (req, res) {
+    if (req.cookies.token === undefined) res.render('login');
+    else{
+        var key = req.cookies.key;
+        var email = req.cookies.email;
+        // console.log('Profile is loading : ' + email +" "+key);
+        await profileInformation(email,key).then((result) => {
+            // console.log('Astese jinispati');
+            // console.log(result);
+            // console.log(result.length);
+            var obj = JSON.parse(result);
+            // console.log(obj);
+            var name = obj.name;
+            var profilePic = obj.newFilePath;
+            var email = obj.email;
+
+            res.render('topPeopleIP', {
+                'name': name,
+                'email': email,
+                'profilePic': profilePic
+            });
+
+        }).catch((error) => {
+            console.log('View Profile Failed');
+            res.render('login');
+        });
+    }
+});
+////////////////////////////////////////////////////// Profile ////////////////////////////////////////////////////////
 
 
 ////////////////////////////////////////////////////// Register ///////////////////////////////////////////////////////
 
 
 // register page
-app.get('/register', (req, res) => {
+app.get('/register', async function (req, res) {
     if (req.cookies.token === undefined) res.render('register');
-    else res.render('home');
+    else{
+        var key = req.cookies.key;
+        var email = req.cookies.email;
+        // console.log('Profile is loading : ' + email +" "+key);
+        await profileInformation(email, key).then((result) => {
+            // console.log('Astese jinispati');
+            // console.log(result);
+            // console.log(result.length);
+            var obj = JSON.parse(result);
+            // console.log(obj);
+            var name = obj.name;
+            var profilePic = obj.newFilePath;
+            var email = obj.email;
+
+            res.render('home', {
+                'profilePic': profilePic
+            });
+
+        }).catch((error) => {
+            console.log('Upload Page load Failed');
+            res.render('login');
+        });
+    }
 });
 
 
@@ -213,10 +356,51 @@ const keyValue = async (userName) => {
     };
 };
 // Main Register Page started
-app.post('/register', urlencodedParser , async function (req, res) {
+
+function fileHash(filePath, algorithm) {
+    return new Promise((resolve, reject) => {
+        // Algorithm depends on availability of OpenSSL on platform
+        // Another algorithms: 'sha1', 'md5', 'sha256', 'sha512' ...
+        let shasum = crypto.createHash(algorithm);
+        try {
+            let s = fs.ReadStream(filePath);
+            s.on('data', function (data) {
+                shasum.update(data);
+            });
+            // making digest
+            s.on('end', function () {
+                const hash = shasum.digest('base64');
+                return resolve(hash);
+            });
+        } catch (error) {
+            return reject('calculation fail');
+        }
+    });
+}
+
+function fileNewPath(oldPath, newPath) {
+    return new Promise(function (resolve, reject) {
+        mv(oldPath, newPath, { mkdirp: true }, function (err) {
+            if (err !== undefined) {
+                return reject(err);
+            } else {
+                return resolve();
+            }
+        });
+    });
+}
+
+app.post('/register', upload.single('myImage'), urlencodedParser , async function (req, res) {
+
+    if (!req.file) {
+        res.render('register.hbs', {
+            status: 'We are sorry you are having trouble uploading an image!'
+        });
+    }
+
     const user = {
-        key: req.body.username+req.body.email,
-        token: req.body.email+req.body.username,
+        key: req.body.username + req.body.email,
+        token: req.body.email + req.body.username,
         name: req.body.username,
         email: req.body.email,
         password: req.body.password
@@ -233,25 +417,41 @@ app.post('/register', urlencodedParser , async function (req, res) {
     user.token = crypto.createHash('sha256').update(user.token).digest("base64");
     // console.log(user.token);
 
+    var fileName = req.file.originalname;
+    var preFilePath = __dirname+"/"+ req.file.path;
+    var dateFile = "/"+Date.now()+"/"+fileName;
+    var newFilePath = path.join(__dirname,'./website/property'+dateFile);
+    var proFilePath = "/property/"+dateFile;
 
-    // console.log(user.name);
-    // console.log(user.email);
-    // console.log(user.password);
+    var latestHashFile;
+    await fileHash(preFilePath,'sha256').then((hashFile)=>{
+        latestHashFile = hashFile;
+        console.log('hashFile = '+ hashFile);
+    }).catch((e)=>{
+        console.log(e);
+    });
+    await fileNewPath(preFilePath, newFilePath).then((result) => {
+        console.log('hashFile2 = '+latestHashFile);
+        // console.log(result);
+    }).catch((e) => {
+        console.log(e);
+    });
 
     await createUser(user.email);
     var privateKey;
     var publicKey;
     await keyValue(user.email).then((result) => {
         // var result = await keyValue('user1');
-        console.log(result.first);
-        console.log(result.second);
+        console.log('Key has been extract from the txt file');
+        // console.log(result.first);
+        // console.log(result.second);
         privateKey = result.first;
         publicKey = result.second;
     }).catch((e) => {
         console.log(e);
     });
 
-    await registerUserDB(user, publicKey).then((result) => {
+    await registerUserDB(user, publicKey , proFilePath, latestHashFile).then((result) => {
         console.log('Register successfully');
         res.render('login');
     }).catch((error) => {
@@ -264,20 +464,87 @@ app.post('/register', urlencodedParser , async function (req, res) {
 
 
 //home page
-app.get('/home', function (req, res) {
+app.get('/home',async function (req, res) {
     if (req.cookies.token === undefined) res.render('login');
-    else res.render('home');
+    else{
+        var key = req.cookies.key;
+        var email = req.cookies.email;
+        // console.log('Profile is loading : ' + email +" "+key);
+        await profileInformation(email, key).then((result) => {
+            // console.log('Astese jinispati');
+            // console.log(result);
+            // console.log(result.length);
+            var obj = JSON.parse(result);
+            // console.log(obj);
+            var name = obj.name;
+            var profilePic = obj.newFilePath;
+            var email = obj.email;
+
+            res.render('home', {
+                'profilePic': profilePic
+            });
+
+        }).catch((error) => {
+            console.log('Upload Page load Failed');
+            res.render('login');
+        });
+    }
 });
 
 // upload page
-app.get('/upload', function (req, res) {
+app.get('/upload', async function (req, res) {
     if (req.cookies.token === undefined) res.render('login');
-    else res.render('upload');
+    else {
+        
+        var key = req.cookies.key;
+        var email = req.cookies.email;
+        // console.log('Profile is loading : ' + email +" "+key);
+        await profileInformation(email, key).then((result) => {
+            // console.log('Astese jinispati');
+            // console.log(result);
+            // console.log(result.length);
+            var obj = JSON.parse(result);
+            // console.log(obj);
+            var name = obj.name;
+            var profilePic = obj.newFilePath;
+            var email = obj.email;
+
+            res.render('upload', {
+                'profilePic': profilePic
+            });
+
+        }).catch((error) => {
+            console.log('Upload Page load Failed');
+            res.render('login');
+        });
+    }
 });
 // upload page
-app.post('/upload', function (req, res) {
+app.post('/upload', async function (req, res) {
     if (req.cookies.token === undefined) res.render('login');
-    else res.render('home');
+    else{
+        var key = req.cookies.key;
+        var email = req.cookies.email;
+        // console.log('Profile is loading : ' + email +" "+key);
+        await profileInformation(email, key).then((result) => {
+            // console.log('Astese jinispati');
+            // console.log(result);
+            // console.log(result.length);
+            var obj = JSON.parse(result);
+            // console.log(obj);
+            var name = obj.name;
+            var profilePic = obj.newFilePath;
+            var email = obj.email;
+
+            res.render('home', {
+                'profilePic': profilePic
+            });
+
+        }).catch((error) => {
+            console.log('Upload Page load Failed');
+            res.render('login');
+        });
+    }
 });
 
 

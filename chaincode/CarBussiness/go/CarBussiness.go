@@ -50,18 +50,8 @@ type Car struct {
 	Owner  string `json:"owner"`
 }
 
-type User struct {
-	TableName 	string `json:"tableName"`
-	Key 		string `json:"key"`
-	Token 		string `json:"token"`
-	Name 		string `json:"name"`
-	Email 		string `json:"email"`
-	PasswordHash 	string `json:"passwordHash"`
-	PublicKey 	string `json:"publickey"`
-}
-
 /*
- * The Init method is called when the Smart Contract "fabcar" is instantiated by the blockchain network
+ * The Init method is called when the Smart Contract "CarBussiness" is instantiated by the blockchain network
  * Best practice is to have any Ledger initialization in separate function -- see initLedger()
  */
 func (s *SmartContract) Init(APIstub shim.ChaincodeStubInterface) sc.Response {
@@ -69,7 +59,7 @@ func (s *SmartContract) Init(APIstub shim.ChaincodeStubInterface) sc.Response {
 }
 
 /*
- * The Invoke method is called as a result of an application request to run the Smart Contract "fabcar"
+ * The Invoke method is called as a result of an application request to run the Smart Contract "CarBussiness"
  * The calling application program has also specified the particular smart contract function to be called, with arguments
  */
 func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response {
@@ -87,10 +77,6 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.queryAllCars(APIstub)
 	} else if function == "changeCarOwner" {
 		return s.changeCarOwner(APIstub, args)
-	} else if function == "createUser" {
-		return s.createUser(APIstub, args)
-	} else if function == "loginUser" {
-		return s.loginUser(APIstub, args)
 	}
 
 	return shim.Error("Invalid Smart Contract function name.")
@@ -137,7 +123,7 @@ func (s *SmartContract) createCar(APIstub shim.ChaincodeStubInterface, args []st
 	if len(args) != 5 {
 		return shim.Error("Incorrect number of arguments. Expecting 5")
 	}
-	
+
 	var car = Car{Make: args[1], Model: args[2], Colour: args[3], Owner: args[4]}
 
 	carAsBytes, _ := json.Marshal(car)
@@ -207,81 +193,6 @@ func (s *SmartContract) changeCarOwner(APIstub shim.ChaincodeStubInterface, args
 	return shim.Success(nil)
 }
 
-func (s *SmartContract) createUser(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
-
-	if len(args) != 6 {
-		return shim.Error("Incorrect number of arguments. Expecting 7")
-	}
-	var docType string = "User"
-	var key string = args[0]
-	var token string = args[1]
-	var name string = args[2]
-	var email string = args[3]
-	var password string = args[4]
-	var publicKey string = args[5]
-
-	
-	//fmt.Println("User Name : ",name)
-	
-	var user = User{TableName : docType,Key : key,Token : token,Name : name,Email : email,PasswordHash : password, PublicKey : publicKey}
-
-	// var car = Car{Make: args[1], Model: args[2], Colour: args[3], Owner: args[4]}
-	
-
-	userAsBytes, _ := json.Marshal(user)
-	APIstub.PutState(key, userAsBytes)
-
-	return shim.Success(nil)
-}
-
-func (s *SmartContract) loginUser(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
-
-	if len(args) != 2 {
-		return shim.Error("Incorrect number of arguments. Expecting 2")
-	}
-
-	var useremail string = args[0]
-	var password string = args[1]
-	
-	
-	var queryString = fmt.Sprintf("{\"selector\":{\"tableName\":\"User\",\"email\":\"%s\",\"passwordHash\":\"%s\"}}", useremail, password)
-
-	resultsIterator, _ := APIstub.GetQueryResult(queryString) //skip the errors
-	//skipping error handling here :p
-
-	defer resultsIterator.Close()
-
-	// buffer is a JSON array containing QueryResults
-	var buffer bytes.Buffer
-	buffer.WriteString("[")
-
-	var bArrayMemberAlreadyWritten = false
-	for resultsIterator.HasNext() {
-		queryResponse, err := resultsIterator.Next()
-		if err != nil {
-			return shim.Error(err.Error())
-		}
-		// Add a comma before array members, suppress it for the first array member
-		if bArrayMemberAlreadyWritten == true {
-			buffer.WriteString(",")
-		}
-		buffer.WriteString("{\"Key\":")
-		buffer.WriteString("\"")
-		buffer.WriteString(queryResponse.Key)
-		buffer.WriteString("\"")
-
-		buffer.WriteString(", \"Record\":")
-		// Record is a JSON object, so we write as-is
-		buffer.WriteString(string(queryResponse.Value))
-		buffer.WriteString("}")
-		bArrayMemberAlreadyWritten = true
-	}
-	buffer.WriteString("]")
-
-	fmt.Printf("- queryAllCars:\n%s\n", buffer.String())
-
-	return shim.Success(buffer.Bytes())
-}
 // The main function is only relevant in unit test mode. Only included here for completeness.
 func main() {
 

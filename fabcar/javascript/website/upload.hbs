@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Phoenix</title>
+    <link rel="shortcut icon" type="image/png" href="img/sust.png" />
 
     {{!-- dropzone --}}
 
@@ -111,7 +112,12 @@
 
         }
     </style>
-
+    <style type="text/css">
+        .buttonList:hover {
+            background-color: green;
+            color: black;
+        }
+    </style>
 
 </head>
 
@@ -121,14 +127,14 @@
 
     <!-- Navbar -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar"
-        style="background-color:#21260F	; height:70px">
+        style="background-color:#21260F	; height:55px">
         <div class="container">
 
             <!-- Brand -->
 
-            <a class="navbar-brand" href="/home" style=" font-family: azonix; font-size: 22px; ">
+            <a class="navbar-brand" href="/home" style=" font-family: azonix; font-size: 28px; ">
                 {{!-- <strong>Phoenix</strong> --}}
-                <span class="brand-text">PHO</span><large style="font-size: 30px;">E</large><span class="brand-text">NIX</span>
+                <span class="brand-text">PHO</span><large style="font-size: 35px;">E</large><span class="brand-text">NIX</span>
             </a>
 
             <!-- Collapse -->
@@ -157,20 +163,35 @@
                     </li>
                     <li class="nav-item active">
                         {{!-- <a class="nav-link" href="#" target="_blank"> --}}
-                        <a class="nav-link border border-light rounded" href="/home">
+                        <a class="nav-link border border-light rounded" href="/upload">
                             Upload Here
                         </a>
                     </li>
                 </ul>
-
                 <!-- Right -->
+                <ul class="navbar-nav nav-flex-icons">
+                    <li class="nav-item avatar dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <img src="{{ profilePic }}" class="rounded-circle z-depth-0"
+                                style="border-radius: 50%; width: 50px;" alt="avatar image">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
+                            aria-labelledby="navbarDropdownMenuLink-55">
+                            <a class="dropdown-item buttonList" href="/profile">My Account</a>
+                            <a class="dropdown-item buttonList" href="/logout">Logout</a>
+                            {{!-- <a class="dropdown-item buttonList" href="#">Something else here</a> --}}
+                        </div>
+                    </li>
+                </ul>
+                {{!-- <!-- Right -->
                 <ul class="navbar-nav nav-flex-icons">
                     <li class="nav-item">
                         <a href="/logout" class="nav-link border border-light rounded">
                             <i class="fa fa-user mr-2"></i>Logout
                         </a>
                     </li>
-                </ul>
+                </ul> --}}
 
             </div>
 
@@ -180,6 +201,8 @@
 
     <!-- Creating Gap-->
     <div>
+        <br>
+        <br>
         <br>
         <br>
         <br>
@@ -212,7 +235,11 @@
                 <form class="dropzone needsclick" id="my-awesome-dropzone" action="/upload" method="POST" enctype="multipart/form-data">
                     <input name="file" type="file" form="my-awesome-dropzone" multiple hidden />
                     <div class="dz-message needsclick">
-                        <p><i class="fas fa-file-upload" style="font-size:40px;"></i></p>
+                        <p>
+                            <i class="fas fa-cloud-upload-alt" style="font-size:40px;"></i>
+                            {{!-- <i class="fas fa-file-upload" style="font-size:40px;"></i> --}}
+                        
+                        </p>
                         <p>Drop files here or click to upload.</p>
                         <br/>
                     </div>
@@ -224,6 +251,8 @@
     </div>
 
     <div>
+        <br>
+        <br>
         <br>
         <br>
         <br>

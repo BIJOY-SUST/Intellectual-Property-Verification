@@ -6,15 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Phoenix</title>
-
-    {{!-- dropzone --}}
-
-    <link href="dist/dropzone.css" rel="stylesheet">
-    <script src="dist/dropzone.js"></script>
-    {{!-- dropzone --}}
-
-
-
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
     <!-- Bootstrap core CSS -->
@@ -101,20 +92,19 @@
             }
         }
     </style>
-    <style>
-        .uploadText {
-            text-align: center;
-            color: white;
-            padding-left: 20px;
-            padding-right: 20px;
-            font-size: 20px;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            ;
-            ;
-
+    <style type="text/css">
+        .buttonList:hover {
+            background-color: green;
+            color: black;
+        }
+        .hrItem {
+            border: none;
+            height: 2px;
+            /* Set the hr color */
+            color: black; /* old IE */
+            background-color: black; /* Modern Browsers */
         }
     </style>
-
 
 </head>
 
@@ -129,7 +119,7 @@
 
             <!-- Brand -->
 
-            <a class="navbar-brand" href="/home" target="_blank" style=" font-family: azonix; font-size: 22px; ">
+            <a class="navbar-brand" href="/home" style=" font-family: azonix; font-size: 22px; ">
                 {{!-- <strong>Phoenix</strong> --}}
                 <span class="brand-text">PHO</span><large style="font-size: 30px;">E</large><span class="brand-text">NIX</span>
             </a>
@@ -145,7 +135,7 @@
 
                 <!-- Left -->
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item ">
+                    <li class="nav-item active">
                         <a class="nav-link" href="/home">Home
                             <span class="sr-only">(current)</span>
                         </a>
@@ -158,9 +148,9 @@
                             My Request
                         </a>
                     </li>
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         {{!-- <a class="nav-link" href="#" target="_blank"> --}}
-                        <a class="nav-link border border-light rounded" href="/home" target="_blank">
+                        <a class="nav-link border border-light rounded" href="/upload">
                             Upload Here
                         </a>
                     </li>
@@ -168,10 +158,19 @@
 
                 <!-- Right -->
                 <ul class="navbar-nav nav-flex-icons">
-                    <li class="nav-item">
-                        <a href="/register" class="nav-link border border-light rounded" target="_blank">
-                            <i class="fa fa-user mr-2"></i>Logout
+                    <li class="nav-item avatar dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg"
+                                class="rounded-circle z-depth-0" style="border-radius: 50%; width: 40px;"
+                                alt="avatar image">
                         </a>
+                        <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
+                            aria-labelledby="navbarDropdownMenuLink-55">
+                            <a class="dropdown-item buttonList" href="#">My Account</a>
+                            <a class="dropdown-item buttonList" href="#">Logout</a>
+                            {{!-- <a class="dropdown-item buttonList" href="#">Something else here</a> --}}
+                        </div>
                     </li>
                 </ul>
 
@@ -181,63 +180,72 @@
     </nav>
     <!-- Navbar -->
 
-<!-- Full Page Intro -->
-<div class="view full-page-intro" style="height:100%;width: 100%;">
-
-    <!--Video source-->
-    <video class="video-intro" autoplay loop muted>
-        <source src="https://mdbootstrap.com/img/video/Lines-min.mp4" type="video/mp4">
-
-        {{!-- <source src="https://mdbootstrap.com/img/video/animation-intro.mp4" type="video/mp4" /> --}}
-    </video>
-
-    <!-- Mask & flexbox options-->
-    <div class="mask rgba-blue-light d-flex justify-content-center align-items-center">
-
-        <!-- Content -->
-        <div class="container">
-        <h3 class="uploadText">Shahjalal University of Science and Technology (SUST) was established in 1986. The only
-            university of its
-            kind at
-            that
-            time, it started it''s journey on the 13th of February 1991 with only three departments: Physics, Chemistry
-            and
-            Economics, 13 teachers and 205 students. It has now expanded to 7 schools, 27 departments , 2 institutes and
-            and
-            centers. The number of teachers has grown to 552 and the students to 10922. Besides, the University has 13
-            affiliated
-            colleges under the School of Medical Sciences with 4000 students.</h3>
-        <div>
-            <br>
-        </div>
-            <!--Grid row-->
-        <div id="dropzone">
-        
-            <div class="col-md-16 mb-5" style="margin-left: 12%;margin-right: 12%;  border-style: solid;
-          border-color: green;">
-                <form class="dropzone needsclick" id="my-awesome-dropzone" action="/upload" method="POST"
-                    enctype="multipart/form-data">
-                    <input name="file" type="file" form="my-awesome-dropzone" multiple hidden />
-                    <div class="dz-message needsclick">
-                        <p><i class="fas fa-file-upload" style="font-size:40px;"></i></p>
-                        <p>Drop files here or click to upload.</p>
-                        <br />
-                    </div>
-                </form>
-        
-            </div>
-            <button style="left: 425px; width: 250px;" class="btn btn-elegant" aria-pressed="true"
-                form="my-awesome-dropzone">Upload</button>
-        </div>
-
-        </div>
-        <!-- Content -->
-
+    <!-- Creating Gap-->
+    <div>
+        <br>
+        <br>
+        <br>
+        <br>
     </div>
-    <!-- Mask & flexbox options-->
+    <!-- Creating Gap-->
 
-</div>
-<!-- Full Page Intro -->
+    <!-- Full Page Intro -->
+    <div class="" style="height: 84%; padding-left: 120px; padding-right:120px;padding-top:30px; padding-down: 100px" >
+
+        <div class="card" style="height: 100%;" >
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <figure class="figure" style="padding: 30px;">
+                            <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/8-col/img%20(73).jpg"
+                                class="figure-img img-fluid z-depth-1" alt="..." style="width: 350px">
+                            {{!-- <figcaption class="figure-caption">A caption for the above image.</figcaption> --}}
+                        </figure>
+                        <p style="text-align: center;"><b> CONTACT INFO </b></p>
+                        
+                        <p style="text-align: center;"><span><i class="far fa-envelope"></i></span> <a href="mailto:bsbijoy2050@gmail.com">bsbijoy2050@gmail.com</a>
+                        </p>
+                        <p style="text-align: center;"><b> SOCIAL LINK </b></p>
+                        <center><a href="https://www.facebook.com/"><i class="fab fa-facebook"></i>Facebook</a>  <a href="https://www.instagram.com/"><i class="fab fa-instagram"></i> Instagram</a><br></center>
+                        <center><a href="https://www.twitter.com/"><i class="fab fa-twitter"></i> Twitter</a>  <a href="https://www.linkedin.com/"><i class="fab fa-linkedin"></i> Linkedin</a></center>
+                        
+                        
+                    </div>
+                    <div class="col-8" style="padding: 40px;">
+                        <h5>
+                            <h3><b>BIDDUT SARKER BIJOY</b></h3>
+                        </h5>
+                        <h5>
+                            <small style="color: black">Department of Computer Science & Engineering</small></b>
+                        </h5>
+                        <h10><b>Shahjalal University of Science and Technology, Sylhet.</b></h10>
+                        <br>
+                        <br>
+                        <h4>Intellectual Property Count</h4>
+                        <ul>
+                            <li><b>Images :</b> 10</li>
+                            <li><b>Document :</b> 20</li>
+                        </ul>
+                        <hr class='hrItem' />
+                        <h3>Images <a href="#"><i class="far fa-hand-point-right"></i><small>see all</small></a> </h3> 
+                        <p>Image rights are the expression of a personality in the public domain. The provision of image rights in law enables the
+                        definition, value, commercial exploitation and protection of image rights associated with a person.</p>
+                    
+                        <h3>Document <a href="#"><i class="far fa-hand-point-right"></i><small>see all</small></a></h3>
+                        <p>An intellectual property document is a document which proves intellectual property rights. It is a legal document
+                        stating the ownership or rights for intellectual property. The following are valid intellectual property documents: ...
+                        Copyright Ownership.</p>
+                    
+                    
+                    
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Full Page Intro -->
 
     <!--Footer-->
     <footer class="page-footer text-center font-small mt-4 wow fadeIn">
