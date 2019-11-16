@@ -14,6 +14,11 @@ const createUser = require('./routers/createUser');
 const registerUserDB = require('./routers/register');
 const loginUserDB = require('./routers/login');
 const profileInformation = require('./routers/profileInformation');
+const setReactAndPostDB = require('./routers/setReactAndPostCount');
+const setValueReactAndPostDB = require('./routers/setValueReactAndPostCount');
+const findUserForRAPC = require('./routers/findUserForRAPC');
+const sendIP = require('./routers/sendIP');
+
 
 const express = require('express');
 const hbs = require('hbs');
@@ -24,7 +29,9 @@ var mv = require('mv');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 var multer = require('multer');
+var detect = require('detect-file-type');
 var upload = multer({ dest: './website/property/' });
+var uploadFile = multer({ dest: './website/IntellectualProperty/' });
 
 const app = express();
 
@@ -50,7 +57,7 @@ app.use(express.static(publicDirectoryPath));
 
 const port = process.env.PORT || 3000;
 
-
+var IPCount = 0;
 
 ////////////////////////////////////////////////////// Index //////////////////////////////////////////////////////////
 
@@ -405,23 +412,34 @@ app.post('/register', upload.single('myImage'), urlencodedParser , async functio
         email: req.body.email,
         password: req.body.password
     };
-    // console.log(user.password);
-    user.password = crypto.createHash('sha256').update(user.password).digest("base64");
-    // console.log(user.password);
 
     // console.log(user.key);
     user.key = crypto.createHash('sha256').update(user.key).digest("base64");
     // console.log(user.key);
-
     // console.log(user.token);
     user.token = crypto.createHash('sha256').update(user.token).digest("base64");
     // console.log(user.token);
+    // console.log(user.password);
+    user.password = crypto.createHash('sha256').update(user.password).digest("base64");
+    // console.log(user.password);
+
+    // for other table
+    const RAPC = {
+        key: 'RAPC' + req.body.email,
+        userKey: user.key,
+        name: req.body.username,
+        email: req.body.email
+
+    };
+    RAPC.key = crypto.createHash('sha256').update(RAPC.key).digest("base64");
+
+
 
     var fileName = req.file.originalname;
     var preFilePath = __dirname+"/"+ req.file.path;
     var dateFile = "/"+Date.now()+"/"+fileName;
     var newFilePath = path.join(__dirname,'./website/property'+dateFile);
-    var proFilePath = "/property/"+dateFile;
+    var proFilePath = "/property"+dateFile;
 
     var latestHashFile;
     await fileHash(preFilePath,'sha256').then((hashFile)=>{
@@ -429,12 +447,14 @@ app.post('/register', upload.single('myImage'), urlencodedParser , async functio
         console.log('hashFile = '+ hashFile);
     }).catch((e)=>{
         console.log(e);
+        res.render('register');
     });
     await fileNewPath(preFilePath, newFilePath).then((result) => {
         console.log('hashFile2 = '+latestHashFile);
         // console.log(result);
     }).catch((e) => {
         console.log(e);
+        res.render('register');    
     });
 
     await createUser(user.email);
@@ -449,7 +469,16 @@ app.post('/register', upload.single('myImage'), urlencodedParser , async functio
         publicKey = result.second;
     }).catch((e) => {
         console.log(e);
+        res.render('register');        
     });
+
+    await setReactAndPostDB(RAPC.key, RAPC.userKey, RAPC.name, RAPC.email).then((result) =>{
+        console.log('Set successfully');
+    }).catch((e)=>{
+        console.log('Setting Failed');
+        res.render('register');
+    });
+
 
     await registerUserDB(user, publicKey , proFilePath, latestHashFile).then((result) => {
         console.log('Register successfully');
@@ -491,6 +520,9 @@ app.get('/home',async function (req, res) {
     }
 });
 
+/////////////////////////////////////////////////// File Upload //////////////////////////////////////////////////
+
+
 // upload page
 app.get('/upload', async function (req, res) {
     if (req.cookies.token === undefined) res.render('login');
@@ -500,54 +532,163 @@ app.get('/upload', async function (req, res) {
         var email = req.cookies.email;
         // console.log('Profile is loading : ' + email +" "+key);
         await profileInformation(email, key).then((result) => {
-            // console.log('Astese jinispati');
-            // console.log(result);
-            // console.log(result.length);
             var obj = JSON.parse(result);
             // console.log(obj);
             var name = obj.name;
             var profilePic = obj.newFilePath;
             var email = obj.email;
-
             res.render('upload', {
                 'profilePic': profilePic
             });
-
         }).catch((error) => {
             console.log('Upload Page load Failed');
             res.render('login');
         });
     }
 });
-// upload page
-app.post('/upload', async function (req, res) {
-    if (req.cookies.token === undefined) res.render('login');
-    else{
-        var key = req.cookies.key;
-        var email = req.cookies.email;
-        // console.log('Profile is loading : ' + email +" "+key);
-        await profileInformation(email, key).then((result) => {
-            // console.log('Astese jinispati');
-            // console.log(result);
-            // console.log(result.length);
-            var obj = JSON.parse(result);
-            // console.log(obj);
-            var name = obj.name;
-            var profilePic = obj.newFilePath;
-            var email = obj.email;
 
-            res.render('home', {
-                'profilePic': profilePic
+// upload file for post method
+
+function checkImagOrPdf(filePathForChecking) {
+    return new Promise(function (resolve, reject) {
+        detect.fromFile(filePathForChecking, function (err, result) {
+            if (err) {
+                return reject(err);
+            }
+            console.log('Just Check it that it image or pdf');
+            // console.log(result); // { ext: 'jpg', mime: 'image/jpeg' }
+
+            if (result.ext === 'jpg' | result.ext === 'png') {
+                return resolve('image');
+            }
+            else if (result.ext === 'pdf') {
+                return resolve('pdf');
+            }
+            else {
+                return reject(err);
+            }
+        });
+    });
+}
+
+
+app.post('/upload', uploadFile.any()  ,urlencodedParser ,  async function (req, res) {
+    if (req.cookies.token === undefined) res.render('login');
+    else if(req.files.length === 0){
+        res.render('home');
+    }
+    else{
+
+            console.log(req.files.length);
+
+            // maintain the file
+
+            var file = req.files[0];
+            console.log('Entering inside files');
+
+            var fileName = file.originalname;
+            var preFilePath = __dirname + "/" + file.path;
+            var dateFile = "/" + Date.now() + "/" + fileName;
+            var newFilePath = path.join(__dirname, './website/IntellectualProperty' + dateFile);
+            var proFilePath = "/IntellectualProperty" + dateFile;
+            var filePathForChecking = './website/IntellectualProperty/'+dateFile;
+
+            console.log(fileName);
+
+            // making hash of the file
+            var latestHashFile;
+            await fileHash(preFilePath, 'sha256').then((hashFile) => {
+                latestHashFile = hashFile;
+                console.log('Calculate the hash of file');
+            }).catch((e) => {
+                console.log('Upload Page load Failed : FileHash');
+                res.render('upload');
             });
 
-        }).catch((error) => {
-            console.log('Upload Page load Failed');
-            res.render('login');
-        });
+            // set new path for the file
+            await fileNewPath(preFilePath, newFilePath).then((result) => {
+                console.log('NewPath setup successfully');
+            }).catch((e) => {
+                console.log('Upload Page load Failed : PathNew');
+                res.render('upload');            
+            });
+
+            
+            // check the file is image or pdf or invalid
+            var isImageOrPdf = '';
+            await checkImagOrPdf(filePathForChecking).then((result) => {
+                console.log('File checkup successfully');
+                isImageOrPdf = result;
+            }).catch((e) => {
+                console.log('File checkup Failed');
+                res.render('upload');
+            });
+            
+
+            // Email and Key from cookies
+            var key = req.cookies.key;
+            var email = req.cookies.email;
+            // console.log('Profile is loading : ' + email +" "+key);
+
+            // find user key for update
+            var uploadedUserKey;
+            var nameOfUser;
+            var keyOfUser;
+            await findUserForRAPC(email, key).then((result) => {
+                var obj = JSON.parse(result);
+                // console.log(obj);
+                uploadedUserKey = obj[0].Key;
+                nameOfUser = obj[0].Record.name;
+                keyOfUser = obj[0].Record.userKey;
+                console.log('Find the primary key from the RAPC table successfully');
+            }).catch((error) => {
+                console.log('Failed to find the primary key');
+                res.render('upload');
+            });
+
+            var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            var today = new Date();
+            var AMPM = (today.getHours() < 12) ? "AM" : "PM";
+            var time = today.getHours() % 12 + ':' + today.getMinutes() + ' ' + AMPM;
+            var date = today.getDate() + ' ' + monthNames[today.getMonth()] + ' ' + today.getFullYear();
+            var dateTime = time + ', ' + date;
+            console.log(dateTime);
+
+            // marge all the files for a transaction
+            UserIP = {
+                key : 'IntellectualProperty'+latestHashFile,
+                name : nameOfUser,
+                email : email,
+                keyUser : keyOfUser,
+                fileName : fileName,
+                filePath : proFilePath,
+                fileHash: latestHashFile,
+                dateTime : dateTime,
+                isImageOrPdf: isImageOrPdf
+            };
+            UserIP.key = crypto.createHash('sha256').update(UserIP.key).digest("base64");
+
+            // send file from server to block-chain
+            await sendIP(UserIP).then((result) => {
+                console.log('send file from server to block-chain successfully');
+            }).catch((error) => {
+                console.log('Failed to send file from server to block-chain');
+                res.render('upload');
+            });  
+
+            // Increment the postCnt by 1 
+            await setValueReactAndPostDB(email, uploadedUserKey, 'post').then((result) => {
+                console.log('Increment the postCnt by 1 successfully');
+                res.render('upload');
+            }).catch((e) => {
+                console.log('Increment the postCnt by 1  Failed');
+                res.render('upload');
+            });
+        // });
     }
 });
 
-
+////////////////////////////////////////////////////////////// File Upload /////////////////////////////////////
 
 
 

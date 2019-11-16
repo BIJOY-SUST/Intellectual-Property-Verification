@@ -202,9 +202,10 @@
     <!-- Creating Gap-->
 
     <!-- Full Page Intro -->
-    <div class="" style="height: 84%; padding-left: 120px; padding-right:120px;padding-top:30px; padding-down: 100px">
+    <div class="" style="height: 80%; padding-left: 120px; padding-right:120px;padding-top:30px; padding-down: 100px">
 
         <div class="card" style="height: 100%;">
+
             <div class="card-body">
                 <div class="row">
                     <div class="col-4">
@@ -228,6 +229,7 @@
 
                     </div>
                     <div class="col-8" style="padding: 30px;">
+
                         <h5>
                             <h3><b>{{ name }}</b></h3>
                         </h5>
@@ -236,32 +238,40 @@
                         </h5>
                         <h10><b>Shahjalal University of Science and Technology, Sylhet.</b></h10>
                         <br>
-                        <br>
-                        <!-- Card -->
-                        <div class="card">                        
-                            <!-- Card content -->
-                            <div class="card-body">
-                                <h5 style="font-weight: bold; text-align: center ;">Public Key </h5>
-                                <h5>
-                                    <small style="color: black">{{ publickey }}</small></b>
-                                </h5>
-                            </div>
-                        </div>
-                        <!-- Card -->
-                        <br>
-                        <h4>Intellectual Property Count</h4>
+                        <hr class='hrItem' />
+
+                        <h5 style="font-weight: bold;">Intellectual Property Count</h5>
                         <ul>
                             <li><b>Images :</b> 10</li>
                             <li><b>Document :</b> 20</li>
                         </ul>
-                        <hr class='hrItem' />
-                        <h3>Images <a href="#"><i class="far fa-hand-point-right"></i><small>see all</small></a> </h3>
+
+                        <h5><i class="fas fa-dot-circle"></i> Images <a href="#"> <i class="far fa-hand-point-right"></i><small>see all</small></a> </h5>
+                        <h5><i class="fas fa-dot-circle"></i> Documents <a href="#"><i class="far fa-hand-point-right"></i><small>see all</small></a> </h5>
+
+                        <!-- Card -->
+                        {{!-- <div1 class="card">                         --}}
+                            <!-- Card content -->
+                            {{!-- <div class="card-body"> --}}
+                                <h5 style="font-weight: bold; text-align: center  ;" class="list-group-item-dark">Public Key </h5>
+                                <hr>
+                                {{!-- <h5> --}}
+                                <ul class="list-group">
+                                <li class="list-group-item ipPeopleList">{{ publickey }}                        
+                                </li>
+                                    {{!-- <small style="color: black">{{ publickey }}</small></b> --}}
+                                {{!-- </h5> --}}
+                            {{!-- </div> --}}
+                        {{!-- </div1> --}}
+
+                        <!-- Card -->
+                        {{!-- <h3>Images <a href="#"><i class="far fa-hand-point-right"></i><small>see all</small></a> </h3> --}}
                         {{!-- <p>Image rights are the expression of a personality in the public domain. The provision of image
                             rights in law enables the
                             definition, value, commercial exploitation and protection of image rights associated with a
                             person.</p> --}}
 
-                        <h3>Document <a href="#"><i class="far fa-hand-point-right"></i><small>see all</small></a></h3>
+                        {{!-- <h3>Document <a href="#"><i class="far fa-hand-point-right"></i><small>see all</small></a></h3> --}}
                         {{!-- <p>An intellectual property document is a document which proves intellectual property rights. It
                             is a legal document
                             stating the ownership or rights for intellectual property. The following are valid
@@ -279,6 +289,7 @@
     </div>
     <!-- Full Page Intro -->
     <div>
+        <br>
         <br>
     </div>
     <!--Footer-->

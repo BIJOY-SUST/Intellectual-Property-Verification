@@ -15,7 +15,7 @@ async function main(email,key) {
         // Create a new file system based wallet for managing identities.
         const walletPath = path.join(process.cwd(), 'wallet');
         const wallet = new FileSystemWallet(walletPath);
-        console.log(`Wallet path(profileInformation): ${walletPath}`);
+        console.log(`Wallet path(findUserForRAPC): ${walletPath}`);
 
         // Check to see if we've already enrolled the user.
         const userExists = await wallet.exists(email);
@@ -42,7 +42,7 @@ async function main(email,key) {
         // const result = await contract.evaluateTransaction('loginUser', user.email, user.password);
         // const result = await contract.evaluateTransaction('queryCar', 'CAR4');
         // console.log(email+ ' ' + key);
-        const result = await contract.evaluateTransaction('profileInformation', key);
+        const result = await contract.evaluateTransaction('findUserForRAPC', email, key);
         // console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
         return result.toString();
 

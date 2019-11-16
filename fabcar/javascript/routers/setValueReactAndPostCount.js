@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /*
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,13 +10,13 @@ const path = require('path');
 
 const ccpPath = path.resolve(__dirname, '..', '..', '..', 'first-network', 'connection-org1.json');
 
-async function main(email,key) {
+async function main(email, rapcKey,flag) {
     try {
 
         // Create a new file system based wallet for managing identities.
         const walletPath = path.join(process.cwd(), 'wallet');
         const wallet = new FileSystemWallet(walletPath);
-        console.log(`Wallet path(profileInformation): ${walletPath}`);
+        console.log(`Wallet path(setValueSendReactAndPostCount): ${walletPath}`);
 
         // Check to see if we've already enrolled the user.
         const userExists = await wallet.exists(email);
@@ -35,22 +36,21 @@ async function main(email,key) {
         // Get the contract from the network.
         const contract = network.getContract('fabcar');
 
-        // Evaluate the specified transaction.
-        // queryCar transaction - requires 1 argument, ex: ('queryCar', 'CAR4')
-        // queryAllCars transaction - requires no arguments, ex: ('queryAllCars')
-        // const result = await contract.evaluateTransaction('queryAllCars');
-        // const result = await contract.evaluateTransaction('loginUser', user.email, user.password);
-        // const result = await contract.evaluateTransaction('queryCar', 'CAR4');
-        // console.log(email+ ' ' + key);
-        const result = await contract.evaluateTransaction('profileInformation', key);
-        // console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
-        return result.toString();
+        // Submit the specified transaction.
+        // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
+        // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
+        console.log(email + ' is going to blockchain ');
+        await contract.submitTransaction('ValueReactAndPostUser',rapcKey,flag);
+        // await contract.submitTransaction('createCar', 'CAR15', 'Honda', 'Accord', 'Black', 'BIJOY');
 
+        console.log('Transaction has been submitted');
+
+        // Disconnect from the gateway.
+        await gateway.disconnect();
 
     } catch (error) {
-        console.error(`Failed to evaluate transaction: ${error}`);
+        console.error(`Failed to submit transaction: ${error}`);
         process.exit(1);
-        return error;
     }
 }
 

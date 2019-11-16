@@ -1,3 +1,6 @@
+/* eslint-disable no-constant-condition */
+/* eslint-disable no-useless-escape */
+/* eslint-disable curly */
 /* eslint-disable no-unused-vars */
 /* eslint-disable eqeqeq */
 /* eslint-disable no-redeclare */
@@ -187,7 +190,7 @@ var Dropzone = function (_Emitter) {
          * How many file uploads to process in parallel (See the
          * Enqueuing file uploads* documentation section for more info)
          */
-        parallelUploads: 2,
+        parallelUploads: 1,
 
         /**
          * Whether to send multiple files in one request. If
@@ -317,6 +320,7 @@ var Dropzone = function (_Emitter) {
         /**
          * Can be used to limit the maximum number of files that will be handled by this Dropzone
          */
+        // maxFiles: 12,
         maxFiles: null,
 
         /**
