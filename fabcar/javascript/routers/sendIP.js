@@ -40,7 +40,7 @@ async function main(user) {
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
         console.log(user.name + ' is going to blockchain');
-        await contract.submitTransaction('sendIP', user.key, user.name, user.email, user.keyUser, user.fileName, user.filePath, user.fileHash, user.dateTime, user.isImageOrPdf);
+        await contract.submitTransaction('sendIP', user.key, user.name, user.email, user.keyUser, user.fileName, user.filePath, user.fileHash, user.dateTime, user.isImageOrPdf, user.isImage, user.isPdf);
         // await contract.submitTransaction('createCar', 'CAR15', 'Honda', 'Accord', 'Black', 'BIJOY');
 
         console.log('Transaction has been submitted');

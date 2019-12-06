@@ -104,7 +104,10 @@
             background-color: green;
             color: black;
         }
-
+        .ipPeopleList{
+            width: 660px;
+            text-align: left;
+        }
         .ipPeopleList:hover {
             background-color: #C0C0C0;
             color: black;
@@ -218,13 +221,24 @@
                                     <button type="submit" style="display: none;" value="Search"></button>
                                 </form>
                             </div>
-                            <a href="#" style="color: black;">
-                                <li class="list-group-item ipPeopleList">Satabdi Das
-                                    <span class="float-right px-1 text-white bg-success border rounded">10 IP</span>
-
-                                </li>
-                            </a>
-                            <a href="#" style="color: black;">
+                            {{#each peopleList}}
+                                <form name="friend" action="/otherProfile" method="POST">
+                                    <input name="friendKey" type="text" value="{{this.Record.userKey}}" hidden>
+                                    {{!-- <a href=""  style="color: black;"> --}}
+                                    <button type="submit" class="list-group-item ipPeopleList">
+                                        {{!-- <li class="list-group-item ipPeopleList"> --}}
+                                        {{this.Record.name}}
+                                
+                                        <span class="float-right px-1 text-white bg-success border rounded">{{this.Record.postCnt}} IP</span>
+                                
+                                        {{!-- </li> --}}
+                                    </button>
+                                
+                                
+                                    {{!-- </a> --}}
+                                </form>
+                            {{/each}}
+                            {{!-- <a href="#" style="color: black;">
                                 <li class="list-group-item ipPeopleList">Syeda Jannatus Saba
                                     <span class="float-right px-1 text-white bg-success border rounded">10 IP</span>
                                 </li>
@@ -283,7 +297,7 @@
                                 <li class="list-group-item ipPeopleList">Archi Arani Basak
                                     <span class="float-right px-1 text-white bg-success border rounded">10 IP</span>
                                 </li>
-                            </a>
+                            </a> --}}
                             {{!-- <br>
                             <a href="#" class="btn btn-primary btn-lg btn-block"
                                 style="height: 45px; font-size: small;">View All</a> --}}

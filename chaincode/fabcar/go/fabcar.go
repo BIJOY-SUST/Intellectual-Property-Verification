@@ -82,7 +82,9 @@ type IP struct {
 	NewFilePath 	string `json:"newFilePath"`
 	LatestHashFile 	string `json:"latestHashFile"`
 	DateTime	string `json:"dateTime"`
-	IsImageOrPdf 	string `json:"isImage"`
+	IsImageOrPdf 	string `json:"isImageOrPdf"`
+	IsImage		string `json:"isImage"`
+	IsPdf		string `json:"isPdf"`	
 }
 
 
@@ -127,7 +129,14 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.ValueReactAndPostUser(APIstub, args)
 	} else if function == "sendIP" {
 		return s.sendIP(APIstub, args)
+	} else if function == "topPeopleIP" {
+		return s.topPeopleIP(APIstub, args)
+	} else if function == "findPostCnt" {
+		return s.findPostCnt(APIstub, args)
+	} else if function == "allFriendPost" {
+		return s.allFriendPost(APIstub, args)
 	} 
+
 	return shim.Error("Invalid Smart Contract function name.")
 }
 
@@ -337,11 +346,11 @@ func (s *SmartContract) findUserForRAPC(APIstub shim.ChaincodeStubInterface, arg
 		return shim.Error("Incorrect number of arguments. Expecting 2")
 	}
 
-	var useremail string = args[0]
+	// var useremail string = args[0]
 	var key string = args[1]
 	
 	
-	var queryString = fmt.Sprintf("{\"selector\":{\"tableName\":\"RAPC\",\"email\":\"%s\",\"userKey\":\"%s\"}}", useremail, key)
+	var queryString = fmt.Sprintf("{\"selector\":{\"tableName\":\"RAPC\",\"userKey\":\"%s\"}}", key)
 
 	resultsIterator, _ := APIstub.GetQueryResult(queryString) //skip the errors
 	//skipping error handling here :p
@@ -436,8 +445,8 @@ func (s *SmartContract) ValueReactAndPostUser(APIstub shim.ChaincodeStubInterfac
 
 func (s *SmartContract) sendIP(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
-	if len(args) != 9 {
-		return shim.Error("Incorrect number of arguments. Expecting 8")
+	if len(args) != 11 {
+		return shim.Error("Incorrect number of arguments. Expecting 11")
 	}
 	var docType string = "IP"
 	var key string = args[0]
@@ -449,10 +458,12 @@ func (s *SmartContract) sendIP(APIstub shim.ChaincodeStubInterface, args []strin
 	var filehash string = args[6]	
 	var datetime string = args[7]
 	var isImageOrPdf string = args[8]
+	var isImage string = args[9]
+	var isPdf string = args[10]
 
 	//fmt.Println("User Name : ",name)
 	
-	var ip = IP{TableName : docType,Key : key,UserKey : userkey,Name : name,Email : email,FileName : filename, NewFilePath : filepath , LatestHashFile : filehash, DateTime : datetime, IsImageOrPdf : isImageOrPdf  }
+	var ip = IP{TableName : docType,Key : key,UserKey : userkey,Name : name,Email : email,FileName : filename, NewFilePath : filepath , LatestHashFile : filehash, DateTime : datetime, IsImageOrPdf : isImageOrPdf,IsImage : isImage, IsPdf : isPdf  }
 
 	// var car = Car{Make: args[1], Model: args[2], Colour: args[3], Owner: args[4]}
 	
@@ -461,6 +472,150 @@ func (s *SmartContract) sendIP(APIstub shim.ChaincodeStubInterface, args []strin
 	APIstub.PutState(key, ipAsBytes)
 
 	return shim.Success(nil)
+}
+
+func (s *SmartContract) topPeopleIP(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+
+	if len(args) != 1 {
+		return shim.Error("Incorrect number of arguments. Expecting 1")
+	}
+
+	// var useremail string = args[0]
+	
+	
+	var queryString = fmt.Sprintf("{\"selector\":{\"tableName\":\"RAPC\"}}") // the query select all people
+
+	resultsIterator, _ := APIstub.GetQueryResult(queryString) //skip the errors
+	//skipping error handling here :p
+
+	defer resultsIterator.Close()
+
+	// buffer is a JSON array containing QueryResults
+	var buffer bytes.Buffer
+	buffer.WriteString("[")
+
+	var bArrayMemberAlreadyWritten = false
+	for resultsIterator.HasNext() {
+		queryResponse, err := resultsIterator.Next()
+		if err != nil {
+			return shim.Error(err.Error())
+		}
+		// Add a comma before array members, suppress it for the first array member
+		if bArrayMemberAlreadyWritten == true {
+			buffer.WriteString(",")
+		}
+		buffer.WriteString("{\"Key\":")
+		buffer.WriteString("\"")
+		buffer.WriteString(queryResponse.Key)
+		buffer.WriteString("\"")
+
+		buffer.WriteString(", \"Record\":")
+		// Record is a JSON object, so we write as-is
+		buffer.WriteString(string(queryResponse.Value))
+		buffer.WriteString("}")
+		bArrayMemberAlreadyWritten = true
+	}
+	buffer.WriteString("]")
+
+	fmt.Printf("- queryAllCars:\n%s\n", buffer.String())
+
+	return shim.Success(buffer.Bytes())
+}
+
+func (s *SmartContract) allFriendPost(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+
+	if len(args) != 1 {
+		return shim.Error("Incorrect number of arguments. Expecting 1")
+	}
+
+	// var useremail string = args[0]
+	
+	
+	var queryString = fmt.Sprintf("{\"selector\":{\"tableName\":\"IP\"}}") // the query select all people
+
+	resultsIterator, _ := APIstub.GetQueryResult(queryString) //skip the errors
+	//skipping error handling here :p
+
+	defer resultsIterator.Close()
+
+	// buffer is a JSON array containing QueryResults
+	var buffer bytes.Buffer
+	buffer.WriteString("[")
+
+	var bArrayMemberAlreadyWritten = false
+	for resultsIterator.HasNext() {
+		queryResponse, err := resultsIterator.Next()
+		if err != nil {
+			return shim.Error(err.Error())
+		}
+		// Add a comma before array members, suppress it for the first array member
+		if bArrayMemberAlreadyWritten == true {
+			buffer.WriteString(",")
+		}
+		buffer.WriteString("{\"Key\":")
+		buffer.WriteString("\"")
+		buffer.WriteString(queryResponse.Key)
+		buffer.WriteString("\"")
+
+		buffer.WriteString(", \"Record\":")
+		// Record is a JSON object, so we write as-is
+		buffer.WriteString(string(queryResponse.Value))
+		buffer.WriteString("}")
+		bArrayMemberAlreadyWritten = true
+	}
+	buffer.WriteString("]")
+
+	fmt.Printf("- queryAllCars:\n%s\n", buffer.String())
+
+	return shim.Success(buffer.Bytes())
+}
+
+func (s *SmartContract) findPostCnt(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+
+	if len(args) != 1 {
+		return shim.Error("Incorrect number of arguments. Expecting 1")
+	}
+
+	var useremail string = args[0]
+	
+	
+	var queryString = fmt.Sprintf("{\"selector\":{\"tableName\":\"RAPC\",\"email\":\"%s\"}}", useremail)
+
+	resultsIterator, _ := APIstub.GetQueryResult(queryString) //skip the errors
+	//skipping error handling here :p
+
+	defer resultsIterator.Close()
+
+	// buffer is a JSON array containing QueryResults
+	var buffer bytes.Buffer
+	buffer.WriteString("[")
+
+	var bArrayMemberAlreadyWritten = false
+	for resultsIterator.HasNext() {
+		queryResponse, err := resultsIterator.Next()
+		if err != nil {
+			return shim.Error(err.Error())
+		}
+		// Add a comma before array members, suppress it for the first array member
+		if bArrayMemberAlreadyWritten == true {
+			buffer.WriteString(",")
+		}
+		buffer.WriteString("{\"Key\":")
+		buffer.WriteString("\"")
+		buffer.WriteString(queryResponse.Key)
+		buffer.WriteString("\"")
+
+		buffer.WriteString(", \"Record\":")
+		// Record is a JSON object, so we write as-is
+		buffer.WriteString(string(queryResponse.Value))
+		buffer.WriteString("}")
+		bArrayMemberAlreadyWritten = true
+	}
+	buffer.WriteString("]")
+
+	fmt.Printf("- queryAllCars:\n%s\n", buffer.String())
+
+	return shim.Success(buffer.Bytes())
 }
 
 // The main function is only relevant in unit test mode. Only included here for completeness.

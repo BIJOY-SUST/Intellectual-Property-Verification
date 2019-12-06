@@ -211,7 +211,7 @@
                     <div class="col-4">
                         <figure class="figure" style="padding: 30px;">
                             <img src="{{ profilePic }}"
-                                class="figure-img img-fluid z-depth-1" alt="..." style="width: 350px">
+                                class="figure-img img-fluid z-depth-1" alt="..." style="width: 350px;height:250px;">
                             {{!-- <figcaption class="figure-caption">A caption for the above image.</figcaption> --}}
                         </figure>
                         <p style="text-align: center;"><b> CONTACT INFO </b></p>
@@ -240,20 +240,31 @@
                         <br>
                         <hr class='hrItem' />
 
-                        <h5 style="font-weight: bold;">Intellectual Property Count</h5>
-                        <ul>
+                        <h5 style="font-weight: bold;">Total Intellectual Property : {{postCnt}}</h5>
+                        {{!-- <ul>
                             <li><b>Images :</b> 10</li>
                             <li><b>Document :</b> 20</li>
-                        </ul>
-
-                        <h5><i class="fas fa-dot-circle"></i> Images <a href="#"> <i class="far fa-hand-point-right"></i><small>see all</small></a> </h5>
-                        <h5><i class="fas fa-dot-circle"></i> Documents <a href="#"><i class="far fa-hand-point-right"></i><small>see all</small></a> </h5>
+                        </ul> --}}
+                        <br>
+                        <h5 style="font-weight: bold; text-align: center  ;" class="list-group-item-dark">Public Key </h5>
+                        
+                        <h5>
+                            <small style="color: black">
+                                When a user initiates his/her first-ever transaction with bitcoin or altcoins, a unique pair of public key and private
+                                key is created. Each of the keys are a long string of alphanumeric characters that help to keep a user’s holdings secure
+                                in the digital ecosystem. The private key is known to the user alone and serves as the user’s digital ID. The private
+                                key authorizes the user to spend, withdraw, transfer or carry out any other transaction from his or her account. A
+                                sophisticated algorithm is applied to the private key to generate the public key, and both keys are stored in a digital
+                                wallet.
+                            </small></b>
+                        </h5>
+                        {{!-- <h5><i class="fas fa-dot-circle"></i> Images <a href="#"> <i class="far fa-hand-point-right"></i><small>see all</small></a> </h5>
+                        <h5><i class="fas fa-dot-circle"></i> Documents <a href="#"><i class="far fa-hand-point-right"></i><small>see all</small></a> </h5> --}}
 
                         <!-- Card -->
                         {{!-- <div1 class="card">                         --}}
                             <!-- Card content -->
                             {{!-- <div class="card-body"> --}}
-                                <h5 style="font-weight: bold; text-align: center  ;" class="list-group-item-dark">Public Key </h5>
                                 <hr>
                                 {{!-- <h5> --}}
                                 <ul class="list-group">

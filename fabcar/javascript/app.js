@@ -18,6 +18,10 @@ const setReactAndPostDB = require('./routers/setReactAndPostCount');
 const setValueReactAndPostDB = require('./routers/setValueReactAndPostCount');
 const findUserForRAPC = require('./routers/findUserForRAPC');
 const sendIP = require('./routers/sendIP');
+const topPeopleIP = require('./routers/topPeopleIP');
+const findPostCnt = require('./routers/findPostCnt');
+const allFriendPost = require('./routers/allFriendPost');
+
 
 
 const express = require('express');
@@ -64,32 +68,51 @@ var IPCount = 0;
 //  index page
 app.get('/', async function (req, res) {
     // res.send('Hello World');
-
     if (req.cookies.token === undefined) res.render('index');
     else {
         var key = req.cookies.key;
         var email = req.cookies.email;
+        var name = '';
+        var profilePic = '';
         // console.log('Profile is loading : ' + email +" "+key);
         await profileInformation(email, key).then((result) => {
-            // console.log('Astese jinispati');
-            // console.log(result);
-            // console.log(result.length);
             var obj = JSON.parse(result);
-            // console.log(obj);
-            var name = obj.name;
-            var profilePic = obj.newFilePath;
-            var email = obj.email;
+            // console.log(peopleList);
+            name = obj.name;
+            profilePic = obj.newFilePath;
 
-            res.render('home', {
-                'profilePic': profilePic
-            });
+            console.log('Your profile pic retrieve from the blockchain');
 
         }).catch((error) => {
-            console.log('Upload Page load Failed');
-            res.render('login');
+            console.log('View Profile Failed');
+            res.render('index');
+        });
+
+        await topPeopleIP(email).then((result) => {
+            console.log('now ready , the list is coming');
+            var postObj = JSON.parse(result);
+            // console.log(postObj);
+
+            var loveObj = postObj;
+            postObj.sort((a, b) => (a.Record.postCnt < b.Record.postCnt) ? 1 : -1);
+            var newPostObj = postObj.slice(0, 7);
+
+            loveObj.sort((a, b) => (a.Record.loveCnt < b.Record.loveCnt) ? 1 : -1);
+            var newLoveObj = loveObj.slice(0, 8);
+
+
+            res.render('home', {
+                'name': name,
+                'email': email,
+                'profilePic': profilePic,
+                'newPostObj': newPostObj,
+                'newLoveObj': newLoveObj
+            });
+        }).catch((e) => {
+            console.log('Request Failed');
+            res.render('index');
         });
     }
-    // res.render('index');
 });
 
 ////////////////////////////////////////////////////// Index //////////////////////////////////////////////////////////
@@ -116,27 +139,7 @@ app.get('/logout', (req, res) => {
 app.get('/login', async function (req, res) {
     if (req.cookies.token === undefined) res.render('login');
     else {
-        var key = req.cookies.key;
-        var email = req.cookies.email;
-        // console.log('Profile is loading : ' + email +" "+key);
-        await profileInformation(email, key).then((result) => {
-            // console.log('Astese jinispati');
-            // console.log(result);
-            // console.log(result.length);
-            var obj = JSON.parse(result);
-            // console.log(obj);
-            var name = obj.name;
-            var profilePic = obj.newFilePath;
-            var email = obj.email;
-
-            res.render('home', {
-                'profilePic': profilePic
-            });
-
-        }).catch((error) => {
-            console.log('Upload Page load Failed');
-            res.render('login');
-        });
+        redirect('home');
     }
 });
 
@@ -149,103 +152,221 @@ app.post('/login', urlencodedParser, async function (req, res) {
     // console.log(user.password);
     user.password = crypto.createHash('sha256').update(user.password).digest("base64");
     // console.log(user.password);
+    var key, token, profilePic,name, email;
     await loginUserDB(user).then((result) => {
         // console.log(result);
         // console.log(result.length);
         var obj = JSON.parse(result);
-
         if(obj[0].Record.email === user.email && obj[0].Record.passwordHash === user.password){
             console.log('Login successfully');
 
-            var key = obj[0].Key;
-            var token = obj[0].Record.token;
-            var profilePic = obj[0].Record.newFilePath;
-            var email = obj[0].Record.email;
+            key = obj[0].Key;
+            token = obj[0].Record.token;
+            profilePic = obj[0].Record.newFilePath;
+            email = obj[0].Record.email;
+            name = obj[0].Record.name;
 
             res.cookie('token',token);
             res.cookie('key',key);
             res.cookie('email',email);
-
-            res.render('home',{
-                'email': email,
-                'profilePic':profilePic
-            });
         }
         else{
             console.log('Login Failed');
-            res.render('login');
+            res.render('index');
         }
         // res.send(result);
         // res.render('home');
     }).catch((error) => {
         console.log('Login Failed');
-        res.render('login');
+        res.render('index');
     });
+
+
+    var friendPostAll;
+    await allFriendPost(email).then((result)=>{
+        friendPostAll = JSON.parse(result);
+        console.log('collected all friend post');
+    }).catch((e)=>{
+        console.log('login failed');
+        res.render('index');
+    });
+
+
+    await topPeopleIP(email).then((result) => {
+        console.log('now ready , the list is coming');
+        var postObj = JSON.parse(result);
+        // console.log(postObj);
+
+        var loveObj = postObj;
+        postObj.sort((a, b) => (a.Record.postCnt < b.Record.postCnt) ? 1 : -1);
+        var newPostObj = postObj.slice(0, 7);
+
+        loveObj.sort((a, b) => (a.Record.loveCnt < b.Record.loveCnt) ? 1 : -1);
+        var newLoveObj = loveObj.slice(0, 8);
+
+        res.render('home', {
+            'name': name,
+            'email': email,
+            'profilePic': profilePic,
+            'newPostObj': newPostObj,
+            'newLoveObj': newLoveObj,
+            'friendPostAll':friendPostAll
+        });
+    }).catch((e) => {
+        console.log('Request Failed');
+        res.render('index');
+    });    
+
 });
 
 ////////////////////////////////////////////////////// Log In /////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////// Profile ////////////////////////////////////////////////////////
 
-app.get('/profile', async function (req, res) {
+app.post('/otherProfile', async function (req, res) {
     if (req.cookies.token === undefined) res.render('login');
     else{
+        const user = {
+            key: req.body.friendKey
+        };
+
+        // my own information
+        var keyOwn = req.cookies.key;
+        var emailOwn = req.cookies.email;
+        var nameOwn, publicKeyOwn,profilePicOwn;
+        // console.log('Profile is loading : ' + email +" "+key);
+        await profileInformation(emailOwn, keyOwn).then((result) => {
+            console.log('Your information is coming');
+            var amarObj = JSON.parse(result);
+            // console.log(amarObj);
+            nameOwn = amarObj.name;
+            profilePicOwn = amarObj.newFilePath;
+            publicKeyOwn = amarObj.publickey;
+        }).catch((error) => {
+            console.log('View Friend Profile Failed');
+            res.render('index');
+        });
+
+
+        // friend profile information
+        var obj;
+        var friendEmail='';
+        await profileInformation(emailOwn, user.key).then((result) => {
+            console.log('Your information is coming');
+            obj = JSON.parse(result);
+            friendEmail = obj.email;
+            // console.log(obj);
+        }).catch((error) => {
+            console.log('View Friend Profile Failed');
+            res.render('index');
+        });
+
+        // friend post count
+        await findPostCnt(emailOwn, friendEmail).then((result) => {
+            console.log('now ready , the list is coming');
+            var objForPost = JSON.parse(result);
+
+            var postCnt = objForPost[0].Record.postCnt;
+
+            res.render('friendProfile', {
+                'name': nameOwn,
+                'email': emailOwn,
+                'profilePic': profilePicOwn,
+                'friendInfo': obj,
+                'postCnt': postCnt                
+            });
+
+        }).catch((e) => {
+            console.log('Request Failed');
+            res.render('index');
+        });   
+
+    }
+});
+
+app.get('/profile', async function (req, res) {
+    if (req.cookies.token === undefined) res.render('login');
+    else {
+
         var key = req.cookies.key;
         var email = req.cookies.email;
+        var publicKey,profilePic,name;
         // console.log('Profile is loading : ' + email +" "+key);
-        await profileInformation(email,key).then((result) => {
-            // console.log('Astese jinispati');
-            // console.log(result);
-            // console.log(result.length);
+        await profileInformation(email, key).then((result) => {
+            console.log('Your information is coming');
+
             var obj = JSON.parse(result);
             // console.log(obj);
-            var name = obj.name;
-            var profilePic = obj.newFilePath;
-            var email = obj.email;
-            var publicKey = obj.publickey;
-            
+            name = obj.name;
+            profilePic = obj.newFilePath;
+            publicKey = obj.publickey;
+        }).catch((error) => {
+            console.log('View Profile Failed');
+            res.render('index');
+        });
+
+        await findPostCnt(email , email).then((result) => {
+            console.log('now ready , the list is coming');
+            var obj = JSON.parse(result);
+
+            var postCnt = obj[0].Record.postCnt;
 
             res.render('profile', {
                 'name': name,
                 'email': email,
-                'publickey':publicKey,
-                'profilePic': profilePic
+                'publickey': publicKey,
+                'profilePic': profilePic,
+                'postCnt':postCnt
             });
 
-        }).catch((error) => {
-            console.log('View Profile Failed');
-            res.render('login');
-        });
+        }).catch((e) => {
+            console.log('Request Failed');
+            res.render('index');
+        });         
+
     }
 });
-////////////////////////////////////////////////////// View People ///////////////////////////////////////////////////
 
+////////////////////////////////////////////////////// View People ///////////////////////////////////////////////////
+// view all people in this network
 app.get('/viewAllPeople', async function (req, res) {
     if (req.cookies.token === undefined) res.render('login');
     else{
         var key = req.cookies.key;
         var email = req.cookies.email;
+        var name = '';
+        var profilePic = '';
         // console.log('Profile is loading : ' + email +" "+key);
         await profileInformation(email,key).then((result) => {
-            // console.log('Astese jinispati');
-            // console.log(result);
-            // console.log(result.length);
-            var obj = JSON.parse(result);
-            // console.log(obj);
-            var name = obj.name;
-            var profilePic = obj.newFilePath;
-            var email = obj.email;
+             var obj = JSON.parse(result);
+            // console.log(peopleList);
+             name = obj.name;
+             profilePic = obj.newFilePath;
 
-            res.render('topPeopleIP', {
-                'name': name,
-                'email': email,
-                'profilePic': profilePic
-            });
+             console.log('Your profile pic retrieve from the blockchain');
 
         }).catch((error) => {
             console.log('View Profile Failed');
-            res.render('login');
+            res.render('index');
         });
+
+        await topPeopleIP(email).then((result)=>{
+            console.log('now ready , the list is coming');
+            var obj = JSON.parse(result);
+            obj.sort((a, b) => (a.Record.postCnt < b.Record.postCnt) ? 1 : -1);
+            // var newObj = obj.slice(0,5);
+            // console.log(obj);
+            res.render('topPeopleIP', {
+                'name': name,
+                'email': email,
+                'profilePic': profilePic,
+                'peopleList': obj
+            });
+        }).catch((e)=>{
+            console.log('Request Failed');
+            res.render('index');
+        });
+
     }
 });
 ////////////////////////////////////////////////////// Profile ////////////////////////////////////////////////////////
@@ -258,27 +379,7 @@ app.get('/viewAllPeople', async function (req, res) {
 app.get('/register', async function (req, res) {
     if (req.cookies.token === undefined) res.render('register');
     else{
-        var key = req.cookies.key;
-        var email = req.cookies.email;
-        // console.log('Profile is loading : ' + email +" "+key);
-        await profileInformation(email, key).then((result) => {
-            // console.log('Astese jinispati');
-            // console.log(result);
-            // console.log(result.length);
-            var obj = JSON.parse(result);
-            // console.log(obj);
-            var name = obj.name;
-            var profilePic = obj.newFilePath;
-            var email = obj.email;
-
-            res.render('home', {
-                'profilePic': profilePic
-            });
-
-        }).catch((error) => {
-            console.log('Upload Page load Failed');
-            res.render('login');
-        });
+        res.redirect('home');
     }
 });
 
@@ -447,14 +548,14 @@ app.post('/register', upload.single('myImage'), urlencodedParser , async functio
         console.log('hashFile = '+ hashFile);
     }).catch((e)=>{
         console.log(e);
-        res.render('register');
+        res.render('index');
     });
     await fileNewPath(preFilePath, newFilePath).then((result) => {
         console.log('hashFile2 = '+latestHashFile);
         // console.log(result);
     }).catch((e) => {
         console.log(e);
-        res.render('register');    
+        res.render('index');    
     });
 
     await createUser(user.email);
@@ -469,14 +570,14 @@ app.post('/register', upload.single('myImage'), urlencodedParser , async functio
         publicKey = result.second;
     }).catch((e) => {
         console.log(e);
-        res.render('register');        
+        res.render('index');        
     });
 
     await setReactAndPostDB(RAPC.key, RAPC.userKey, RAPC.name, RAPC.email).then((result) =>{
         console.log('Set successfully');
     }).catch((e)=>{
         console.log('Setting Failed');
-        res.render('register');
+        res.render('index');
     });
 
 
@@ -485,7 +586,7 @@ app.post('/register', upload.single('myImage'), urlencodedParser , async functio
         res.render('login');
     }).catch((error) => {
         console.log('Failed to register successfully');
-        res.render('register');
+        res.render('index');
     });  
 });
 
@@ -496,27 +597,60 @@ app.post('/register', upload.single('myImage'), urlencodedParser , async functio
 app.get('/home',async function (req, res) {
     if (req.cookies.token === undefined) res.render('login');
     else{
+
         var key = req.cookies.key;
         var email = req.cookies.email;
+        var name = '';
+        var profilePic = '';
         // console.log('Profile is loading : ' + email +" "+key);
         await profileInformation(email, key).then((result) => {
-            // console.log('Astese jinispati');
-            // console.log(result);
-            // console.log(result.length);
             var obj = JSON.parse(result);
-            // console.log(obj);
-            var name = obj.name;
-            var profilePic = obj.newFilePath;
-            var email = obj.email;
+            // console.log(peopleList);
+            name = obj.name;
+            profilePic = obj.newFilePath;
 
-            res.render('home', {
-                'profilePic': profilePic
-            });
+            console.log('Your profile pic retrieve from the blockchain');
 
         }).catch((error) => {
-            console.log('Upload Page load Failed');
-            res.render('login');
+            console.log('View Profile Failed');
+            res.render('index');
         });
+
+
+        var friendPostAll;
+        await allFriendPost(email).then((result) => {
+            friendPostAll = JSON.parse(result);
+            console.log('collected all friend post');
+        }).catch((e) => {
+            console.log('login failed');
+            res.render('index');
+        });
+
+        await topPeopleIP(email).then((result) => {
+            console.log('now ready , the list is coming');
+            var postObj = JSON.parse(result);
+            // console.log(postObj);
+            
+            var loveObj = postObj;
+            postObj.sort((a, b) => (a.Record.postCnt < b.Record.postCnt) ? 1 : -1);
+            var newPostObj = postObj.slice(0,7);
+
+            loveObj.sort((a, b) => (a.Record.loveCnt < b.Record.loveCnt) ? 1 : -1);
+            var newLoveObj = loveObj.slice(0,8);
+
+            res.render('home', {
+                'name': name,
+                'email': email,
+                'profilePic': profilePic,
+                'newPostObj': newPostObj,
+                'newLoveObj': newLoveObj,
+                'friendPostAll': friendPostAll
+            });
+        }).catch((e) => {
+            console.log('Request Failed');
+            res.render('index');
+        });
+
     }
 });
 
@@ -542,7 +676,7 @@ app.get('/upload', async function (req, res) {
             });
         }).catch((error) => {
             console.log('Upload Page load Failed');
-            res.render('login');
+            res.render('index');
         });
     }
 });
@@ -555,7 +689,7 @@ function checkImagOrPdf(filePathForChecking) {
             if (err) {
                 return reject(err);
             }
-            console.log('Just Check it that it image or pdf');
+            console.log('Just Check that it image or pdf');
             // console.log(result); // { ext: 'jpg', mime: 'image/jpeg' }
 
             if (result.ext === 'jpg' | result.ext === 'png') {
@@ -572,10 +706,11 @@ function checkImagOrPdf(filePathForChecking) {
 }
 
 
+
 app.post('/upload', uploadFile.any()  ,urlencodedParser ,  async function (req, res) {
     if (req.cookies.token === undefined) res.render('login');
     else if(req.files.length === 0){
-        res.render('home');
+        res.redirect('home');
     }
     else{
 
@@ -616,9 +751,13 @@ app.post('/upload', uploadFile.any()  ,urlencodedParser ,  async function (req, 
             
             // check the file is image or pdf or invalid
             var isImageOrPdf = '';
+            var isImage='';
+            var isPdf='';
             await checkImagOrPdf(filePathForChecking).then((result) => {
                 console.log('File checkup successfully');
                 isImageOrPdf = result;
+                if(isImageOrPdf === 'image') isImage = isImageOrPdf;
+                else isPdf = isImageOrPdf;
             }).catch((e) => {
                 console.log('File checkup Failed');
                 res.render('upload');
@@ -664,7 +803,9 @@ app.post('/upload', uploadFile.any()  ,urlencodedParser ,  async function (req, 
                 filePath : proFilePath,
                 fileHash: latestHashFile,
                 dateTime : dateTime,
-                isImageOrPdf: isImageOrPdf
+                isImageOrPdf: isImageOrPdf,
+                isImage: isImage,
+                isPdf: isPdf
             };
             UserIP.key = crypto.createHash('sha256').update(UserIP.key).digest("base64");
 
@@ -687,6 +828,49 @@ app.post('/upload', uploadFile.any()  ,urlencodedParser ,  async function (req, 
         // });
     }
 });
+
+app.post('/allLove', async function (req, res) {
+    if (req.cookies.token === undefined) res.render('login');
+    else {
+        const user = {
+            key: req.body.friendKey
+        };
+        // my own information
+        var keyOwn = req.cookies.key;
+        var emailOwn = req.cookies.email;
+        var keyFriend = user.key;
+        console.log(emailOwn);
+
+        console.log(user.key);
+        console.log('love button click hoise');
+
+
+        // find friend key for update
+        var loveFriendKey;
+        await findUserForRAPC(emailOwn, keyFriend).then((result) => {
+            var obj = JSON.parse(result);
+            // console.log(obj);
+            loveFriendKey = obj[0].Key;
+            console.log('Find the primary key from the RAPC table successfully');
+        }).catch((error) => {
+            console.log('Failed to find the primary key');
+            res.redirect('home');
+        });
+
+        // Increment the loveCnt by 1 
+        await setValueReactAndPostDB(emailOwn, loveFriendKey, 'love').then((result) => {
+            console.log('Increment the loveCnt by 1 successfully');
+            res.redirect('home');
+        }).catch((e) => {
+            console.log('Increment the loveCnt by 1  Failed');
+            res.redirect('home');
+        });
+
+
+    }
+});
+
+
 
 ////////////////////////////////////////////////////////////// File Upload /////////////////////////////////////
 
