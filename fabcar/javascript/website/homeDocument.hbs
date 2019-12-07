@@ -104,16 +104,19 @@
             background-color: green;
             color: black;
         }
-        .ipPeopleList{
+
+        .ipPeopleList {
             width: 295px;
             text-align: left;
         }
-        .ipPeopleList:hover{
-            background-color:#C0C0C0	;
+
+        .ipPeopleList:hover {
+            background-color: #C0C0C0;
             color: black;
         }
-        .react:hover{
-              transform: scale(1.5); 
+
+        .react:hover {
+            transform: scale(1.5);
         }
     </style>
     <style>
@@ -123,7 +126,7 @@
             font-weight: bold;
             font-size: 22px;
         }
-    
+
         .sir .madam {
             visibility: hidden;
             width: 120px;
@@ -137,7 +140,7 @@
             top: 0px;
             left: 102%;
         }
-    
+
         .sir .madam::after {
             content: "";
             position: absolute;
@@ -148,7 +151,7 @@
             border-style: solid;
             border-color: transparent black transparent transparent;
         }
-    
+
         .sir:hover .madam {
             visibility: visible;
             font-size: 15px;
@@ -161,12 +164,13 @@
     <!-- Start your project here-->
 
     <!-- Navbar -->
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar" style="background-color:#21260F	; height:55px" >
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar"
+        style="background-color:#21260F	; height:55px">
         <div class="container">
 
             <!-- Brand -->
 
-            <a class="navbar-brand" href="/home"  style=" font-family: azonix; font-size: 28px; ">
+            <a class="navbar-brand" href="/home" style=" font-family: azonix; font-size: 28px; ">
                 {{!-- <strong>Phoenix</strong> --}}
                 <span class="brand-text">PHO</span><large style="font-size: 35px;">E</large><span class="brand-text">NIX</span>
             </a>
@@ -188,8 +192,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"
-                            target="_blank">My Intellectual Property</a>
+                        <a class="nav-link" href="#" target="_blank">My Intellectual Property</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" target="_blank">
@@ -207,8 +210,8 @@
                 <!-- Right -->
                 <ul class="navbar-nav nav-flex-icons">
                     <li class="nav-item avatar dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
                             <img src="{{ profilePic }}" class="rounded-circle z-depth-0"
                                 style="border-radius: 50%; width: 50px;" alt="avatar image">
                         </a>
@@ -226,7 +229,7 @@
         </div>
     </nav>
     <!-- Navbar -->
-    
+
     <!-- Creating Gap-->
     <div>
         <br>
@@ -246,25 +249,28 @@
                     <!-- Card content -->
                     <div class="card-body">
                         <!-- Title -->
-                        <h5 class="card-title" style="font-weight: bold; text-align: center;">Top Influential People in IP</h5>
+                        <h5 class="card-title" style="font-weight: bold; text-align: center;">Top Influential People in
+                            IP</h5>
                         <hr>
                         <ul class="list-group">
                             {{#each newPostObj}}
-                                <form name="friend"  action="/otherProfile" method="POST">
-                                    <input name="friendKey" type="text" value="{{this.Record.userKey}}" hidden>
-                                    {{!-- <a href=""  style="color: black;"> --}}
-                                        <button type="submit" class="list-group-item ipPeopleList">
-                                        {{!-- <li class="list-group-item ipPeopleList"> --}}
-                                            {{this.Record.name}}
-                                        
-                                            <span class="float-right px-1 text-white bg-success border rounded">{{this.Record.postCnt}} IP</span>
-                                        
-                                        {{!-- </li> --}}
-                                        </button>
+                            <form name="friend" action="/otherProfile" method="POST">
+                                <input name="friendKey" type="text" value="{{this.Record.userKey}}" hidden>
+                                {{!-- <a href=""  style="color: black;"> --}}
+                                <button type="submit" class="list-group-item ipPeopleList">
+                                    {{!-- <li class="list-group-item ipPeopleList"> --}}
+                                    {{this.Record.name}}
+
+                                    <span
+                                        class="float-right px-1 text-white bg-success border rounded">{{this.Record.postCnt}}
+                                        IP</span>
+
+                                    {{!-- </li> --}}
+                                </button>
 
 
-                                    {{!-- </a> --}}
-                                </form>
+                                {{!-- </a> --}}
+                            </form>
                             {{/each}}
                             {{!-- <a href="#" style="color: black;">
                                 <li class="list-group-item ipPeopleList">Syeda Jannatus Saba
@@ -297,12 +303,13 @@
                                 </li>
                             </a> --}}
                             <br>
-                            <a href="/viewAllPeople" class="btn btn-primary btn-lg btn-block" style="height: 45px; font-size: small;">View All</a>
+                            <a href="/viewAllPeople" class="btn btn-primary btn-lg btn-block"
+                                style="height: 45px; font-size: small;">View All</a>
                             {{!-- <button type="button" class="btn btn-primary btn-lg btn-block">Block level button</button> --}}
 
                         </ul>
                     </div>
-                
+
                 </div>
             </div>
 
@@ -314,53 +321,57 @@
                         <!-- Search form -->
                         <div class="active-purple-4 mb-4">
                             <form autocomplete="off">
-                                <input class="form-control" type="text" name="Search" placeholder="Search " aria-label="Search">
+                                <input class="form-control" type="text" name="Search" placeholder="Search "
+                                    aria-label="Search">
                                 <button type="submit" style="display: none;" value="Search"></button>
                             </form>
                         </div>
                         {{#each friendPostAll}}
-                            <li class="list-group-item">
-                                <div style="line-height: 40px;" class="sir">{{this.Record.name}}
-                                    {{!-- <span class="madam">View Profile</span> --}}
-                                    <form name="" action="/otherProfile" method="POST">
-                                        <input name="friendKey" type="text" value="{{this.Record.userKey}}" hidden>
-                                        <button style="line-height: 25px;" type="submit" class="madam">View Profile</button>
-                                
-                                    </form>
-                                
-                                </div>
-                                <h6 class="card-subtitle mb-2 text-muted">{{this.Record.dateTime}}</h6>
-                                
-                                <figure id="myPicture" class="figure" style="padding-top: 30px; padding-left: 115px; ">
-                                    <img src="{{this.Record.newFilePath}}"
-                                        class="figure-img img-fluid z-depth-1" alt="..." style="width: 400px">
-                                </figure>
-                                
-                                {{!-- <center id="myPdf" > <embed src="./IntellectualProperty/CSE-334 DB Project Submission Guideline.pdf" width="600px" height="800px" />
-                                </center> --}}
-
-                              
-                                <form action="/allLove" method="POST">
+                        <li class="list-group-item">
+                            <div style="line-height: 40px;" class="sir">{{this.Record.name}}
+                                {{!-- <span class="madam">View Profile</span> --}}
+                                <form name="" action="/otherProfile" method="POST">
                                     <input name="friendKey" type="text" value="{{this.Record.userKey}}" hidden>
+                                    <button style="line-height: 25px;" type="submit" class="madam">View Profile</button>
 
-                                    <center> <input type="image" class="react" src="./img/like.png" style="width: 35px;"> </center>
-                                    {{!-- <center> <img type="submit" class="react" src="./img/like.png" style="width: 35px;"> </center> --}}
                                 </form>
-                            </li>
-                            <br>
+
+                            </div>
+                            <h6 class="card-subtitle mb-2 text-muted">{{this.Record.dateTime}}</h6>
+
+                            {{!-- <figure id="myPicture" class="figure" style="padding-top: 30px; padding-left: 115px; ">
+                                <img src="#" class="figure-img img-fluid z-depth-1" alt="..."
+                                    style="width: 400px">
+                            </figure> --}}
+
+                            <center id="myPdf" > <embed src="{{this.Record.newFilePath}}" width="600px" height="700px" />
+                                </center>
+
+
+                            <form action="/allLove" method="POST">
+                                <input name="friendKey" type="text" value="{{this.Record.userKey}}" hidden>
+
+                                <center> <input type="image" class="react" src="./img/like.png" style="width: 35px;">
+                                </center>
+                                {{!-- <center> <img type="submit" class="react" src="./img/like.png" style="width: 35px;"> </center> --}}
+                            </form>
+                        </li>
+                        <br>
                         {{/each}}
                         {{!-- <br>
                         <li class="list-group-item">
-                        
+
                             <a href="#" style="color: black;">
                                 <h5><b>Static Pdf file</b></h5>
                             </a>
                             <h6 class="card-subtitle mb-2 text-muted">12:23pm 12 Jun 2019</h6>
-                        
-                            <center> <embed src="./IntellectualProperty/CSE-334 DB Project Submission Guideline.pdf" width="600px" height="800px" /> </center>
-                        
-                            <center> <a href="#"> <img class="react" src="./img/like.png" style="width: 35px;"> </a> </center>
-                        
+
+                            <center> <embed src="./IntellectualProperty/CSE-334 DB Project Submission Guideline.pdf"
+                                    width="600px" height="800px" /> </center>
+
+                            <center> <a href="#"> <img class="react" src="./img/like.png" style="width: 35px;"> </a>
+                            </center>
+
                         </li> --}}
                         {{!-- <br>
                         <li class="list-group-item">
@@ -434,27 +445,29 @@
                     <!-- Card content -->
                     <div class="card-body">
                         <!-- Title -->
-                        <h5 class="card-title" style="font-weight: bold; text-align: center;">Popular Intellectual Property</h4>
+                        <h5 class="card-title" style="font-weight: bold; text-align: center;">Popular Intellectual
+                            Property</h4>
                             <hr>
                             <ul class="list-group">
                                 {{#each newLoveObj}}
-                                    <form name="friend" action="/otherProfile" method="POST">
-                                        <input name="friendKey" type="text" value="{{this.Record.userKey}}" hidden>
-                                        {{!-- <a href=""  style="color: black;"> --}}
-                                        <button type="submit" class="list-group-item ipPeopleList">
-                                            {{!-- <li class="list-group-item ipPeopleList"> --}}
-                                            {{this.Record.name}}
-                                    
-                                            <span class="float-right px-1 text-white bg-success border rounded">{{this.Record.loveCnt}} 
-                                                <img style="width: 15px;" src="./img/like.png">
-                                            </span>
-                                    
-                                            {{!-- </li> --}}
-                                        </button>
-                                    
-                                    
-                                        {{!-- </a> --}}
-                                    </form>
+                                <form name="friend" action="/otherProfile" method="POST">
+                                    <input name="friendKey" type="text" value="{{this.Record.userKey}}" hidden>
+                                    {{!-- <a href=""  style="color: black;"> --}}
+                                    <button type="submit" class="list-group-item ipPeopleList">
+                                        {{!-- <li class="list-group-item ipPeopleList"> --}}
+                                        {{this.Record.name}}
+
+                                        <span
+                                            class="float-right px-1 text-white bg-success border rounded">{{this.Record.loveCnt}}
+                                            <img style="width: 15px;" src="./img/like.png">
+                                        </span>
+
+                                        {{!-- </li> --}}
+                                    </button>
+
+
+                                    {{!-- </a> --}}
+                                </form>
                                 {{/each}}
 
                                 {{!-- <a href="#" style="color: black;">
@@ -520,38 +533,39 @@
                                 <a href="#" class="btn btn-primary btn-lg btn-block" style="height: 45px; font-size: small;">View
                                     All</a> --}}
                                 {{!-- <button type="button" class="btn btn-primary btn-lg btn-block">Block level button</button> --}}
-            
+
                             </ul>
                     </div>
-            
+
                 </div>
                 <br>
                 <div class="card">
                     <div class="card-body">
 
-                        <p><i class="fas fa-cog fa-spin"></i> Click here to see document type Intellectual property...  <i class="far fa-hand-point-right"></i> </p>
+                        <p><i class="fas fa-cog fa-spin"></i> Click here to see image type Intellectual property...
+                            <i class="far fa-hand-point-right"></i> </p>
 
-                        <div  class="btn-group" role="group" aria-label="Basic example">
+                        <div class="btn-group" role="group" aria-label="Basic example">
                             <center>
 
-                                <a href="/home"> <button type="button" class="btn btn-indigo">Picture</button> </a>
-                            <a href="/homeDocument"> <button type="button" class="btn btn-indigo">Document</button> </a>
+                                <a href="/home"> <button type="button" class="btn btn-indigo btn-rounded waves-effect">Picture</button> </a>
+                                <a href="/homeDocument"> <button type="button" class="btn btn-indigo btn-rounded waves-effect">Document</button> </a>
                             </center>
 
                         </div>
                     </div>
                 </div>
             </div>
-    </div>
+        </div>
 
 
 
 
 
 
-    <div>
-        <br>
-    </div>
+        <div>
+            <br>
+        </div>
 
 
 
@@ -568,11 +582,15 @@
         <h4 class="float:center">Shahjalal University of Science and Technology</h4>
         <!--Call to action-->
         <div class="pt-4">
-            <p>Shahjalal University of Science and Technology (SUST) was established in 1986. The only university of its kind at that
-            time, it started it''s journey on the 13th of February 1991 with only three departments: Physics, Chemistry and
-            Economics, 13 teachers and 205 students. It has now expanded to 7 schools, 27 departments , 2 institutes and and
-            centers. The number of teachers has grown to 552 and the students to 10922. Besides, the University has 13 affiliated
-            colleges under the School of Medical Sciences with 4000 students.</p>
+            <p>Shahjalal University of Science and Technology (SUST) was established in 1986. The only university of its
+                kind at that
+                time, it started it''s journey on the 13th of February 1991 with only three departments: Physics,
+                Chemistry and
+                Economics, 13 teachers and 205 students. It has now expanded to 7 schools, 27 departments , 2 institutes
+                and and
+                centers. The number of teachers has grown to 552 and the students to 10922. Besides, the University has
+                13 affiliated
+                colleges under the School of Medical Sciences with 4000 students.</p>
         </div>
         <!--/.Call to action-->
 
@@ -640,10 +658,10 @@
     </script>
     {{!-- <script type="text/javascript">
         var img = document.getElementById('myPicture');
-            img.style.visibility = 'hidden';
+        img.style.visibility = 'hidden';
         var pdf = document.getElementById('myPdf');
-            pdf.style.visibility = 'hidden';
-        
+        pdf.style.visibility = 'hidden';
+
 
     </script> --}}
 

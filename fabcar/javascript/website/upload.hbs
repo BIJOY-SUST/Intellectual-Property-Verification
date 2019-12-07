@@ -10,8 +10,8 @@
 
     {{!-- dropzone --}}
 
-    <link href="dist/dropzone.css" rel="stylesheet">
-    <script src="dist/dropzone.js"></script>
+    {{!-- <link href="dist/dropzone.css" rel="stylesheet">
+    <script src="dist/dropzone.js"></script> --}}
     {{!-- dropzone --}}
 
 
@@ -117,8 +117,59 @@
             background-color: green;
             color: black;
         }
+        .react:hover{
+              transform: scale(1.01); 
+        }
     </style>
+    <style type="text/css">
+        .file-field.medium .file-path-wrapper {
+        height: 3rem; }
+        .file-field.medium .file-path-wrapper .file-path {
+        height: 2.8rem; }
 
+        .file-field.big-2 .file-path-wrapper {
+        height: 3.7rem; }
+        .file-field.big-2 .file-path-wrapper .file-path {
+        height: 3.5rem; }    
+    </style>
+    <style>
+        .sir {
+            position: relative;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 16px;
+        }
+    
+        .sir .madam {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            top: 0px;
+            left: 102%;
+        }
+    
+        .sir .madam::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 100%;
+            margin-top: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent black transparent transparent;
+        }
+    
+        .sir:hover .madam {
+            visibility: visible;
+            font-size: 15px;
+        }
+    </style>
 </head>
 
 <body>
@@ -228,26 +279,80 @@
             <br>
         </div>
 
-        <div id="dropzone">
+        {{!-- <div id="dropzone">
             
-            <div class="col-md-16 mb-5" style="margin-left: 16%;margin-right: 16%;  border-style: solid;
-  border-color: green;">
+            <div class="col-md-16 mb-5" style="margin-left: 16%;margin-right: 16%;  border-style: solid; border-color: green;">
+
                 <form class="dropzone needsclick" id="my-awesome-dropzone" action="/upload" method="POST" enctype="multipart/form-data">
                     <input name="file" type="file" form="my-awesome-dropzone" multiple hidden />
                     <div class="dz-message needsclick">
                         <p>
-                            <i class="fas fa-cloud-upload-alt" style="font-size:40px;"></i>
-                            {{!-- <i class="fas fa-file-upload" style="font-size:40px;"></i> --}}
-                        
+                            <i class="fas fa-cloud-upload-alt" style="font-size:40px;"></i>                        
                         </p>
                         <p>Drop files here or click to upload.</p>
                         <br/>
                     </div>
                 </form>
 
+
             </div>
-            <button style="left: 600px; width: 250px;" class="btn  btn-primary btn-lg active"  aria-pressed="true" form="my-awesome-dropzone"> GoTo - Home </button>
+            <button style="left: 600px; width: 250px;" class="btn  btn-primary btn-lg active react"  aria-pressed="true" form="my-awesome-dropzone"> GoTo - Home </button>
+        
+        </div> --}}
+
+        {{!-- file upload --}}
+        <!-- Card -->
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="card" style="padding: 50px;">
+                
+                    <!-- Card content -->
+                    <div class="card-body">
+
+                        <div class="alert {{alertName}}" role="alert" style="color: black;" >
+                            <center style="font-weight: bold;font-size:larger;">{{alertMessage}}</center>
+                                <div style="line-height: 40px; " class="sir">
+                                    {{!-- <span class="madam">View Profile</span> --}}
+                                    <form name="" action="/otherProfile" method="POST">
+                                        <input name="friendKey" type="text" value="{{userKeyOfOwner}}" hidden>
+                                        {{alertMessageEla}}<button style="visibility: {{isVisible}};" type="submit" class="btn btn-outline-success btn-rounded waves-effect">{{userNameOfOwner}}</button>{{fullStop}}
+
+                                        {{!-- <button style="line-height: 25px;" type="submit" class="madam">View Profile</button> --}}
+                                
+                                    </form>
+                                
+                                </div>
+                            
+                        </div>
+                        <form enctype="multipart/form-data" action="/upload" method="POST">
+                
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                                </div>
+                                <div class="custom-file">
+                                    <input type="file" name="myFile" class="custom-file-input" id="inputGroupFile01"
+                                        aria-describedby="inputGroupFileAddon01" required>
+                                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                </div>
+                            </div>
+                            <br>
+                            <button style="left: 150px; width: 250px;" class="btn  btn-primary btn-lg active react" aria-pressed="true"> Upload IP</button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+
+        
         </div>
+        <!-- Card -->
+
+
+
+
     </div>
 
     <div>

@@ -135,6 +135,8 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.findPostCnt(APIstub, args)
 	} else if function == "allFriendPost" {
 		return s.allFriendPost(APIstub, args)
+	} else if function == "ipVerification" {
+		return s.ipVerification(APIstub, args)
 	} 
 
 	return shim.Error("Invalid Smart Contract function name.")
@@ -617,6 +619,58 @@ func (s *SmartContract) findPostCnt(APIstub shim.ChaincodeStubInterface, args []
 
 	return shim.Success(buffer.Bytes())
 }
+
+func (s *SmartContract) ipVerification(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+
+	if len(args) != 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	// var useremail string = args[0]
+	var hashOfFile string = args[1]
+	
+	
+	var queryString = fmt.Sprintf("{\"selector\":{\"tableName\":\"IP\",\"latestHashFile\":\"%s\"}}", hashOfFile)
+
+	resultsIterator, _ := APIstub.GetQueryResult(queryString) //skip the errors
+	//skipping error handling here :p
+
+	defer resultsIterator.Close()
+
+	// buffer is a JSON array containing QueryResults
+	var buffer bytes.Buffer
+	buffer.WriteString("[")
+
+	var bArrayMemberAlreadyWritten = false
+	for resultsIterator.HasNext() {
+		queryResponse, err := resultsIterator.Next()
+		if err != nil {
+			// return shim.Error(err.Error())
+			buffer.WriteString("]")
+			return shim.Success(buffer.Bytes())
+		}
+		// Add a comma before array members, suppress it for the first array member
+		if bArrayMemberAlreadyWritten == true {
+			buffer.WriteString(",")
+		}
+		buffer.WriteString("{\"Key\":")
+		buffer.WriteString("\"")
+		buffer.WriteString(queryResponse.Key)
+		buffer.WriteString("\"")
+
+		buffer.WriteString(", \"Record\":")
+		// Record is a JSON object, so we write as-is
+		buffer.WriteString(string(queryResponse.Value))
+		buffer.WriteString("}")
+		bArrayMemberAlreadyWritten = true
+	}
+	buffer.WriteString("]")
+
+	fmt.Printf("- queryAllCars:\n%s\n", buffer.String())
+
+	return shim.Success(buffer.Bytes())
+}
+
 
 // The main function is only relevant in unit test mode. Only included here for completeness.
 func main() {

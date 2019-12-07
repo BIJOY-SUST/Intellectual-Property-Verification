@@ -21,7 +21,7 @@ const sendIP = require('./routers/sendIP');
 const topPeopleIP = require('./routers/topPeopleIP');
 const findPostCnt = require('./routers/findPostCnt');
 const allFriendPost = require('./routers/allFriendPost');
-const ipVerification = require('./routers/ipVerification');
+
 
 
 const express = require('express');
@@ -123,7 +123,7 @@ app.get('/logout', (req, res) => {
     // var token = req.cookies.token;
     // console.log(token);
     if (req.cookies.token === undefined) res.render('index');
-    else{
+    else {
         res.clearCookie('token');
         res.clearCookie('key');
         res.clearCookie('email');
@@ -152,13 +152,13 @@ app.post('/login', urlencodedParser, async function (req, res) {
     // console.log(user.password);
     user.password = crypto.createHash('sha256').update(user.password).digest("base64");
     // console.log(user.password);
-    var key, token, profilePic,name, email;
-    await loginUserDB(user).then(async function (result)  {
+    var key, token, profilePic, name, email;
+    await loginUserDB(user).then((result) => {
         // console.log(result);
         // console.log(result.length);
         console.log('User submit to userMail and password');
         var obj = JSON.parse(result);
-        if(obj[0].Record.email === user.email && obj[0].Record.passwordHash === user.password){
+        if (obj[0].Record.email === user.email && obj[0].Record.passwordHash === user.password) {
             console.log('Login successfully');
 
             name = obj[0].Record.name;
@@ -166,61 +166,61 @@ app.post('/login', urlencodedParser, async function (req, res) {
             email = obj[0].Record.email;
             key = obj[0].Key;
             token = obj[0].Record.token;
-            
+
             // res.cookie('token',token);
             // res.cookie('key',key);
             // res.cookie('email',email);
-            var friendPostAll;
-            await allFriendPost(email).then( async function (result) {
-                friendPostAll = JSON.parse(result);
-                console.log('collected all friend post');
-
-
-                await topPeopleIP(email).then((result) => {
-                    console.log('now ready , the list is coming');
-                    var postObj = JSON.parse(result);
-                    // console.log(postObj);
-
-                    var loveObj = postObj;
-                    postObj.sort((a, b) => (a.Record.postCnt < b.Record.postCnt) ? 1 : -1);
-                    var newPostObj = postObj.slice(0, 2); // 7
-
-                    loveObj.sort((a, b) => (a.Record.loveCnt < b.Record.loveCnt) ? 1 : -1);
-                    var newLoveObj = loveObj.slice(0, 3); // 8
-
-
-                    res.cookie('token', token);
-                    res.cookie('key', key);
-                    res.cookie('email', email);
-
-                    res.render('home', {
-                        'name': name,
-                        'email': email,
-                        'profilePic': profilePic,
-                        'newPostObj': newPostObj,
-                        'newLoveObj': newLoveObj,
-                        'friendPostAll': friendPostAll
-                    });
-                }).catch((e) => {
-                    console.log('Third Test - Request Failed');
-                    res.render('index');
-                });    
-
-            }).catch((e) => {
-                console.log('Second Test -  login failed');
-                res.render('login');
-            });
         }
-        else{
+        else {
             console.log('First Test - Login Failed');
-            res.render('login');
+            res.render('index');
         }
         // res.send(result);
         // res.render('home');
     }).catch((error) => {
         console.log('First Error - Login Failed');
-        res.render('login');   
-         
+        res.render('index');
+
+    });
+
+    var friendPostAll;
+    await allFriendPost(email).then((result) => {
+        friendPostAll = JSON.parse(result);
+        console.log('collected all friend post');
+    }).catch((e) => {
+        console.log('Second Test -  login failed');
+        res.render('index');
+    });
+
+
+    await topPeopleIP(email).then((result) => {
+        console.log('now ready , the list is coming');
+        var postObj = JSON.parse(result);
+        // console.log(postObj);
+
+        var loveObj = postObj;
+        postObj.sort((a, b) => (a.Record.postCnt < b.Record.postCnt) ? 1 : -1);
+        var newPostObj = postObj.slice(0, 2); // 7
+
+        loveObj.sort((a, b) => (a.Record.loveCnt < b.Record.loveCnt) ? 1 : -1);
+        var newLoveObj = loveObj.slice(0, 3); // 8
+
+
+        res.cookie('token', token);
+        res.cookie('key', key);
+        res.cookie('email', email);
+
+        res.render('home', {
+            'name': name,
+            'email': email,
+            'profilePic': profilePic,
+            'newPostObj': newPostObj,
+            'newLoveObj': newLoveObj,
+            'friendPostAll': friendPostAll
+        });
+    }).catch((e) => {
+        console.log('Third Test - Request Failed');
+        res.render('index');
     });
 
 });
@@ -231,7 +231,7 @@ app.post('/login', urlencodedParser, async function (req, res) {
 
 app.post('/otherProfile', async function (req, res) {
     if (req.cookies.token === undefined) res.render('login');
-    else{
+    else {
         const user = {
             key: req.body.friendKey
         };
@@ -239,7 +239,7 @@ app.post('/otherProfile', async function (req, res) {
         // my own information
         var keyOwn = req.cookies.key;
         var emailOwn = req.cookies.email;
-        var nameOwn, publicKeyOwn,profilePicOwn;
+        var nameOwn, publicKeyOwn, profilePicOwn;
         // console.log('Profile is loading : ' + email +" "+key);
         await profileInformation(emailOwn, keyOwn).then((result) => {
             console.log('Your information is coming');
@@ -256,7 +256,7 @@ app.post('/otherProfile', async function (req, res) {
 
         // friend profile information
         var obj;
-        var friendEmail='';
+        var friendEmail = '';
         await profileInformation(emailOwn, user.key).then((result) => {
             console.log('Your information is coming');
             obj = JSON.parse(result);
@@ -279,13 +279,13 @@ app.post('/otherProfile', async function (req, res) {
                 'email': emailOwn,
                 'profilePic': profilePicOwn,
                 'friendInfo': obj,
-                'postCnt': postCnt                
+                'postCnt': postCnt
             });
 
         }).catch((e) => {
             console.log('Request Failed');
             res.render('index');
-        });   
+        });
 
     }
 });
@@ -296,7 +296,7 @@ app.get('/profile', async function (req, res) {
 
         var key = req.cookies.key;
         var email = req.cookies.email;
-        var publicKey,profilePic,name;
+        var publicKey, profilePic, name;
         // console.log('Profile is loading : ' + email +" "+key);
         await profileInformation(email, key).then((result) => {
             console.log('Your information is coming');
@@ -311,7 +311,7 @@ app.get('/profile', async function (req, res) {
             res.render('index');
         });
 
-        await findPostCnt(email , email).then((result) => {
+        await findPostCnt(email, email).then((result) => {
             console.log('now ready , the list is coming');
             var obj = JSON.parse(result);
 
@@ -322,13 +322,13 @@ app.get('/profile', async function (req, res) {
                 'email': email,
                 'publickey': publicKey,
                 'profilePic': profilePic,
-                'postCnt':postCnt
+                'postCnt': postCnt
             });
 
         }).catch((e) => {
             console.log('Request Failed');
             res.render('index');
-        });         
+        });
 
     }
 });
@@ -337,26 +337,26 @@ app.get('/profile', async function (req, res) {
 // view all people in this network
 app.get('/viewAllPeople', async function (req, res) {
     if (req.cookies.token === undefined) res.render('login');
-    else{
+    else {
         var key = req.cookies.key;
         var email = req.cookies.email;
         var name = '';
         var profilePic = '';
         // console.log('Profile is loading : ' + email +" "+key);
-        await profileInformation(email,key).then((result) => {
-             var obj = JSON.parse(result);
+        await profileInformation(email, key).then((result) => {
+            var obj = JSON.parse(result);
             // console.log(peopleList);
-             name = obj.name;
-             profilePic = obj.newFilePath;
+            name = obj.name;
+            profilePic = obj.newFilePath;
 
-             console.log('Your profile pic retrieve from the blockchain');
+            console.log('Your profile pic retrieve from the blockchain');
 
         }).catch((error) => {
             console.log('View Profile Failed');
             res.render('index');
         });
 
-        await topPeopleIP(email).then((result)=>{
+        await topPeopleIP(email).then((result) => {
             console.log('now ready , the list is coming');
             var obj = JSON.parse(result);
             obj.sort((a, b) => (a.Record.postCnt < b.Record.postCnt) ? 1 : -1);
@@ -368,7 +368,7 @@ app.get('/viewAllPeople', async function (req, res) {
                 'profilePic': profilePic,
                 'peopleList': obj
             });
-        }).catch((e)=>{
+        }).catch((e) => {
             console.log('Request Failed');
             res.render('index');
         });
@@ -384,7 +384,7 @@ app.get('/viewAllPeople', async function (req, res) {
 // register page
 app.get('/register', async function (req, res) {
     if (req.cookies.token === undefined) res.render('register');
-    else{
+    else {
         res.redirect('home');
     }
 });
@@ -416,7 +416,7 @@ const keyPrivate = (keyDirectory, userName) => {
                             // console.log(content);
                             if (lastThree === 'riv') {
                                 var privateKey = content;
-                                privateKey = privateKey.substring(27,privateKey.length - 25);
+                                privateKey = privateKey.substring(27, privateKey.length - 25);
                                 resolve(privateKey);
                             }
                         });
@@ -504,7 +504,7 @@ function fileNewPath(oldPath, newPath) {
     });
 }
 
-app.post('/register', upload.single('myImage'), urlencodedParser , async function (req, res) {
+app.post('/register', upload.single('myImage'), urlencodedParser, async function (req, res) {
 
     if (!req.file) {
         res.render('register.hbs', {
@@ -543,25 +543,25 @@ app.post('/register', upload.single('myImage'), urlencodedParser , async functio
 
 
     var fileName = req.file.originalname;
-    var preFilePath = __dirname+"/"+ req.file.path;
-    var dateFile = "/"+Date.now()+"/"+fileName;
-    var newFilePath = path.join(__dirname,'./website/property'+dateFile);
-    var proFilePath = "/property"+dateFile;
+    var preFilePath = __dirname + "/" + req.file.path;
+    var dateFile = "/" + Date.now() + "/" + fileName;
+    var newFilePath = path.join(__dirname, './website/property' + dateFile);
+    var proFilePath = "/property" + dateFile;
 
     var latestHashFile;
-    await fileHash(preFilePath,'sha256').then((hashFile)=>{
+    await fileHash(preFilePath, 'sha256').then((hashFile) => {
         latestHashFile = hashFile;
-        console.log('hashFile = '+ hashFile);
-    }).catch((e)=>{
+        console.log('hashFile = ' + hashFile);
+    }).catch((e) => {
         console.log(e);
         res.render('index');
     });
     await fileNewPath(preFilePath, newFilePath).then((result) => {
-        console.log('hashFile2 = '+latestHashFile);
+        console.log('hashFile2 = ' + latestHashFile);
         // console.log(result);
     }).catch((e) => {
         console.log(e);
-        res.render('index');    
+        res.render('index');
     });
 
     await createUser(user.email);
@@ -576,99 +576,31 @@ app.post('/register', upload.single('myImage'), urlencodedParser , async functio
         publicKey = result.second;
     }).catch((e) => {
         console.log(e);
-        res.render('index');        
+        res.render('index');
     });
 
-    await setReactAndPostDB(RAPC.key, RAPC.userKey, RAPC.name, RAPC.email).then((result) =>{
+    await setReactAndPostDB(RAPC.key, RAPC.userKey, RAPC.name, RAPC.email).then((result) => {
         console.log('Set successfully');
-    }).catch((e)=>{
+    }).catch((e) => {
         console.log('Setting Failed');
         res.render('index');
     });
 
 
-    await registerUserDB(user, publicKey , proFilePath, latestHashFile).then((result) => {
+    await registerUserDB(user, publicKey, proFilePath, latestHashFile).then((result) => {
         console.log('Register successfully');
         res.render('login');
     }).catch((error) => {
         console.log('Failed to register successfully');
         res.render('index');
-    });  
+    });
 });
 
 ////////////////////////////////////////////////////// Register ///////////////////////////////////////////////////////
 
 
 //home page
-app.get('/home',async function (req, res) {
-    if (req.cookies.token === undefined) res.render('login');
-    else{
-
-        var key = req.cookies.key;
-        var email = req.cookies.email;
-        var name = '';
-        var profilePic = '';
-        // console.log('Profile is loading : ' + email +" "+key);
-        await profileInformation(email, key).then( async function (result)  {
-            var obj = JSON.parse(result);
-            // console.log(peopleList);
-            name = obj.name;
-            profilePic = obj.newFilePath;
-
-            console.log('Your profile pic retrieve from the blockchain');
-
-            var friendPostAll;
-            await allFriendPost(email).then( async function (result) {
-                // console.log(result);
-                friendPostAll = JSON.parse(result);
-                console.log('collected all friend post');
-                // console.log(friendPostAll);
-                var temp = friendPostAll.filter(d => d.Record.isImageOrPdf === 'image');
-
-
-                // console.log(friendPostAll);
-                // console.log(temp);
-
-                await topPeopleIP(email).then((result) => {
-                    console.log('now ready , the list is coming to home');
-                    var postObj = JSON.parse(result);
-                    // console.log(postObj);
-
-                    var loveObj = postObj;
-                    postObj.sort((a, b) => (a.Record.postCnt < b.Record.postCnt) ? 1 : -1);
-                    var newPostObj = postObj.slice(0, 2); // 7
-
-                    loveObj.sort((a, b) => (a.Record.loveCnt < b.Record.loveCnt) ? 1 : -1);
-                    var newLoveObj = loveObj.slice(0, 3); // 8
-                    console.log('Going to sweet home');
-                    res.render('home', {
-                        'name': name,
-                        'email': email,
-                        'profilePic': profilePic,
-                        'newPostObj': newPostObj,
-                        'newLoveObj': newLoveObj,
-                        'friendPostAll': temp
-                    });
-                }).catch((e) => {
-                    console.log('Request Failed');
-                    res.render('index');
-                });
-
-
-            }).catch((e) => {
-                console.log('login failed');
-                res.render('index');
-            });
-
-
-        }).catch((error) => {
-            console.log('View Profile Failed');
-            res.render('index');
-        });
-    }
-});
-
-app.get('/homeDocument', async function (req, res) {
+app.get('/home', async function (req, res) {
     if (req.cookies.token === undefined) res.render('login');
     else {
 
@@ -677,7 +609,7 @@ app.get('/homeDocument', async function (req, res) {
         var name = '';
         var profilePic = '';
         // console.log('Profile is loading : ' + email +" "+key);
-        await profileInformation(email, key).then(async function (result) {
+        await profileInformation(email, key).then((result) => {
             var obj = JSON.parse(result);
             // console.log(peopleList);
             name = obj.name;
@@ -685,51 +617,46 @@ app.get('/homeDocument', async function (req, res) {
 
             console.log('Your profile pic retrieve from the blockchain');
 
-            var friendPostAll;
-            await allFriendPost(email).then(async function (result) {
-                friendPostAll = JSON.parse(result);
-                console.log('collected all friend post');
-
-                var temp = friendPostAll.filter(d => d.Record.isImageOrPdf === 'pdf');
-                
-
-
-                await topPeopleIP(email).then((result) => {
-                    console.log('now ready , the list is coming to home');
-                    var postObj = JSON.parse(result);
-                    // console.log(postObj);
-
-                    var loveObj = postObj;
-                    postObj.sort((a, b) => (a.Record.postCnt < b.Record.postCnt) ? 1 : -1);
-                    var newPostObj = postObj.slice(0, 2); // 7
-
-                    loveObj.sort((a, b) => (a.Record.loveCnt < b.Record.loveCnt) ? 1 : -1);
-                    var newLoveObj = loveObj.slice(0, 3); // 8
-                    console.log('Going to sweet home');
-                    res.render('homeDocument', {
-                        'name': name,
-                        'email': email,
-                        'profilePic': profilePic,
-                        'newPostObj': newPostObj,
-                        'newLoveObj': newLoveObj,
-                        'friendPostAll': temp
-                    });
-                }).catch((e) => {
-                    console.log('Request Failed');
-                    res.render('index');
-                });
-
-
-            }).catch((e) => {
-                console.log('login failed');
-                res.render('index');
-            });
-
-
         }).catch((error) => {
             console.log('View Profile Failed');
             res.render('index');
         });
+
+
+        var friendPostAll;
+        await allFriendPost(email).then((result) => {
+            friendPostAll = JSON.parse(result);
+            console.log('collected all friend post');
+        }).catch((e) => {
+            console.log('login failed');
+            res.render('index');
+        });
+
+        await topPeopleIP(email).then((result) => {
+            console.log('now ready , the list is coming');
+            var postObj = JSON.parse(result);
+            // console.log(postObj);
+
+            var loveObj = postObj;
+            postObj.sort((a, b) => (a.Record.postCnt < b.Record.postCnt) ? 1 : -1);
+            var newPostObj = postObj.slice(0, 2); // 7
+
+            loveObj.sort((a, b) => (a.Record.loveCnt < b.Record.loveCnt) ? 1 : -1);
+            var newLoveObj = loveObj.slice(0, 3); // 8
+
+            res.render('home', {
+                'name': name,
+                'email': email,
+                'profilePic': profilePic,
+                'newPostObj': newPostObj,
+                'newLoveObj': newLoveObj,
+                'friendPostAll': friendPostAll
+            });
+        }).catch((e) => {
+            console.log('Request Failed');
+            res.render('index');
+        });
+
     }
 });
 
@@ -740,7 +667,7 @@ app.get('/homeDocument', async function (req, res) {
 app.get('/upload', async function (req, res) {
     if (req.cookies.token === undefined) res.render('login');
     else {
-        
+
         var key = req.cookies.key;
         var email = req.cookies.email;
         // console.log('Profile is loading : ' + email +" "+key);
@@ -750,11 +677,8 @@ app.get('/upload', async function (req, res) {
             var name = obj.name;
             var profilePic = obj.newFilePath;
             var email = obj.email;
-            console.log('Welcome to DropJon.js area');
             res.render('upload', {
-                'profilePic': profilePic,
-                'isVisible': 'hidden'
-
+                'profilePic': profilePic
             });
         }).catch((error) => {
             console.log('Upload Page load Failed');
@@ -789,179 +713,134 @@ function checkImagOrPdf(filePathForChecking) {
 
 
 
-app.post('/upload', upload.single('myFile')  ,urlencodedParser ,  async function (req, res) {
+app.post('/upload', uploadFile.any(), urlencodedParser, async function (req, res) {
     if (req.cookies.token === undefined) res.render('login');
-    else{
-        // Email and Key from cookies ----------------------------------------------------
-        var key = req.cookies.key;
-        var email = req.cookies.email;
-        var profilePic;
-        await profileInformation(email, key).then((result) => {
-            console.log('Profile picture retrieve from blockchain');
-            var obj = JSON.parse(result);
-            // console.log(obj);
-            // var name = obj.name;
-            profilePic = obj.newFilePath;
-            // var email = obj.email;
+    else if (req.files.length === 0) {
+        res.redirect('home');
+    }
+    else {
 
-        }).catch((error) => {
-            console.log('Upload Page load Failed');
-            res.render('index');
-        });
+        console.log(req.files.length);
 
+        // maintain the file
 
-        // maintain the file ----------------------------------------------------------------
-        var file = req.file;
-        console.log('File is Coming');
+        var file = req.files[0];
+        console.log('Entering inside files');
 
         var fileName = file.originalname;
         var preFilePath = __dirname + "/" + file.path;
         var dateFile = "/" + Date.now() + "/" + fileName;
         var newFilePath = path.join(__dirname, './website/IntellectualProperty' + dateFile);
         var proFilePath = "/IntellectualProperty" + dateFile;
-        var filePathForChecking = './website/IntellectualProperty/'+dateFile;
+        var filePathForChecking = './website/IntellectualProperty/' + dateFile;
 
         console.log(fileName);
 
         // making hash of the file
         var latestHashFile;
-        await fileHash(preFilePath, 'sha256').then( async function (hashFile) {
+        await fileHash(preFilePath, 'sha256').then((hashFile) => {
             latestHashFile = hashFile;
             console.log('Calculate the hash of file');
-            console.log(latestHashFile);
-            /* Intellectual property verification. If file already exits then show up a error message.
-               If not then go to the next step and upload file successfully. */
-
-            await ipVerification(email,latestHashFile).then( async function(result) {
-                console.log('IP Verification');
-
-                var obj = JSON.parse(result);
-                console.log(obj.length);
-                console.log(obj);
-                if(obj.length === 1){
-                    console.log('duplicate');
-                    res.render('upload', {
-                        'profilePic': profilePic,
-                        'alertName': 'alert-danger',
-                        'alertMessageEla': 'This intellectual property is not yours. The owner of this intellectual property is ',
-                        'alertMessage': 'File failed to upload',
-                        'userKeyOfOwner': obj[0].Record.userKey,
-                        'userNameOfOwner': obj[0].Record.name,
-                        'fullStop': '.',
-                        'isVisible': 'visible'
-
-                    });
-                }
-                else{
-                    console.log('unEqual');
-                    // set new path for the file
-                    await fileNewPath(preFilePath, newFilePath).then(async function (result) {
-
-                        console.log('NewPath setup successfully');
-                        // check the file is image or pdf or invalid
-                        var isImageOrPdf = '';
-                        var isImage = '';
-                        var isPdf = '';
-                        await checkImagOrPdf(filePathForChecking).then(async function (result) {
-                            console.log('File checkup successfully');
-                            isImageOrPdf = result;
-                            if (isImageOrPdf === 'image') isImage = isImageOrPdf;
-                            else isPdf = isImageOrPdf;
-
-
-                            // console.log('Profile is loading : ' + email +" "+key);
-
-                            // find user key for update
-                            var uploadedUserKey;
-                            var nameOfUser;
-                            var keyOfUser;
-                            await findUserForRAPC(email, key).then(async function (result) {
-                                var obj = JSON.parse(result);
-                                // console.log(obj);
-                                uploadedUserKey = obj[0].Key;
-                                nameOfUser = obj[0].Record.name;
-                                keyOfUser = obj[0].Record.userKey;
-                                console.log('Find the primary key from the RAPC table successfully');
-
-                                var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                                var today = new Date();
-                                var AMPM = (today.getHours() < 12) ? "AM" : "PM";
-                                var time = today.getHours() % 12 + ':' + today.getMinutes() + ' ' + AMPM;
-                                var date = today.getDate() + ' ' + monthNames[today.getMonth()] + ' ' + today.getFullYear();
-                                var dateTime = time + ', ' + date;
-                                console.log(dateTime);
-
-                                // marge all the files for a transaction
-                                UserIP = {
-                                    key: 'IntellectualProperty' + latestHashFile,
-                                    name: nameOfUser,
-                                    email: email,
-                                    keyUser: keyOfUser,
-                                    fileName: fileName,
-                                    filePath: proFilePath,
-                                    fileHash: latestHashFile,
-                                    dateTime: dateTime,
-                                    isImageOrPdf: isImageOrPdf,
-                                    isImage: isImage,
-                                    isPdf: isPdf
-                                };
-                                UserIP.key = crypto.createHash('sha256').update(UserIP.key).digest("base64");
-
-                                // send file from server to block-chain
-                                await sendIP(UserIP).then(async function (result) {
-                                    console.log('send file from server to block-chain successfully');
-
-                                    // Increment the postCnt by 1 
-                                    await setValueReactAndPostDB(email, uploadedUserKey, 'post').then((result) => {
-                                        console.log('Increment the postCnt by 1 successfully');
-                                        // res.render('upload');
-                                        res.render('upload', {
-                                            'profilePic': profilePic,
-                                            'alertName': 'alert-success',
-                                            'alertMessage': 'File has been successfully uploaded',
-                                            'isVisible': 'hidden'
-                                            
-                                        });
-
-                                    }).catch((e) => {
-                                        console.log('Increment the postCnt by 1  Failed');
-                                        res.redirect('upload');
-                                    });
-
-                                }).catch((error) => {
-                                    console.log('Failed to send file from server to block-chain');
-                                    res.redirect('upload');
-                                });
-
-
-                            }).catch((error) => {
-                                console.log('Failed to find the primary key');
-                                res.redirect('upload');
-                            });
-
-
-                        }).catch((e) => {
-                            console.log('File checkup Failed');
-                            res.redirect('upload');
-                        });
-
-                    }).catch((e) => {
-                        console.log('Upload Page load Failed : PathNew');
-                        res.redirect('upload');
-                    });                
-
-                }
-
-            }).catch((e)=>{
-                console.log('same hashFile collision');
-                res.redirect('upload');
-            });
-
         }).catch((e) => {
             console.log('Upload Page load Failed : FileHash');
-            res.redirect('upload');
+            res.render('upload');
         });
 
+
+        /* Intellectual property verification. If file already exits then show up a error message.
+        If not then go to the next step and upload file successfully.
+        */
+
+
+
+
+
+        // set new path for the file
+        await fileNewPath(preFilePath, newFilePath).then((result) => {
+            console.log('NewPath setup successfully');
+        }).catch((e) => {
+            console.log('Upload Page load Failed : PathNew');
+            res.render('upload');
+        });
+
+
+        // check the file is image or pdf or invalid
+        var isImageOrPdf = '';
+        var isImage = '';
+        var isPdf = '';
+        await checkImagOrPdf(filePathForChecking).then((result) => {
+            console.log('File checkup successfully');
+            isImageOrPdf = result;
+            if (isImageOrPdf === 'image') isImage = isImageOrPdf;
+            else isPdf = isImageOrPdf;
+        }).catch((e) => {
+            console.log('File checkup Failed');
+            res.render('upload');
+        });
+
+
+        // Email and Key from cookies
+        var key = req.cookies.key;
+        var email = req.cookies.email;
+        // console.log('Profile is loading : ' + email +" "+key);
+
+        // find user key for update
+        var uploadedUserKey;
+        var nameOfUser;
+        var keyOfUser;
+        await findUserForRAPC(email, key).then((result) => {
+            var obj = JSON.parse(result);
+            // console.log(obj);
+            uploadedUserKey = obj[0].Key;
+            nameOfUser = obj[0].Record.name;
+            keyOfUser = obj[0].Record.userKey;
+            console.log('Find the primary key from the RAPC table successfully');
+        }).catch((error) => {
+            console.log('Failed to find the primary key');
+            res.render('upload');
+        });
+
+        var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var today = new Date();
+        var AMPM = (today.getHours() < 12) ? "AM" : "PM";
+        var time = today.getHours() % 12 + ':' + today.getMinutes() + ' ' + AMPM;
+        var date = today.getDate() + ' ' + monthNames[today.getMonth()] + ' ' + today.getFullYear();
+        var dateTime = time + ', ' + date;
+        console.log(dateTime);
+
+        // marge all the files for a transaction
+        UserIP = {
+            key: 'IntellectualProperty' + latestHashFile,
+            name: nameOfUser,
+            email: email,
+            keyUser: keyOfUser,
+            fileName: fileName,
+            filePath: proFilePath,
+            fileHash: latestHashFile,
+            dateTime: dateTime,
+            isImageOrPdf: isImageOrPdf,
+            isImage: isImage,
+            isPdf: isPdf
+        };
+        UserIP.key = crypto.createHash('sha256').update(UserIP.key).digest("base64");
+
+        // send file from server to block-chain
+        await sendIP(UserIP).then((result) => {
+            console.log('send file from server to block-chain successfully');
+        }).catch((error) => {
+            console.log('Failed to send file from server to block-chain');
+            res.render('upload');
+        });
+
+        // Increment the postCnt by 1 
+        await setValueReactAndPostDB(email, uploadedUserKey, 'post').then((result) => {
+            console.log('Increment the postCnt by 1 successfully');
+            res.render('upload');
+        }).catch((e) => {
+            console.log('Increment the postCnt by 1  Failed');
+            res.render('upload');
+        });
+        // });
     }
 });
 
