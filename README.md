@@ -1,4 +1,5 @@
-### Intellectual Property
+<p  align="center"  ><img  src="https://i.imgur.com/JQC6pwe.jpg"  width = "400"  height = "200"/></p>
+
 
 Our Goal is to develop a software which can verify Intellectual Property’s ownership using Blockchain. We intend to use private Blockchain/Hyperledger Fabric for this purpose.
 
