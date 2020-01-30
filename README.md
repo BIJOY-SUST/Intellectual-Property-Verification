@@ -3,7 +3,7 @@
 
 Our Goal is to develop a software which can verify Intellectual Property’s ownership using Blockchain. We intend to use private Blockchain/Hyperledger Fabric for this purpose.
 
-This project is done by me and saba. In the project, All the files were uploaded by me, cause we face some syncronizing problems. But we worked together.
+This project is done by me and saba. In the project, all the files were uploaded by me, cause we face some sync problems. But we worked together.
 
 ##### Overview
 IP or intellectual property refers to anything created using one’s intellect such as a poem, an art, a business plan, inventions and so on. IP is protected by law in the form of patents, trademarks, and copyrights, which help the owner to earn recognition and financial benefits from their creations. With the ease of availability of the Internet, it has become very easy to copy digital assets. In our project, we use blockchain(Hyperledger Fabric) to verify the ownership of intellectual property and provide the facility of transaction of these IP between users.
