@@ -108,7 +108,9 @@
             padding-left: 20px;
             padding-right: 20px;
             font-size: 20px;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;;;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            ;
+            ;
 
         }
     </style>
@@ -117,20 +119,27 @@
             background-color: green;
             color: black;
         }
-        .react:hover{
-              transform: scale(1.01); 
+
+        .react:hover {
+            transform: scale(1.01);
         }
     </style>
     <style type="text/css">
         .file-field.medium .file-path-wrapper {
-        height: 3rem; }
+            height: 3rem;
+        }
+
         .file-field.medium .file-path-wrapper .file-path {
-        height: 2.8rem; }
+            height: 2.8rem;
+        }
 
         .file-field.big-2 .file-path-wrapper {
-        height: 3.7rem; }
+            height: 3.7rem;
+        }
+
         .file-field.big-2 .file-path-wrapper .file-path {
-        height: 3.5rem; }    
+            height: 3.5rem;
+        }
     </style>
     <style>
         .sir {
@@ -139,7 +148,7 @@
             font-weight: bold;
             font-size: 16px;
         }
-    
+
         .sir .madam {
             visibility: hidden;
             width: 120px;
@@ -153,7 +162,7 @@
             top: 0px;
             left: 102%;
         }
-    
+
         .sir .madam::after {
             content: "";
             position: absolute;
@@ -164,10 +173,40 @@
             border-style: solid;
             border-color: transparent black transparent transparent;
         }
-    
+
         .sir:hover .madam {
             visibility: visible;
             font-size: 15px;
+        }
+
+        .elementToFadeInAndOut {
+
+            -webkit-animation: fadeinout 5s linear forwards;
+            animation: fadeinout 5s linear forwards;
+        }
+
+        @-webkit-keyframes fadeinout {
+
+            0%,
+            100% {
+                opacity: 0;
+            }
+
+            20%,80% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeinout {
+
+            0%,
+            100% {
+                opacity: 0;
+            }
+
+            20%,80% {
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -205,11 +244,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" target="_blank">My Intellectual Property</a>
+                        <a class="nav-link" href="/myIP">My Intellectual Property
+                            <span class="sr-only">(current)</span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" target="_blank">
-                            My Request
+                        <a class="nav-link" href="/request">My Requests
+                            <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item active">
@@ -222,8 +263,8 @@
                 <!-- Right -->
                 <ul class="navbar-nav nav-flex-icons">
                     <li class="nav-item avatar dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
                             <img src="{{ profilePic }}" class="rounded-circle z-depth-0"
                                 style="border-radius: 50%; width: 50px;" alt="avatar image">
                         </a>
@@ -250,6 +291,9 @@
     </nav>
     <!-- Navbar -->
 
+
+
+
     <!-- Creating Gap-->
     <div>
         <br>
@@ -264,17 +308,7 @@
     <!-- Full Page Intro -->
     <div>
 
-        <h3 class="uploadText">Shahjalal University of Science and Technology (SUST) was established in 1986. The only
-            university of its
-            kind at
-            that
-            time, it started it''s journey on the 13th of February 1991 with only three departments: Physics, Chemistry
-            and
-            Economics, 13 teachers and 205 students. It has now expanded to 7 schools, 27 departments , 2 institutes and
-            and
-            centers. The number of teachers has grown to 552 and the students to 10922. Besides, the University has 13
-            affiliated
-            colleges under the School of Medical Sciences with 4000 students.</h3>
+        <h3 class="uploadText">Please upload your Intellectual Property here. You can upload two types Intellectual Property. They are image and document. The image may have any available image extension like: jpg, png, jpeg. But the extention of a document should be of a specific type, which is 'PDF'. </h3>
         <div>
             <br>
         </div>
@@ -306,27 +340,28 @@
             <div class="col-md-3"></div>
             <div class="col-md-6">
                 <div class="card" style="padding: 50px;">
-                
+
                     <!-- Card content -->
                     <div class="card-body">
 
-                        <div class="alert {{alertName}}" role="alert" style="color: black;" >
+                        <div class="alert {{alertName}}" role="alert" style="color: black;">
                             <center style="font-weight: bold;font-size:larger;">{{alertMessage}}</center>
-                                <div style="line-height: 40px; " class="sir">
-                                    {{!-- <span class="madam">View Profile</span> --}}
-                                    <form name="" action="/otherProfile" method="POST">
-                                        <input name="friendKey" type="text" value="{{userKeyOfOwner}}" hidden>
-                                        {{alertMessageEla}}<button style="visibility: {{isVisible}};" type="submit" class="btn btn-outline-success btn-rounded waves-effect">{{userNameOfOwner}}</button>{{fullStop}}
+                            <div style="line-height: 40px; " class="sir">
+                                {{!-- <span class="madam">View Profile</span> --}}
+                                <form name="" action="/otherProfile" method="POST">
+                                    <input name="friendKey" type="text" value="{{userKeyOfOwner}}" hidden>
+                                    {{alertMessageEla}}<button style="visibility: {{isVisible}};" type="submit"
+                                        class="btn btn-outline-success btn-rounded waves-effect">{{userNameOfOwner}}</button>{{fullStop}}
 
-                                        {{!-- <button style="line-height: 25px;" type="submit" class="madam">View Profile</button> --}}
-                                
-                                    </form>
-                                
-                                </div>
-                            
+                                    {{!-- <button style="line-height: 25px;" type="submit" class="madam">View Profile</button> --}}
+
+                                </form>
+
+                            </div>
+
                         </div>
                         <form enctype="multipart/form-data" action="/upload" method="POST">
-                
+
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
@@ -336,9 +371,18 @@
                                         aria-describedby="inputGroupFileAddon01" required>
                                     <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                                 </div>
+                                
                             </div>
                             <br>
-                            <button style="left: 150px; width: 250px;" class="btn  btn-primary btn-lg active react" aria-pressed="true"> Upload IP</button>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroupFileAddon01">Price</span>
+                                </div>
+                                <input class="form-control" type="text" name="price" placeholder="Enter Price of the Intellectual Property(in Dollars)" aria-label="Search" required>
+                            </div>
+                            <br>
+                            <button style="left: 150px; width: 250px;" class="btn  btn-primary btn-lg active react"
+                                aria-pressed="true"> Upload IP</button>
 
                         </form>
                     </div>
@@ -346,7 +390,7 @@
             </div>
             <div class="col-md-3"></div>
 
-        
+
         </div>
         <!-- Card -->
 

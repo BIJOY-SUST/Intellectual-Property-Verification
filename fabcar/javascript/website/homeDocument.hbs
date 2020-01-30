@@ -100,13 +100,27 @@
         }
     </style>
     <style type="text/css">
+        .btn-transfer {
+            font-weight: 400;
+            text-align: center;
+            vertical-align: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+
+
+        }
+
         .buttonList:hover {
             background-color: green;
             color: black;
         }
 
         .ipPeopleList {
-            width: 295px;
+            width: 275px;
             text-align: left;
         }
 
@@ -156,6 +170,37 @@
             visibility: visible;
             font-size: 15px;
         }
+
+        .elementToFadeInAndOut {
+            z-index: 5;
+
+            -webkit-animation: fadeinout 5s linear forwards;
+            animation: fadeinout 5s linear forwards;
+        }
+
+        @-webkit-keyframes fadeinout {
+
+            0%,
+            100% {
+                opacity: 0;
+            }
+
+            20%,80% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeinout {
+
+            0%,
+            100% {
+                opacity: 0;
+            }
+
+            20%,80% {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 
@@ -192,11 +237,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" target="_blank">My Intellectual Property</a>
+                        <a class="nav-link" href="/myIP">My Intellectual Property
+                            <span class="sr-only">(current)</span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" target="_blank">
-                            My Request
+                        <a class="nav-link" href="/request">My Requests
+                            <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -238,6 +285,14 @@
         <br>
     </div>
     <!-- Creating Gap-->
+
+    <!-- Success Alert -->
+    <div class="alert alert-success alert-dismissible fade show elementToFadeInAndOut"
+        style="visibility:{{alert-msg-visibility}};  width: 50%;position:fixed; top:70px; left:680px;float:right">
+        <strong>Success!</strong> Your request has been sent successfully.
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    <!-- Success Alert -->
 
     <!-- Full Page Intro -->
     <div class="container-fluid">
@@ -320,15 +375,15 @@
                     <div class="card-body">
                         <!-- Search form -->
                         <div class="active-purple-4 mb-4">
-                            <form autocomplete="off">
-                                <input class="form-control" type="text" name="Search" placeholder="Search "
+                            <form autocomplete="off" action="/search" method="POST">
+                                <input class="form-control" type="text" name="Search" placeholder="Search"
                                     aria-label="Search">
                                 <button type="submit" style="display: none;" value="Search"></button>
                             </form>
                         </div>
                         {{#each friendPostAll}}
                         <li class="list-group-item">
-                            <div style="line-height: 40px;" class="sir">{{this.Record.name}}
+                            <div style="line-height: 40px; float:inline-start;" class="sir">{{this.Record.name}}
                                 {{!-- <span class="madam">View Profile</span> --}}
                                 <form name="" action="/otherProfile" method="POST">
                                     <input name="friendKey" type="text" value="{{this.Record.userKey}}" hidden>
@@ -337,15 +392,31 @@
                                 </form>
 
                             </div>
-                            <h6 class="card-subtitle mb-2 text-muted">{{this.Record.dateTime}}</h6>
+                            <div class="btn-transfer" style="float:left; ">
+                                <form name="transferIP" action="/request" method="POST">
+                                    <input name="ipKey" type="text" value="{{this.Record.key}}" hidden>
 
-                            {{!-- <figure id="myPicture" class="figure" style="padding-top: 30px; padding-left: 115px; ">
-                                <img src="#" class="figure-img img-fluid z-depth-1" alt="..."
-                                    style="width: 400px">
-                            </figure> --}}
+                                    {{!-- <button type="submit" class="list-group-item btn-transfer">
+                                        Request 
+                                    </button> --}}
+                                    <!--Dark-green-->
+                                    <button type="submit" style=" padding: 5px 10 px; visibility:{{this.Record.visibility}}"  class="btn btn-indigo">Req</button>
+                                    <button type="button" style="font-weight: bold; color: black;"  class="btn btn-outline-secondary btn-rounded">$ {{ this.Record.price }}</button>
 
-                            <center id="myPdf" > <embed src="{{this.Record.newFilePath}}" width="600px" height="700px" />
-                                </center>
+                                    {{!-- </a> --}}
+                                </form>
+
+                            </div>
+                            <div>
+                                <h6 class="card-subtitle mb-2 text-muted">{{this.Record.dateTime}}</h6>
+                            </div>
+
+
+                            <center id="myPdf"> <embed src="{{this.Record.newFilePath}}" width="600px" height="700px" />
+                            </center>
+
+                            {{!-- <center id="myPdf" > <embed src="./IntellectualProperty/CSE-334 DB Project Submission Guideline.pdf" width="600px" height="800px" />
+                                </center> --}}
 
 
                             <form action="/allLove" method="POST">
@@ -360,18 +431,16 @@
                         {{/each}}
                         {{!-- <br>
                         <li class="list-group-item">
-
+                        
                             <a href="#" style="color: black;">
                                 <h5><b>Static Pdf file</b></h5>
                             </a>
                             <h6 class="card-subtitle mb-2 text-muted">12:23pm 12 Jun 2019</h6>
-
-                            <center> <embed src="./IntellectualProperty/CSE-334 DB Project Submission Guideline.pdf"
-                                    width="600px" height="800px" /> </center>
-
-                            <center> <a href="#"> <img class="react" src="./img/like.png" style="width: 35px;"> </a>
-                            </center>
-
+                        
+                            <center> <embed src="./IntellectualProperty/CSE-334 DB Project Submission Guideline.pdf" width="600px" height="800px" /> </center>
+                        
+                            <center> <a href="#"> <img class="react" src="./img/like.png" style="width: 35px;"> </a> </center>
+                        
                         </li> --}}
                         {{!-- <br>
                         <li class="list-group-item">
@@ -542,14 +611,15 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <p><i class="fas fa-cog fa-spin"></i> Click here to see image type Intellectual property...
+                        <p><i class="fas fa-cog fa-spin"></i> Click here to see document type Intellectual property...
                             <i class="far fa-hand-point-right"></i> </p>
 
                         <div class="btn-group" role="group" aria-label="Basic example">
                             <center>
 
-                                <a href="/home"> <button type="button" class="btn btn-indigo btn-rounded waves-effect">Picture</button> </a>
-                                <a href="/homeDocument"> <button type="button" class="btn btn-indigo btn-rounded waves-effect">Document</button> </a>
+                                <a href="/home"> <button type="button" class="btn btn-indigo">Picture</button> </a>
+                                <a href="/homeDocument"> <button type="button" class="btn btn-indigo">Document</button>
+                                </a>
                             </center>
 
                         </div>

@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Phoenix</title>
+    <link rel="shortcut icon" type="image/png" href="img/sust.png" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="css/style.css" rel="stylesheet">
+
+    {{!-- <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> --}}
+
+
+
+    <style type="text/css">
+        .view,
+        body,
+        html {
+            height: 100%
+        }
+
+        @media (max-width:740px) {
+            .full-page-intro {
+                height: 1000px
+            }
+        }
+
+        .carousel {
+            height: 50%
+        }
+
+        .carousel .carousel-inner,
+        .carousel .carousel-inner .active,
+        .carousel .carousel-inner .carousel-item {
+            height: 100%
+        }
+
+        @media (max-width:776px) {
+            .carousel {
+                height: 100%
+            }
+        }
+
+        .navbar {
+            background-color: rgba(0, 0, 0, .2)
+        }
+
+        .page-footer,
+        .top-nav-collapse {
+            background-color: #1C2331
+        }
+
+        @media only screen and (max-width:768px) {
+            .navbar {
+                background-color: #1C2331
+            }
+        }
+
+        html,
+        body,
+        header,
+        .view {
+            height: 100%;
+        }
+
+        @media (max-width: 740px) {
+
+            html,
+            body,
+            header,
+            .view {
+                height: 1050px;
+            }
+        }
+
+        @media (min-width: 800px) and (max-width: 850px) {
+
+            html,
+            body,
+            header,
+            .view {
+                height: 700px;
+            }
+        }
+
+        @media (min-width: 800px) and (max-width: 850px) {
+            .navbar:not(.top-nav-collapse) {
+                background: #1C2331 !important;
+            }
+        }
+    </style>
+    <style type="text/css">
+        .buttonList:hover {
+            background-color: green;
+            color: black;
+        }
+
+        .ipPeopleList {
+            width: 275px;
+            text-align: left;
+        }
+
+        .ipPeopleList:hover {
+            background-color: #C0C0C0;
+            color: black;
+        }
+
+        .react:hover {
+            transform: scale(1.5);
+        }
+    </style>
+    <style>
+        .btn-transfer {
+            font-weight: 400;
+            text-align: center;
+            vertical-align: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            
+
+        }
+         .btn-transfer:hover {
+            
+        }
+
+        .sir {
+            position: relative;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 22px;
+        }
+
+        .sir .madam {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            top: 0px;
+            left: 102%;
+        }
+
+        .sir .madam::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 100%;
+            margin-top: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent black transparent transparent;
+        }
+
+        .sir:hover .madam {
+            visibility: visible;
+            font-size: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Start your project here-->
+
+    <!-- Navbar -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar"
+        style="background-color:#21260F	; height:55px">
+        <div class="container">
+
+            <!-- Brand -->
+
+           <a class="navbar-brand" href="/home"  style=" font-family: azonix; font-size: 28px; ">
+                {{!-- <strong>Phoenix</strong> --}}
+                <span class="brand-text">PHO</span><large style="font-size: 35px;">E</large><span class="brand-text">NIX</span>
+            </a>
+            <!-- Collapse -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Links -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <!-- Left -->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/myIP">My Intellectual Property
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/request">My Requests
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        {{!-- <a class="nav-link" href="#" target="_blank"> --}}
+                        <a class="nav-link border border-light rounded" href="/upload">
+                            Upload Here
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Right -->
+                <ul class="navbar-nav nav-flex-icons">
+                    <li class="nav-item avatar dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <img src="{{ profilePic }}" class="rounded-circle z-depth-0"
+                                style="border-radius: 50%; width: 50px;" alt="avatar image">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
+                            aria-labelledby="navbarDropdownMenuLink-55" style="width: 10px;">
+                            <a class="dropdown-item buttonList" href="/profile">My Account</a>
+                            <a class="dropdown-item buttonList" href="/logout">Logout</a>
+                            {{!-- <a class="dropdown-item buttonList" href="#">Something else here</a> --}}
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+    </nav>
+    <!-- Navbar -->
+
+    <!-- Creating Gap-->
+    <div>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+    <!-- Creating Gap-->
+
+    <!-- Full Page Intro -->
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-3">
+
+                <div class="card">
+                    <!-- Card content -->
+                    <div class="card-body">
+                        <!-- Title -->
+                        <h5 class="card-title" style="font-weight: bold; text-align: center;">Top Influential People in
+                            IP</h5>
+                        <hr>
+                        <ul class="list-group">
+                            {{#each newPostObj}}
+                            <form name="friend" action="/otherProfile" method="POST">
+                                <input name="friendKey" type="text" value="{{this.Record.userKey}}" hidden>
+                                <button type="submit" class="list-group-item ipPeopleList">
+                                    {{!-- <li class="list-group-item ipPeopleList"> --}}
+                                    {{this.Record.name}}
+
+                                    <span
+                                        class="float-right px-1 text-white bg-success border rounded">{{this.Record.postCnt}}
+                                        IP</span>
+
+                                    {{!-- </li> --}}
+                                </button>
+
+
+                                {{!-- </a> --}}
+                            </form>
+                            {{/each}}
+
+                            <br>
+                            <a href="/viewAllPeople" class="btn btn-primary btn-lg btn-block"
+                                style="height: 45px; font-size: small;">View All</a>
+                            {{!-- <button type="button" class="btn btn-primary btn-lg btn-block">Block level button</button> --}}
+
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="card">
+                    <!-- Card content -->
+                    <div class="card-body">
+                       
+                        {{#each friendPostAll}}
+                        <li class="list-group-item">
+                            <div style="line-height: 40px;" class="sir">{{this.Record.name}}
+                                {{!-- <span class="madam">View Profile</span> --}}
+                                <form name="" action="/otherProfile" method="POST">
+                                    <input name="friendKey" type="text" value="{{this.Record.userKey}}" hidden>
+                                    <button style="line-height: 25px;" type="submit" class="madam">View Profile</button>
+
+
+
+                                </form>
+
+                            </div>
+
+                            <div class="btn-transfer" style="float:left ;">
+                                <div class="container ">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            {{!-- <h2> prev</h2> --}}
+                                            <form name="transferIP" action="/otherProfile" method="POST">
+                                                <input name="friendKey" type="text" value="{{this.Record.prevOwnerKey}}" hidden>
+                                                <div class=""  role="group" aria-label="Basic example" style=" -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none;">
+                                                    {{!-- <center> --}}
+                                                        
+                                                        {{!-- <a href="/myIP"> <button type="t" class="btn btn-white">Previous Owner</button> </a> --}}
+                                                         Previous Owner: <button type="submit" class="btn btn-indigo">{{ this.Record.prevOwnerName }}</button>
+                                                        {{!-- </a> --}}
+                                                    {{!-- </center> --}}
+
+                                                </div>
+                                                {{!-- <button type="submit" class="list-group-item btn-transfer" style="float:left;">
+                                                    {{this.Record.prevOwnerName}}
+                                                </button> --}}
+                                                {{!-- </a> --}}
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div >
+
+                            </div>
+                            <h6 class="card-subtitle mb-2 text-muted">{{this.Record.dateTime}}</h6>
+                            <!--<div style="float: left;align: right;"> <a href="/viewAllPeople" class="btn btn-primary btn-lg btn-block" style="height: 45px; width: 100px; padding-left:10px; padding-right:10px; font-size: small;">Transfer</a> </div>-->
+
+                            <figure id="myPicture" class="figure" style="padding-top: 30px; padding-left: 115px; ">
+                                <img src="{{this.Record.newFilePath}}" class="figure-img img-fluid z-depth-1" alt="..."
+                                    style="width: 400px">
+                            </figure>
+
+
+
+                            <form action="/allLove" method="POST">
+                                <input name="friendKey" type="text" value="{{this.Record.userKey}}" hidden>
+
+                                <center> <input type="image" class="react" src="./img/like.png" style="width: 35px;">
+                                </center>
+                                {{!-- <center> <img type="submit" class="react" src="./img/like.png" style="width: 35px;"> </center> --}}
+                            </form>
+                        </li>
+                        <br>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+
+                    <!-- Card content -->
+                    <div class="card-body">
+                        <!-- Title -->
+                        <h5 class="card-title" style="font-weight: bold; text-align: center;">Popular Intellectual
+                            Property</h4>
+                            <hr>
+                            <ul class="list-group">
+                                {{#each newLoveObj}}
+                                <form name="friend" action="/otherProfile" method="POST">
+                                    <input name="friendKey" type="text" value="{{this.Record.userKey}}" hidden>
+                                    {{!-- <a href=""  style="color: black;"> --}}
+                                    <button type="submit" class="list-group-item ipPeopleList">
+                                        {{!-- <li class="list-group-item ipPeopleList"> --}}
+                                        {{this.Record.name}}
+
+                                        <span
+                                            class="float-right px-1 text-white bg-success border rounded">{{this.Record.loveCnt}}
+                                            <img style="width: 15px;" src="./img/like.png">
+                                        </span>
+
+                                        {{!-- </li> --}}
+                                    </button>
+
+
+                                    {{!-- </a> --}}
+                                </form>
+                                {{/each}}
+
+                            </ul>
+                    </div>
+
+                </div>
+                <br>
+                <div class="card">
+                    <div class="card-body">
+
+                        <p><i class="fas fa-cog fa-spin"></i> Click here to see document type Intellectual property...
+                            <i class="far fa-hand-point-right"></i> </p>
+
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <center>
+
+                                <a href="/myIP"> <button type="button" class="btn btn-indigo">Picture</button> </a>
+                                <a href="/myIPDocs"> <button type="button" class="btn btn-indigo">Document</button>
+                                </a>
+                            </center>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        <div>
+            <br>
+        </div>
+
+
+
+
+
+
+
+    </div>
+    <!-- Full Page Intro -->
+
+    <!--Footer-->
+    <footer class="page-footer text-center font-small mt-4 wow fadeIn">
+        <br>
+        <h4 class="float:center">Shahjalal University of Science and Technology</h4>
+        <!--Call to action-->
+        <div class="pt-4">
+            <p>Shahjalal University of Science and Technology (SUST) was established in 1986. The only university of its
+                kind at that
+                time, it started it''s journey on the 13th of February 1991 with only three departments: Physics,
+                Chemistry and
+                Economics, 13 teachers and 205 students. It has now expanded to 7 schools, 27 departments , 2 institutes
+                and and
+                centers. The number of teachers has grown to 552 and the students to 10922. Besides, the University has
+                13 affiliated
+                colleges under the School of Medical Sciences with 4000 students.</p>
+        </div>
+        <!--/.Call to action-->
+
+        <hr class="my-4">
+
+        <!-- Social icons -->
+        <div class="pb-4">
+            <a href="https://www.facebook.com" target="_blank">
+                <i class="fa fa-facebook mr-3"></i>
+            </a>
+
+            <a href="https://twitter.com" target="_blank">
+                <i class="fa fa-twitter mr-3"></i>
+            </a>
+
+            <a href="https://www.youtube.com" target="_blank">
+                <i class="fa fa-youtube mr-3"></i>
+            </a>
+
+            <a href="https://plus.google.com" target="_blank">
+                <i class="fa fa-google-plus mr-3"></i>
+            </a>
+
+            <a href="https://dribbble.com" target="_blank">
+                <i class="fa fa-dribbble mr-3"></i>
+            </a>
+
+            <a href="https://pinterest.com" target="_blank">
+                <i class="fa fa-pinterest mr-3"></i>
+            </a>
+
+            <a href="https://github.com" target="_blank">
+                <i class="fa fa-github mr-3"></i>
+            </a>
+
+            <a href="http://codepen.io" target="_blank">
+                <i class="fa fa-codepen mr-3"></i>
+            </a>
+        </div>
+        <!-- Social icons -->
+
+        <!--Copyright-->
+        <div class="footer-copyright py-3">
+            © 2019 CSE, SUST. All rights reserved.
+        </div>
+        <!--/.Copyright-->
+
+    </footer>
+    <!--/.Footer-->
+    <!-- Start your project here-->
+
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <!-- Initializations -->
+    <script type="text/javascript">
+        // Animations initialization
+        new WOW().init();
+    </script>
+    {{!-- <script type="text/javascript">
+        var img = document.getElementById('myPicture');
+        img.style.visibility = 'hidden';
+        var pdf = document.getElementById('myPdf');
+        pdf.style.visibility = 'hidden';
+
+
+    </script> --}}
+
+
+    {{!-- <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script> --}}
+
+
+</body>
+
+</html>

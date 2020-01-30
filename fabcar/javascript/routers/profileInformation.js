@@ -14,6 +14,7 @@ async function main(email,key) {
 
         // Create a new file system based wallet for managing identities.
         const walletPath = path.join(process.cwd(), 'wallet');
+
         const wallet = new FileSystemWallet(walletPath);
         console.log(`Wallet path(profileInformation): ${walletPath}`);
 
@@ -48,7 +49,7 @@ async function main(email,key) {
 
 
     } catch (error) {
-        console.error(`Failed to evaluate transaction: ${error}`);
+        console.error(`[profile info] Failed to evaluate transaction: ${error}`);
         process.exit(1);
         return error;
     }

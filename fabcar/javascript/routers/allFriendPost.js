@@ -48,7 +48,7 @@ async function main(email) {
 
 
     } catch (error) {
-        console.error(`Failed to evaluate transaction: ${error}`);
+        console.error(`[allfriend post]Failed to evaluate transaction: ${error}`);
         process.exit(1);
         return error;
     }

@@ -10,7 +10,7 @@ const path = require('path');
 
 const ccpPath = path.resolve(__dirname, '..', '..', '..', 'first-network', 'connection-org1.json');
 
-async function main(user, publicKey, newFilePath, latestHashFile) {
+async function main(user, publicKey, newFilePath, latestHashFile,balance) {
     try {
 
         // Create a new file system based wallet for managing identities.
@@ -40,7 +40,7 @@ async function main(user, publicKey, newFilePath, latestHashFile) {
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
         console.log(user.name + ' is going to blockchain  = '+ newFilePath+' '+latestHashFile);
-        await contract.submitTransaction('createUser', user.key, user.token, user.name, user.email, user.password, publicKey, newFilePath, latestHashFile);
+        await contract.submitTransaction('createUser', user.key, user.token, user.name, user.email, user.password, publicKey, newFilePath, latestHashFile,balance);
         // await contract.submitTransaction('createCar', 'CAR15', 'Honda', 'Accord', 'Black', 'BIJOY');
 
         console.log('Transaction has been submitted');

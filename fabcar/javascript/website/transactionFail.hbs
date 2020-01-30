@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Phoenix</title>
+    <link rel="shortcut icon" type="image/png" href="img/sust.png" />
+
+    {{!-- dropzone --}}
+
+    {{!-- <link href="dist/dropzone.css" rel="stylesheet">
+    <script src="dist/dropzone.js"></script> --}}
+    {{!-- dropzone --}}
+
+
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <style type="text/css">
+        .view,
+        body {
+            background-image: url('./img/bokeh.jpeg');
+        }
+
+        ,
+        html {
+            height: 100%
+        }
+
+        .card1 {
+            position: relative;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            min-width: 0;
+            top: -70px;
+            left:-100px;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-radius: 0.25rem;
+        }
+
+
+        @media (max-width:740px) {
+            .full-page-intro {
+                height: 1000px
+            }
+        }
+
+        .carousel {
+            height: 50%
+        }
+
+        .carousel .carousel-inner,
+        .carousel .carousel-inner .active,
+        .carousel .carousel-inner .carousel-item {
+            height: 100%
+        }
+
+        @media (max-width:776px) {
+            .carousel {
+                height: 100%
+            }
+        }
+
+        .navbar {
+            background-color: rgba(0, 0, 0, .2)
+        }
+
+        .page-footer,
+        .top-nav-collapse {
+            background-color: #1C2331
+        }
+
+        @media only screen and (max-width:768px) {
+            .navbar {
+                background-color: #1C2331
+            }
+        }
+
+        html,
+        body,
+        header,
+        .view {
+            height: 100%;
+        }
+
+        @media (max-width: 740px) {
+
+            html,
+            body,
+            header,
+            .view {
+                height: 1050px;
+            }
+        }
+
+        @media (min-width: 800px) and (max-width: 850px) {
+
+            html,
+            body,
+            header,
+            .view {
+                height: 700px;
+            }
+        }
+
+        @media (min-width: 800px) and (max-width: 850px) {
+            .navbar:not(.top-nav-collapse) {
+                background: #1C2331 !important;
+            }
+        }
+    </style>
+    <style>
+        .uploadText {
+            text-align: center;
+            position: absolute;
+            top: 75px;
+            left: 310px;
+            padding-left: 20px;
+            padding-right: 20px;
+            font-size: 53px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            ;
+            ;
+
+        }
+
+        .news {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 53px;
+            color: firebrick;
+            position:relative;
+            text-align: center;
+        }
+    </style>
+    <style type="text/css">
+        .buttonList:hover {
+            background-color: green;
+            color: black;
+        }
+
+        .react:hover {
+            transform: scale(1.01);
+        }
+    </style>
+    <style type="text/css">
+        .file-field.medium .file-path-wrapper {
+            height: 3rem;
+        }
+
+        .file-field.medium .file-path-wrapper .file-path {
+            height: 2.8rem;
+        }
+
+        .file-field.big-2 .file-path-wrapper {
+            height: 3.7rem;
+        }
+
+        .file-field.big-2 .file-path-wrapper .file-path {
+            height: 3.5rem;
+        }
+    </style>
+    <style>
+        .sir {
+            position: relative;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .sir .madam {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            top: 0px;
+            left: 102%;
+        }
+
+        .sir .madam::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 100%;
+            margin-top: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent black transparent transparent;
+        }
+
+        .sir:hover .madam {
+            visibility: visible;
+            font-size: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Start your project here-->
+
+    <!-- Navbar -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar"
+        style="background-color:#21260F	; height:55px">
+        <div class="container">
+
+            <!-- Brand -->
+
+            <a class="navbar-brand" href="/home" style=" font-family: azonix; font-size: 28px; ">
+                {{!-- <strong>Phoenix</strong> --}}
+                <span class="brand-text">PHO</span>
+                <large style="font-size: 35px;">E</large><span class="brand-text">NIX</span>
+            </a>
+
+            <!-- Collapse -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Links -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <!-- Left -->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="/home">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/myIP">IntellectualProperty
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/request">My Requests
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        {{!-- <a class="nav-link" href="#" target="_blank"> --}}
+                        <a class="nav-link border border-light rounded" href="/upload">
+                            Upload Here
+                        </a>
+                    </li>
+                </ul>
+                <!-- Right -->
+                <ul class="navbar-nav nav-flex-icons">
+                    <li class="nav-item avatar dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <img src="{{profilePic}}" class="rounded-circle z-depth-0"
+                                style="border-radius: 50%; width: 50px;" alt="avatar image">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
+                            aria-labelledby="navbarDropdownMenuLink-55">
+                            <a class="dropdown-item buttonList" href="/profile">My Account</a>
+                            <a class="dropdown-item buttonList" href="/logout">Logout</a>
+                            {{!-- <a class="dropdown-item buttonList" href="#">Something else here</a> --}}
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+    </nav>
+    <!-- Navbar -->
+
+    <!-- Creating Gap-->
+    <div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+    <!-- Creating Gap-->
+
+    <!-- Full Page Intro -->
+    <div>
+
+
+        <div>
+            <br>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="card1" style="padding: 50px; width:900px;">
+
+                    <!-- Card content -->
+                    <div class="card-body">
+                        <div style="width: 250px; position:relative; left:230px;top:-20px;">
+                            <img src="./img/cross.png" style="width: 250px; ">
+                        </div>
+                        <div class="news">
+                            Your transaction was failed 
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+
+
+        </div>
+        <!-- Card -->
+
+
+
+
+    </div>
+
+    <div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+
+    <!-- Full Page Intro -->
+
+    <!--Footer-->
+    <footer class="page-footer text-center font-small mt-4 wow fadeIn">
+        <br>
+        <h4 class="float:center">Shahjalal University of Science and Technology</h4>
+        <!--Call to action-->
+        <div class="pt-4">
+            <p>Shahjalal University of Science and Technology (SUST) was established in 1986. The only university of its
+                kind at that
+                time, it started it''s journey on the 13th of February 1991 with only three departments: Physics,
+                Chemistry and
+                Economics, 13 teachers and 205 students. It has now expanded to 7 schools, 27 departments , 2 institutes
+                and and
+                centers. The number of teachers has grown to 552 and the students to 10922. Besides, the University has
+                13 affiliated
+                colleges under the School of Medical Sciences with 4000 students.</p>
+        </div>
+        <!--/.Call to action-->
+
+        <hr class="my-4">
+
+        <!-- Social icons -->
+        <div class="pb-4">
+            <a href="https://www.facebook.com" target="_blank">
+                <i class="fa fa-facebook mr-3"></i>
+            </a>
+
+            <a href="https://twitter.com" target="_blank">
+                <i class="fa fa-twitter mr-3"></i>
+            </a>
+
+            <a href="https://www.youtube.com" target="_blank">
+                <i class="fa fa-youtube mr-3"></i>
+            </a>
+
+            <a href="https://plus.google.com" target="_blank">
+                <i class="fa fa-google-plus mr-3"></i>
+            </a>
+
+            <a href="https://dribbble.com" target="_blank">
+                <i class="fa fa-dribbble mr-3"></i>
+            </a>
+
+            <a href="https://pinterest.com" target="_blank">
+                <i class="fa fa-pinterest mr-3"></i>
+            </a>
+
+            <a href="https://github.com" target="_blank">
+                <i class="fa fa-github mr-3"></i>
+            </a>
+
+            <a href="http://codepen.io" target="_blank">
+                <i class="fa fa-codepen mr-3"></i>
+            </a>
+        </div>
+        <!-- Social icons -->
+
+        <!--Copyright-->
+        <div class="footer-copyright py-3">
+            © 2019 CSE, SUST. All rights reserved.
+        </div>
+        <!--/.Copyright-->
+
+    </footer>
+    <!--/.Footer-->
+    <!-- Start your project here-->
+
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <!-- Initializations -->
+    <script type="text/javascript">
+        // Animations initialization
+        new WOW().init();
+    </script>
+</body>
+
+</html>
