@@ -6,5 +6,5 @@ This is the code of our project for the course  ***CSE 350: Project 350***
 
 A software which can verify Intellectual Property's ownership using Blockchain. We used private Blockchain/Hyperledger Fabric for this purpose.
 
-Descriptions of the project is in [*description.md*](https://github.com/BIJOY-SUST/Intellectual-Property-Verification/blob/master/Intellectual_Property_Verification.pdf)
+Descriptions of the project is in [*description.md*](https://github.com/BIJOY-SUST/Intellectual-Property-Verification/blob/master/description.pdf)
 
