@@ -8,3 +8,5 @@ A software which can verify Intellectual Property's ownership using Blockchain. 
 
 Descriptions of the project is in [*description.md*](https://github.com/BIJOY-SUST/Intellectual-Property-Verification/blob/master/description.pdf)
 
+Resources to make a Hyperledger based project is in [*resources.md*](https://github.com/BIJOY-SUST/Tools-for-Hyperledger-Development/blob/master/Resources.md).
+
